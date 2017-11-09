@@ -1,0 +1,10 @@
+Package: jms.classes
+Type: Package
+Title: Base classes for use in other packages
+Version: 1.0.0
+Author: Josh Stratford
+Maintainer: Josh Stratford <51674722+jmstrat@users.noreply.github.com>
+Description: Base classes for use in other packages
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
