@@ -39,10 +39,10 @@ iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
     axis<- if(i>y1end) 'y2' else 'y'
     graph<-dygraphs::dySeries(graph,label=label,color=rgb(t(col2rgb(col)/255)),axis=axis,drawPoints=drawPoints,pointSize=pointSize,strokeWidth=strokeWidth)
   }
-  graph<-dyAxis.jms(graph,'x',label=expressionToHTML(xlab),valueRange=xlim,ticks=1%in%axes)
-  graph<-dyAxis.jms(graph,'y',label=expressionToHTML(ylab),valueRange=ylim,ticks=2%in%axes)
+  graph<-Plotting.Utils::dyAxis.jms(graph,'x',label=expressionToHTML(xlab),valueRange=xlim,ticks=1%in%axes)
+  graph<-Plotting.Utils::dyAxis.jms(graph,'y',label=expressionToHTML(ylab),valueRange=ylim,ticks=2%in%axes)
   if(4%in%axes) graph<-dyAxis.jms(graph,'y2',label=expressionToHTML(y2lab),valueRange=y2lim,ticks=TRUE)
-  graph <- dyBox(graph)
+  graph <- Plotting.Utils::dyBox(graph)
   direction <- if(any(c(2,4)%in%axes)) "both" else "vertical"
   graph <- dygraphs::dyCrosshair(graph,direction = direction)
   graph <- dygraphs::dyLegend(graph,show = "always", hideOnMouseOut = TRUE)
@@ -51,5 +51,5 @@ iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
   #Fix for mysterious warning...
   set.seed(1)
   #Return the graph (will plot at top level)
-  ilayout.addPlot(graph)
+  Plotting.Utils::ilayout.addPlot(graph)
 }
