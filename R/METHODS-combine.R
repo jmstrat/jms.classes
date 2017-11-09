@@ -5,6 +5,7 @@
 #' @return A jms.data.object containing the data
 #' @examples
 #' combine(objects)
+#' @export
 combine <- function(objects,interpolate) UseMethod("combine")
 #' @export
 combine.default <- function(objects,interpolate) {
