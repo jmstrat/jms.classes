@@ -8,7 +8,7 @@ iplotArgBlacklist<-c('labels','group') #the plot() command will ignore these
 #' @rdname iPlot
 #' @export
 iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,y2lim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),y2lab=y2lab_(data),col=par('col'),lwd=1,pch=NA,labels=NULL,group=NULL) {
-  data<-combine.data.objects(unname(list(...)),interpolate=TRUE) #Need to interpolate to avoid gaps...
+  data<-combine(unname(list(...)),interpolate=TRUE) #Need to interpolate to avoid gaps...
   dots <- substitute(list(...))[-1]
   argNames=c(sapply(dots, deparse))
   y1end=length(ycol(data))
