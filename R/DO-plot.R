@@ -13,10 +13,10 @@ plot.jms.data.object <- function(x,offset=1/sqrt(length(ycol(x))-1),xlim=NULL,yl
   if(any(is.null(y2lim)) && !all(is.na(y2col(x)))) y2lim=range(x[,y2col(x)],na.rm = T)
 
   args=list(...)
-  plot_args=args[names(args) %in% names(c(formals(axis),formals(pretty_plot)))]
+  plot_args=args[names(args) %in% names(c(formals(axis),formals(Plotting.Utils::pretty_plot)))]
   plot_args=plot_args[!names(plot_args) %in% c('col','lwd','lty')]
   plot_args=append(list(xlim=xlim,ylim=ylim,y2lim=y2lim,xlab=xlab,ylab=ylab,y2lab=y2lab,axes=axes),plot_args)
-  do.call(pretty_plot,plot_args)
+  do.call(Plotting.Utils::pretty_plot,plot_args)
 
   lines_args=args[!names(args) %in% iplotArgBlacklist]
   lines_args=lines_args[!names(lines_args) %in% names(plot_args)]
