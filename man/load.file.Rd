@@ -4,7 +4,7 @@
 \alias{load.file}
 \title{Read a data file}
 \usage{
-load.file(path, func, ...)
+\method{load}{file}(path, func, ...)
 }
 \arguments{
 \item{path}{The path to the file / directory}

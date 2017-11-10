@@ -4,7 +4,8 @@
 \alias{load.jms}
 \title{Read data files}
 \usage{
-load.jms(path, func, ext = NULL, pattern = NULL, sort = FALSE, ...)
+\method{load}{jms}(path, func, ext = NULL, pattern = NULL, sort = FALSE,
+  ...)
 }
 \arguments{
 \item{path}{The path to the file / directory}
