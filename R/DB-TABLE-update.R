@@ -1,6 +1,8 @@
 #' @export
 `[<-.jms.database.table` <- function(x,i,j,value) {
-  log.info('Updating [%s,%s] with {%s}',i,j,value)
+  if(missing(i)) i=T
+  if(missing(j)) j=T
+  log.info('Updating [%s,%s] with {%s}',i,j,paste0(value,collapse=','))
   #Validate the new value
   validator=attr(x,'.validator')
   if(!is.null(validator)) {
@@ -14,7 +16,7 @@
     validate=value
     names(validate)<-tovalidate
     value<-do.call(validator,as.list(validate))[j]
-    log.info('Validated update [%s,%s] with {%s}',i,j,value)
+    log.info('Validated update [%s,%s] with {%s}',i,j,paste0(value,collapse=','))
   }
   #Make the change
   x<-NextMethod()
