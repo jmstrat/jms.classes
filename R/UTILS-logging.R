@@ -2,12 +2,36 @@
 #' @export
 jms.enable.logging <- function() {
   if(is.element('futile.logger', installed.packages()[,1])) {
-    futile.logger::flog.layout(futile.logger::layout.format("~l ~t [~f] ~m"), name='jms.logging')
+    layout<-futile.logger::layout.format("~l ~t [~f] ~m")
+    environment(layout)$where=-4
+    futile.logger::flog.layout(layout, name='jms.logging')
     futile.logger::flog.threshold(futile.logger::DEBUG, name = 'jms.logging')
     log_message <- function(msg,...,level) {
       futile.logger:::.log_level(msg, ..., level=level, name = 'jms.logging',capture=FALSE)
     }
     assignInNamespace('log_message',log_message,ns='jms.classes')
+  }
+}
+layout.format <- function (format, datetime.fmt = "%Y-%m-%d %H:%M:%S")
+{
+  where <- -1
+  function(level, msg, ...) {
+    if (!is.null(substitute(...)))
+      msg <- sprintf(msg, ...)
+    the.level <- names(level)
+    the.time <- format(Sys.time(), datetime.fmt)
+    the.namespace <- ifelse(flog.namespace() == "futile.logger",
+                            "ROOT", flog.namespace())
+    the.function <- tryCatch(deparse(sys.call(where)[[1]]),
+                             error = function(e) "(shell)")
+    the.function <- ifelse(length(grep("flog\\.", the.function)) ==
+                             0, the.function, "(shell)")
+    message <- gsub("~l", the.level, format, fixed = TRUE)
+    message <- gsub("~t", the.time, message, fixed = TRUE)
+    message <- gsub("~n", the.namespace, message, fixed = TRUE)
+    message <- gsub("~f", the.function, message, fixed = TRUE)
+    message <- gsub("~m", msg, message, fixed = TRUE)
+    sprintf("%s\n", message)
   }
 }
 
