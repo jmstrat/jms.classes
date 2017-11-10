@@ -4,7 +4,7 @@
 \alias{as.jms.database.table}
 \title{Convert an object into a jms.database.table}
 \usage{
-as.jms.database.table(x)
+as.jms.database.table(x, validator, version)
 }
 \arguments{
 \item{x}{The object to be converted}
