@@ -4,7 +4,7 @@
 \alias{jms.database.table}
 \title{Create a database table object}
 \usage{
-jms.database.table(..., version = 1)
+jms.database.table(..., validator = NULL, version = 1)
 }
 \arguments{
 \item{...}{parameters are passed to \code{\link{data.frame}}}
