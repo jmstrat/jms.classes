@@ -2,12 +2,12 @@
 #'
 #' This function is used to initialise a database table
 #' @param ... parameters are passed to \code{\link{data.frame}}
+#' @param version Can be used to track changes to table schema
 #' @return A database table object
 #' @export
-#' @keywords internal
-jms.database.table <- function(...) {
+jms.database.table <- function(...,version=1) {
   log.info('Creating database table')
-  as.jms.database.table(data.frame(...))
+  as.jms.database.table(data.frame(...),version=1)
 }
 
 #' Check if an object is a jms.database.table
@@ -32,10 +32,11 @@ as.jms.database.table.default <- function(x) {
 }
 
 #' @export
-as.jms.database.table.data.frame <- function(x) {
+as.jms.database.table.data.frame <- function(x,version=1) {
   attr(x,'.path')<-''
   attr(x,'.modTime')<-.POSIXct(0)
   attr(x,'.hasChanged')<-TRUE
   attr(x, "class") <- c("jms.database.table", "data.frame")
+  attr(x,'version')<-version
   return(x)
 }

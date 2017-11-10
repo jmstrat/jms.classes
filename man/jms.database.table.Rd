@@ -4,10 +4,12 @@
 \alias{jms.database.table}
 \title{Create a database table object}
 \usage{
-jms.database.table(...)
+jms.database.table(..., version = 1)
 }
 \arguments{
 \item{...}{parameters are passed to \code{\link{data.frame}}}
+
+\item{version}{Can be used to track changes to table schema}
 }
 \value{
 A database table object
@@ -15,4 +17,3 @@ A database table object
 \description{
 This function is used to initialise a database table
 }
-\keyword{internal}
