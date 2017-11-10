@@ -2,7 +2,11 @@
 #' @export
 jms.enable.logging <- function() {
   if(is.element('futile.logger', installed.packages()[,1])) {
-    layout<-futile.logger::layout.format("~l ~t [~f] ~m")
+    #Ignore the nasty hacks to get the namespace and function to print correctly ;)
+    f<-futile.logger::flog.namespace
+    formals(f)$where=-10
+    assignInNamespace('flog.namespace',f,ns='futile.logger')
+    layout<-futile.logger::layout.format("~l ~t [~n: ~f] ~m")
     environment(layout)$where=-4
     futile.logger::flog.layout(layout, name='jms.logging')
     futile.logger::flog.threshold(futile.logger::DEBUG, name = 'jms.logging')
