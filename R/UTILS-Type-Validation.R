@@ -36,7 +36,7 @@ verify_positive <- function(value,if_empty=TRUE) {
 #' @export
 assert_positive <- function(value,error_msg) {
   value=verify_numeric(value,numeric())
-  if(!verify_positive(value,TRUE)) stop(error_msg)
+  if(!.verify_positive(value,TRUE)) stop(error_msg,call.=F)
   value
 }
 
@@ -47,7 +47,7 @@ assert_positive <- function(value,error_msg) {
 #' @export
 assert_numeric <- function(value,error_msg) {
   value=verify_numeric(value,numeric())
-  if(!is.numeric(value)) stop(error_msg)
+  if(!is.numeric(value)) stop(error_msg,call.=F)
   value
 }
 
@@ -57,13 +57,13 @@ assert_numeric <- function(value,error_msg) {
 #' @return The value if character, error otherwise
 #' @export
 assert_character <- function(value,error_msg) {
-  if(any(is.null(value))) stop(error_msg)
+  if(any(is.null(value))) stop(error_msg,call.=F)
   if(is.character(value)) return(value)
   tryCatch({value=suppressWarnings(as.character(value))
   if(any(is.na(value))) {
-    stop(error_msg)
+    stop(error_msg,call.=F)
   }} , error = function(e) {
-    stop(error_msg)
+    stop(error_msg,call.=F)
   })
   value
 }
@@ -79,9 +79,9 @@ assert_list <- function(value,error_msg) {
   if(all(is.na(value))&&length(value)==1) return(list())
   tryCatch({value=suppressWarnings(as.list(value))
   if(any(is.na(value))) {
-    stop(error_msg)
+    stop(error_msg,call.=F)
   }} , error = function(e) {
-    stop(error_msg)
+    stop(error_msg,call.=F)
   })
   value
 }
@@ -98,13 +98,13 @@ is.Date <- function(x) inherits(x, 'Date')
 #' @return The value if it's a date, error otherwise
 #' @export
 assert_date <- function(value,error_msg) {
-  if(any(is.null(value))) stop(error_msg)
+  if(any(is.null(value))) stop(error_msg,call.=F)
   if(is.Date(value)) return(value)
   tryCatch({value=suppressWarnings(as.Date(value))
   if(any(is.na(value))) {
-    stop(error_msg)
+    stop(error_msg,call.=F)
   }} , error = function(e) {
-    stop(error_msg)
+    stop(error_msg,call.=F)
   })
   value
 }
@@ -116,7 +116,7 @@ assert_date <- function(value,error_msg) {
 #' @export
 assert_file <- function(file,error) {
   if(file.exists(file)) return(file)
-  stop(error)
+  stop(error,call.=F)
 }
 
 #' Check whether or not a directory exists
@@ -126,7 +126,7 @@ assert_file <- function(file,error) {
 #' @export
 assert_directory <- function(directory,error) {
   if(dir.exists(file)) return(directory)
-  stop(error)
+  stop(error,call.=F)
 }
 
 #' Check whether or not a value is or can be coerced to a logial
@@ -135,13 +135,13 @@ assert_directory <- function(directory,error) {
 #' @return The value if it's a logical, error otherwise
 #' @export
 assert_logical <- function(value,error) {
-  if(any(is.null(value))) stop(error_msg)
+  if(any(is.null(value))) stop(error_msg,call.=F)
   if(is.logical(value)) return(value)
   tryCatch({value=suppressWarnings(as.logical(value))
   if(any(is.na(value))) {
-    stop(error_msg)
+    stop(error_msg,call.=F)
   }} , error = function(e) {
-    stop(error_msg)
+    stop(error_msg,call.=F)
   })
   value
 }
@@ -155,7 +155,7 @@ assert_colour <- function(colour,error) {
   #Vectorized
   iscol=sapply(colour, function(X) {tryCatch(is.matrix(col2rgb(X)), error = function(e) FALSE)})
   if(all(iscol)) return(colour)
-  stop(error)
+  stop(error,call.=F)
 }
 
 #' Check whether or not a value is or can be coerced to a function
@@ -164,8 +164,8 @@ assert_colour <- function(colour,error) {
 #' @return The value if it's a function, error otherwise
 #' @export
 assert_function <- function(func,error) {
-  if(any(is.null(value))) stop(error_msg)
+  if(any(is.null(value))) stop(error_msg,call.=F)
   if(is.function(func)) return(func)
   if(exists(func, mode='function')) return(call(func))
-  stop(error)
+  stop(error,call.=F)
 }
