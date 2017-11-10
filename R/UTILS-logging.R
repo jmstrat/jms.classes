@@ -10,6 +10,11 @@ jms.enable.logging <- function() {
       futile.logger:::.log_level(msg, ..., level=level, name = 'jms.logging',capture=FALSE)
     }
     assignInNamespace('log_message',log_message,ns='jms.classes')
+  } else {
+    log_message <- function(msg,...,level) {
+      print(sprintf(msg, ...))
+    }
+    assignInNamespace('log_message',log_message,ns='jms.classes')
   }
 }
 layout.format <- function (format, datetime.fmt = "%Y-%m-%d %H:%M:%S")
