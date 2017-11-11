@@ -2,6 +2,7 @@
 #'
 #' @export
 `[.jms.database.table` <- function(x,name,...) {
+  x<-attr(x,'.database')[[attr(x,'.name')]]
   if(is.stale(x)) {
     x<-load(x)
     attr(x,'.database')[[attr(x,'.name')]]<-x
@@ -10,6 +11,7 @@
 }
 #' @export
 `[[.jms.database.table`<-function(x,name,...) {
+  x<-attr(x,'.database')[[attr(x,'.name')]]
   if(is.stale(x)) {
     x<-load(x)
     attr(x,'.database')[[attr(x,'.name')]]<-x
@@ -18,6 +20,7 @@
 }
 #' @export
 `$.jms.database.table`<-function(x,name,...) {
+  x<-attr(x,'.database')[[attr(x,'.name')]]
   if(is.stale(x)) {
     x<-load(x)
     attr(x,'.database')[[attr(x,'.name')]]<-x
