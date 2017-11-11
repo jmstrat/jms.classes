@@ -7,6 +7,8 @@
   log.info('Getting table %s',name)
   #Do any necessary reloading, then return the table
   x<-load(x)
+  table<-load(get(name,envir=x))
+  x[[name,.internal=TRUE]]<-table
   return(get(name,envir=x))
 }
 #' @export
