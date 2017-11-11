@@ -10,9 +10,9 @@
     log.info('Validating new values')
     n=colnames(x)
     names(n)<-n
-    log.debug('Columns: [%s]',paste0(n,collapse=','))
+    log.debug('Available columns: [%s]',paste0(n,collapse=','))
     tovalidate=n[j]
-    log.debug('Columns supplied: [%s]',paste0(tovalidate,collapse=','))
+    log.debug('Columns supplied:  [%s]',paste0(tovalidate,collapse=','))
     if(any(is.na(tovalidate))) stop('Invalid options supplied')
     validate=as.matrix(value)
     #Now we need to split a (potentially) 2D matrix into 1D vectors
