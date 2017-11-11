@@ -36,9 +36,7 @@
     attr(value,'.name')<-name
     attr(value,'.database')<-x
     #Save the table
-    lock(x)
     value<-save(value)
-    unlock(x)
   }
   NextMethod()
   save(x)
