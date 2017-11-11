@@ -10,7 +10,7 @@
 #' database[['mytable']]<-jms.database.table(...)
 #' @export
 #' @rdname jms.database.add
-`[[<-.jms.database` <- function(x, name, value) {
+`[[<-.jms.database` <- function(x, name, value,.internal=FALSE) {
   if(startsWith(name,'.')) {NextMethod(); return(x)}
   index=which(x$.table_names==name)
   #Remove a table
@@ -36,10 +36,10 @@
     attr(value,'.name')<-name
     attr(value,'.database')<-x
     #Save the table
-    value<-save(value)
+    if(!.internal) value<-save(value)
   }
-  NextMethod()
-  save(x)
+  assign(name, value, envir = x)
+  if(!.internal) save(x)
   return(x)
 }
 #' @export
