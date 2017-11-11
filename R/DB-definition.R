@@ -10,7 +10,7 @@ jms.database <- function(path) {
   self<-new.env()
   self$.path=path
   self$.table_names=c()
-  self$.lockfile=paste0(self$.path,'.lock')
+  self$.lockfile=paste0(self$.path,'/lock.lock')
   self$.modTime=.POSIXct(0)
   self$.hasChanged=TRUE
   as.jms.database(self)

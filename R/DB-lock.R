@@ -2,7 +2,7 @@ DB_LOCK_TIMEOUT=10
 #' @export
 lock.jms.database <- function(x) {
   log.info('Locking database')
-  path=paste0(x$.path,'/lockfile.lock')
+  path=x$.lockfile
   if(is.na(path)) stop("Unable to obtain lock: Path is invalid")
 
   warning_shown=FALSE
@@ -21,7 +21,7 @@ lock.jms.database <- function(x) {
 #' @export
 unlock.jms.database <- function(x) {
   log.info('Unlocking database')
-  path=paste0(x$.path,'/lockfile.lock')
+  path=x$.lockfile
   if(is.na(path)) stop("Unable to release lock: Path is invalid")
   unlink(sprintf(path),recursive=TRUE)
   invisible(TRUE)
