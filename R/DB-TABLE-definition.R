@@ -34,6 +34,7 @@ as.jms.database.table.default <- function(x,validator,version) {
 #' @export
 as.jms.database.table.data.frame <- function(x,validator=NULL,version=1) {
   attr(x,'.path')<-''
+  attr(x, '.lockfile')<-NA
   attr(x,'.modTime')<-.POSIXct(0)
   attr(x,'.hasChanged')<-TRUE
   attr(x, "class") <- c("jms.database.table", "data.frame")

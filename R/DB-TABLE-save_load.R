@@ -15,7 +15,9 @@ save.jms.database.table <- function(x,...) {
   db<-attr(x,'.database')
   attr(x,'.database')<-NULL
   attr(x,'.path')<-NULL
+  lock(x)
   saveRDS(x,path)
+  unlock(x)
   attr(x,'.database')<-db
   attr(x,'.path')<-path
   attr(x,'.modTime')<-file.info(path)$mtime
@@ -33,8 +35,11 @@ load.jms.database.table <- function(x,...) {
     warning('Database table does not have a valid path, cannot load data')
     return(x)
   }
+  lock(x)
   log.info('Loading table from %s',path)
-  x<-readRDS(path)
+  y<-readRDS(path)
+  unlock(x)
+  x<-y
   attr(x,'.path')<-path
   attr(x,'.modTime')<-file.info(path)$mtime
   attr(x, '.hasChanged')<-FALSE

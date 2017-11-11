@@ -30,8 +30,9 @@
     #Add a table
     x$.table_names=append(x$.table_names,name)
     tablePath=paste0(x$.path,'/',name,'.table')
-    attr(value,'.path')<-tablePath
     log.info('Setting path for table %s to %s',name,tablePath)
+    attr(value,'.path')<-tablePath
+    attr(value,'.lockfile')<-paste0(tablePath,'.lock')
     attr(value,'.name')<-name
     attr(value,'.database')<-x
     #Save the table
