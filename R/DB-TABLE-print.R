@@ -11,8 +11,7 @@ print.jms.database.table <- function (x, ..., digits = NULL, quote = FALSE, righ
     cat(gettext("<0 rows> (or 0-length row.names)\n"))
   }
   else {
-    m <- as.matrix(format.data.frame(x, digits = digits,
-                                     na.encode = FALSE))
+    m <- as.matrix(format(x, digits = digits,na.encode = FALSE))
     if (!isTRUE(row.names))
       dimnames(m)[[1L]] <- if (identical(row.names, FALSE))
         rep.int("", n)
