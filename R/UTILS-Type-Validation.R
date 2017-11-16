@@ -36,7 +36,7 @@ verify_positive <- function(value,if_empty=TRUE) {
 #' @export
 assert_positive <- function(value,error_msg) {
   value=verify_numeric(value,numeric())
-  if(!.verify_positive(value,TRUE)) stop(error_msg,call.=F)
+  if(!verify_positive(value,TRUE)) stop(error_msg,call.=F)
   value
 }
 
