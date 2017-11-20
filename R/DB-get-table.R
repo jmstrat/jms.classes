@@ -1,7 +1,7 @@
 #' Get a database table from a database
 #'
 #' @export
-`[[.jms.database` <- function(x,name,...,.internal=FALSE) {
+`[[.jms.database` <- function(x,name,...,.internal=FALSE,reactiveSession=NULL,reactiveUpdateFreq=4000) {
   if(.internal || startsWith(name,'.')) return(get(name,envir=x))
   #Check for new tables
   x<-load(x)
@@ -23,7 +23,10 @@
     x$.tableModTimes[[i]]<-file.info(tablePath)$mtime
     x[[name,.internal=TRUE]]<-tableEnv
   }
-  return(tableEnv)
+  if(is.null(reactiveSession)) return(tableEnv)
+  shiny::reactivePoll(reactiveUpdateFreq, reactiveSession,
+                      checkFunc = function() {file.info(tablePath)$mtime},
+                      valueFunc = function() {as.data.frame(x[[name]])})
 }
 #' @export
 `[.jms.database`<-function(x,name,...,.internal=FALSE) {
