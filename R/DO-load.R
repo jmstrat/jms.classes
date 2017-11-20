@@ -10,7 +10,7 @@
 #' load.jms('/path/to/directory', load_function, ext='ext')
 #' load.jms('/path/to/file.ext', load_function)
 #' load.jms(c('/path/to/file.ext','/path/to/file2.ext'))
-#' @export
+#' @export load.jms
 load.jms <- function(path,func,ext=NULL,pattern=NULL, sort=FALSE,...) {
   dat=c()
   for(p in path) {
