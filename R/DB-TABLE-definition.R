@@ -33,12 +33,17 @@ as.jms.database.table.default <- function(x,validator,version) {
 
 #' @export
 as.jms.database.table.data.frame <- function(x,validator=NULL,version=1) {
-  attr(x,'.path')<-''
-  attr(x, '.lockfile')<-NA
-  attr(x,'.modTime')<-.POSIXct(0)
-  attr(x,'.hasChanged')<-TRUE
-  attr(x, "class") <- c("jms.database.table", "data.frame")
-  attr(x,'.validator')<-validator
-  attr(x,'version')<-version
-  return(x)
+  tableEnv <- new.env()
+  tableEnv$.hasChanged<-TRUE
+  tableEnv$.validator<-validator
+  tableEnv$.version<-version
+  tableEnv$.table<-x
+  tableEnv$.name<-''
+  attr(tableEnv, "class") <- c("jms.database.table", "environment")
+  return(tableEnv)
+}
+
+#' @export
+as.data.frame.jms.database.table <- function(x) {
+  return(x$.table)
 }

@@ -1,9 +1,10 @@
 #' @export
 plot.jms.database.table <- function(x,...) {
-  name=attr(x,'name')
-  name=paste(toupper(substr(name, 1, 1)), substr(name, 2, nchar(name)), ' Database', sep="")
-  entries=paste0(nrow(x),' Entries')
-  params=paste0(nrow(x)*ncol(x),' Parameters')
+  name=x$.name
+  table=x$.table
+  name=paste(toupper(substr(name, 1, 1)), substr(name, 2, nchar(name)), ' Table', sep="")
+  entries=paste0(nrow(table),' Entries')
+  params=paste0(nrow(table)*ncol(table),' Parameters')
   op <- par(mar = rep(0, 4),oma=rep(0, 4))
   plot.new()
   plot.window(c(0,1), c(0,1), xaxs = "i", yaxs = "i")

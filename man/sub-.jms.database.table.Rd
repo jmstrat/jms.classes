@@ -4,7 +4,7 @@
 \alias{[.jms.database.table}
 \title{Get an element from the table}
 \usage{
-\method{[}{jms.database.table}(x, name, ...)
+\method{[}{jms.database.table}(x, i = T, j = T)
 }
 \description{
 Get an element from the table

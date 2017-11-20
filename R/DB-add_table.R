@@ -18,27 +18,32 @@
     log.info('Removing table %s', name)
     if(!length(index)) return(x)
     x$.table_names=x$.table_names[-index]
+    x$.tableModTimes=x$.tableModTimes[-index]
     x$.hasChanged=TRUE
+    rm(name, envir = x)
   } else {
     if(!inherits(value,'jms.database.table')) stop('Attempted to add a non table object')
+    tablePath=paste0(x$.path,'/',name,'.table')
+    parent.env(value)<-x
     if(!length(index)) {
       log.info('Adding table %s', name)
+      x$.table_names=append(x$.table_names,name)
+      x$.tableModTimes=append(x$.tableModTimes,.POSIXct(0))
+      log.info('Setting path for table %s to %s',name,tablePath)
+      x$.tablePaths=append(x$.tablePaths,tablePath)
+      value$.name<-name
+      assign(name, value, envir = x)
       x$.hasChanged=TRUE
-    } else {
-      log.info('Updating table %s', name)
     }
-    #Add a table
-    x$.table_names=append(x$.table_names,name)
-    tablePath=paste0(x$.path,'/',name,'.table')
-    log.info('Setting path for table %s to %s',name,tablePath)
-    attr(value,'.path')<-tablePath
-    attr(value,'.lockfile')<-paste0(tablePath,'.lock')
-    attr(value,'.name')<-name
-    attr(value,'.database')<-x
     #Save the table
-    if(!.internal) value<-save(value)
+    if((!.internal)&&value$.hasChanged) {
+      log.info('Saving table %s',name)
+      table=get('.table',envir=value)
+      make_lockfile(paste0(tablePath,'.lock'))
+      saveRDS(table,tablePath)
+      remove_lockfile(paste0(tablePath,'.lock'))
+    }
   }
-  assign(name, value, envir = x)
   if(!.internal) save(x)
   return(x)
 }

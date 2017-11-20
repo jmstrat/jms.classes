@@ -4,13 +4,14 @@ summary.jms.database.table <- function (object, ...)
 {
   summ=data.frame(character(),numeric(),numeric(),numeric(),numeric(),numeric(),numeric(),numeric(),stringsAsFactors=FALSE,row.names = NULL)
   names(summ)<-c('',"Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.","NA's")
-  nn=colnames(object)
+  table=object$.table
+  nn=colnames(table)
   a=0
-  for(i in 1:ncol(object)) {
+  for(i in 1:ncol(table)) {
     if(nn[[i]]=='id') next()
     a=a+1
     summ[a,1]<-nn[[i]]
-    o<-object[,i]
+    o<-table[,i]
     if(!is.numeric(o)) next()
     nas <- is.na(o)
     o <- o[!nas]
