@@ -5,7 +5,7 @@
 \alias{remove_lockfile}
 \title{Create a directory to act as a lockfile, error if the file already exists}
 \usage{
-make_lockfile(path, timeout = 10)
+make_lockfile(path, timeout = 10, unique = FALSE)
 
 remove_lockfile(path)
 }
@@ -13,6 +13,8 @@ remove_lockfile(path)
 \item{path}{Path to the lockfile}
 
 \item{timeout}{How many times to attempt to obtain the lock}
+
+\item{unique}{The lock may only be obtained once during this session}
 }
 \description{
 Create a directory to act as a lockfile, error if the file already exists
