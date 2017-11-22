@@ -4,7 +4,7 @@
 \alias{jms.database}
 \title{Create a database  object}
 \usage{
-jms.database(path)
+jms.database(path = NULL)
 }
 \arguments{
 \item{path}{Path to the directory containing the database on disk}

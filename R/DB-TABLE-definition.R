@@ -26,11 +26,13 @@ is.jms.database.table <- function(x) {
 #' @export
 as.jms.database.table <- function(x,validator,version) UseMethod("as.jms.database.table")
 
+#' @method as.jms.database.table default
 #' @export
 as.jms.database.table.default <- function(x,validator,version) {
   stop("Unable to convert this class")
 }
 
+#' @method as.jms.database.table data.frame
 #' @export
 as.jms.database.table.data.frame <- function(x,validator=NULL,version=1) {
   tableEnv <- new.env()
@@ -43,6 +45,7 @@ as.jms.database.table.data.frame <- function(x,validator=NULL,version=1) {
   return(tableEnv)
 }
 
+#' @method as.data.frame jms.database.table
 #' @export
 as.data.frame.jms.database.table <- function(x) {
   return(x$.table)
