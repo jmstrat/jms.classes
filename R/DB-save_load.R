@@ -1,5 +1,9 @@
 #' @export
 save.jms.database <- function(x,...) {
+  if(is.null(x$.path)) {
+    log.info('Not saving database: path is not set')
+    return(x)
+  }
   log.info('Preparing to save database')
   if(x$.hasChanged) {
     path=paste0(x$.path,'/database')
@@ -18,6 +22,10 @@ save.jms.database <- function(x,...) {
 
 #' @export
 load.jms.database <- function(x,...) {
+  if(is.null(x$.path)) {
+    log.info('Not loading database: path is not set')
+    return(invisible(x))
+  }
   log.info('Preparing to load database')
   if(!is.stale(x)) {
     log.info('Database does not need loading')

@@ -5,7 +5,7 @@
 #' @param path Path to the directory containing the database on disk
 #' @return Database object
 #' @export
-jms.database <- function(path) {
+jms.database <- function(path=NULL) {
   log.info('Creating new database with path: %s',path)
   self<-new.env()
   self$.path=path

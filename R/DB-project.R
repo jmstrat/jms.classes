@@ -1,4 +1,5 @@
 current_database <- new.env()
+current_database$db<-jms.database()
 
 #' Set or get the current project database
 #'
@@ -9,6 +10,6 @@ project_database <- function() {
 }
 #' @export
 #' @rdname project_database
-setproject_database <- function(db) {
+set_project_database <- function(db) {
   current_database$db<-db
 }
