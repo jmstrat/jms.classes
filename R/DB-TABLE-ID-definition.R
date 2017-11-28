@@ -32,7 +32,7 @@ jms.database.table.id <- function(...,validator=NULL) {
   } else {
     x[,'id']<-numeric()
   }
-  x<-x[,c('id',cn)]
+  if(length(cn)) x<-x[,c('id',cn)]
   x<-as.jms.database.table(x,validator=validator_wrap)
   class(x)<-c('jms.database.table.id',class(x))
   x
