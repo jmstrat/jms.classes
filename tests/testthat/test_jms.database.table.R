@@ -31,15 +31,15 @@ test_that("Conversion from data.frame", {
   expect_is(df,'jms.database.table')
 })
 
-# test_that("Adding a row", {
-#   table<-jms.database.table.id(testcolumn=c(1,2,3),testcolumn2=c('test','test','test'))
-#   table[]<-c(9,'new')
-#   expect_equal(nrow(table),4)
-#   expect_equal(ncol(table),3)
-#   expect_is(table,'jms.database.table.id')
-#   df<-as.data.frame(table)
-#   expect_equal(df,data.frame(id=c(1,2,3,4),testcolumn=c(1,2,3,9),testcolumn2=c('test','test','test','new'),stringsAsFactors = FALSE))
-# })
+test_that("Adding a row", {
+  table<-jms.database.table(testcolumn=c(1,2,3),testcolumn2=c('test','test','test'))
+  table[4,]<-list(9,'new')
+  expect_equal(nrow(table),4)
+  expect_equal(ncol(table),2)
+  expect_is(table,'jms.database.table')
+  df<-as.data.frame(table)
+  expect_equal(df,data.frame(testcolumn=c(1,2,3,9),testcolumn2=c('test','test','test','new'),stringsAsFactors = FALSE))
+})
 #
 # test_that("Updating a row", {
 #   table<-jms.database.table.id(testcolumn=c(1,2,3),testcolumn2=c('test1','test2','test3'))
@@ -85,4 +85,6 @@ test_that("Conversion from data.frame", {
 #   expect_true(all(is.na(table[4])))
 #   expect_error(table[-4])
 #   expect_error(table[-1]<-'anything')
+# })
+# test_that("Validating", {
 # })
