@@ -7,7 +7,7 @@
 #' @export
 jms.database.table <- function(...,validator=NULL,version=1) {
   log.info('Creating database table')
-  as.jms.database.table(data.frame(...),validator,version=1)
+  as.jms.database.table(data.frame(...,stringsAsFactors = FALSE),validator,version=1)
 }
 
 #' Check if an object is a jms.database.table
