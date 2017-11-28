@@ -74,3 +74,10 @@ test_that("Removing then adding a row", {
   df<-as.data.frame(table)
   expect_equal(df,data.frame(id=c(1,3,4),testcolumn=c(1,3,9),testcolumn2=c('test1','test3','new'),stringsAsFactors = FALSE))
 })
+
+test_that("Invalid IDs", {
+  table<-jms.database.table.id(testcolumn=c(1,2,3),testcolumn2=c('test1','test2','test3'))
+  expect_true(all(is.na(table[4])))
+  expect_error(table[-4])
+  expect_error(table[-1]<-'anything')
+})
