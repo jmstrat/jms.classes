@@ -6,6 +6,35 @@
 #' @return A database table object
 #' @export
 jms.database.table.id <- function(...,validator=NULL) {
+  as.jms.database.table.id(data.frame(...,stringsAsFactors = FALSE), validator=validator)
+}
+
+#' Check if an object is a jms.database.table.id
+#'
+#' @param x The object to be tested
+#' @return TRUE / FALSE
+#' @export
+is.jms.database.table.id <- function(x) {
+  return(inherits(x,"jms.database.table.id"))
+}
+
+#' Convert an object into a jms.database.table.id
+#'
+#' @param x The object to be converted
+#' @return The converted object
+#' @export
+as.jms.database.table.id <- function(x,validator,version) UseMethod("as.jms.database.table.id")
+
+
+#' @method as.jms.database.table.id default
+#' @export
+as.jms.database.table.id.default <- function(x,validator,version) {
+  stop("Unable to convert this class")
+}
+
+#' @method as.jms.database.table.id data.frame
+#' @export
+as.jms.database.table.id.data.frame <- function(x,validator=NULL,version=1) {
   if(!is.null(validator)) {
     validator_wrap <- function(id) {
       f=validator #Store local copy
@@ -25,7 +54,6 @@ jms.database.table.id <- function(...,validator=NULL) {
       list(id=id)
     }
   }
-  x<-data.frame(...,stringsAsFactors=FALSE)
   cn<-colnames(x)
   if(nrow(x)) {
     x[,'id']<-1:nrow(x)
@@ -38,12 +66,9 @@ jms.database.table.id <- function(...,validator=NULL) {
   x
 }
 
-#' Check if an object is a jms.database.table.id
-#'
-#' @param x The object to be tested
-#' @return TRUE / FALSE
+#' @method as.jms.database.table.id jms.database.table
 #' @export
-is.jms.database.table.id <- function(x) {
-  return(inherits(x,"jms.database.table.id"))
+as.jms.database.table.id.jms.database.table <- function(x,...) {
+  as.jms.database.table.id.data.frame(as.data.frame(x),validator=x$.validator)
 }
 
