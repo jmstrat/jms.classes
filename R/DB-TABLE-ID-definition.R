@@ -50,7 +50,7 @@ as.jms.database.table.id.data.frame <- function(x,validator=NULL,version=1) {
     formals(validator_wrap)<-append(formals(validator_wrap),formals(validator))
   } else {
     validator_wrap <- function(id,...) {
-      assert_positive(id,'id must be a positive numeric')
+      id=assert_positive(id,'id must be a positive numeric')
       list(id=id,...)
     }
   }
