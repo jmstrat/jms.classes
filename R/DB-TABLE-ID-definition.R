@@ -25,7 +25,7 @@ jms.database.table.id <- function(...,validator=NULL) {
       list(id=id)
     }
   }
-  x<-data.frame(...)
+  x<-data.frame(...,stringsAsFactors=FALSE)
   cn<-colnames(x)
   if(nrow(x)) {
     x[,'id']<-1:nrow(x)
