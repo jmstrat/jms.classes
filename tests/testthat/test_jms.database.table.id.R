@@ -40,7 +40,7 @@ test_that("New table has correct ids", {
 
 test_that("Adding a row", {
   table<-jms.database.table.id(testcolumn=c(1,2,3),testcolumn2=c('test','test','test'))
-  table[]<-c(9,'new')
+  table[]<-list(9,'new')
   expect_equal(nrow(table),4)
   expect_equal(ncol(table),3)
   expect_is(table,'jms.database.table.id')
@@ -50,7 +50,7 @@ test_that("Adding a row", {
 
 test_that("Updating a row", {
   table<-jms.database.table.id(testcolumn=c(1,2,3),testcolumn2=c('test1','test2','test3'))
-  table[2]<-c(99,'updated')
+  table[2]<-list(99,'updated')
   expect_equal(nrow(table),3)
   expect_equal(ncol(table),3)
   expect_is(table,'jms.database.table.id')
@@ -79,7 +79,7 @@ test_that("Removing a row", {
 test_that("Removing then adding a row", {
   table<-jms.database.table.id(testcolumn=c(1,2,3),testcolumn2=c('test1','test2','test3'))
   table[-2]
-  table[]<-c(9,'new')
+  table[]<-list(9,'new')
   expect_equal(nrow(table),3)
   expect_equal(ncol(table),3)
   expect_is(table,'jms.database.table.id')
