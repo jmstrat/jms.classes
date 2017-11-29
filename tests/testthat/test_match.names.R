@@ -22,7 +22,7 @@ test_that("match.names works with mixed named list", {
   expect_equal(result,list(test2=2,test4=4,test1=1,test3=3))
 
   valueList=list(test2=2,test4=4,1,3)
-  expect_warning(result=match.names(expected_names,valueList))
+  expect_warning(result<-match.names(expected_names,valueList))
   expect_equal(result,list(test2=2,test4=4,test1=1,test3=3))
 })
 
@@ -33,10 +33,10 @@ test_that("match.names works with incorrectly named list", {
 
 test_that("match.names works with different length lists", {
   valueList=list(test1=1,test2=2)
-  expect_warning(result=match.names(expected_names,valueList))
+  expect_warning(result<-match.names(expected_names,valueList))
   expect_equal(result,valueList)
 
   valueList=list(test1=1,test2=2,test3=3,test4=4,test5=5)
-  expect_warning(result=match.names(expected_names,valueList))
+  expect_warning(result<-match.names(expected_names,valueList))
   expect_equal(result,list(test1=1,test2=2,test3=3,test4=4))
 })
