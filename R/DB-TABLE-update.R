@@ -2,29 +2,34 @@
 `[<-.jms.database.table` <- function(x,i,j,value) {
   if(missing(i)) i=T
   if(missing(j)) j=T
+  if(any(i<0 || j<0)) stop('Negative subsetting not allowed for this class')
   log.info('Updating {[%s],[%s]} with {%s}',paste0(i,collapse=','),paste0(j,collapse=','),paste0(value,collapse=','))
   #Validate the new value
   validator=x$.validator
   table=x$.table
-  if(!is.null(validator) && !(i<0)) {
+  n=colnames(table)
+  names(n)<-n
+  log.debug('Available columns: [%s]',paste0(n,collapse=','))
+  tovalidate=n[j]
+  log.debug('Columns supplied:  [%s]',paste0(tovalidate,collapse=','))
+  #Add any missing names, reorder etc.
+  value=match.names(tovalidate,value)
+  #We can now assume that value is a fully named list ordered as tovalidate
+  if(!is.null(validator)) {
     log.info('Validating new values')
-    n=colnames(table)
-    names(n)<-n
-    log.debug('Available columns: [%s]',paste0(n,collapse=','))
-    tovalidate=n[j]
-    log.debug('Columns supplied:  [%s]',paste0(tovalidate,collapse=','))
     if(any(is.na(tovalidate))) stop('Invalid options supplied')
     l=length(tovalidate)
-    validate=matrix(value,nrow=length(value)/l,ncol=l)
+    validate=as.data.frame(matrix(value,nrow=length(value)/l,ncol=l),stringsAsFactors = FALSE)
     log.debug('New values matrix: %s',toString(validate))
     #Now we need to split a (potentially) 2D matrix into 1D vectors
-    validatelist=split(validate, rep(1:ncol(validate), each = nrow(validate)))
+    #validatelist=split(validate, rep(1:ncol(validate), each = nrow(validate)))
+    validatelist=as.list(validate)
     names(validatelist)<-tovalidate
     log.debug('Argument for validator: %s',paste(names(validatelist),validatelist,sep='=',collapse=','))
     value<-do.call(validator,as.list(validatelist))[j]
     log.debug('Values returned: [%s]',paste0(value,collapse=','))
     #Now we need to restore the original dimensions
-    value<-matrix(unlist(value,use.names=FALSE),nrow=nrow(validate),ncol=ncol(validate))
+    value<-as.data.frame(value,stringsAsFactors=FALSE)
     log.info('Validated update {[%s],[%s]} with {%s}',paste0(i,collapse=','),paste0(j,collapse=','),paste0(value,collapse=','))
   }
   df<-`[<-.data.frame`(table,i,j,value)
