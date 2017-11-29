@@ -36,7 +36,7 @@
       x$.hasChanged=TRUE
     }
     #Save the table
-    if((!.internal)&&value$.hasChanged) {
+    if((!.internal)&&(!is.null(x$.path))&&value$.hasChanged) {
       log.info('Saving table %s',name)
       table=get('.table',envir=value)
       make_lockfile(paste0(tablePath,'.lock'))
