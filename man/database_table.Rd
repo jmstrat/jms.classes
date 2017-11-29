@@ -7,19 +7,21 @@
 \usage{
 database_table_UI(id)
 
-database_table(input, output, session, data_function, display_filter,
-  buttons = NULL)
+database_table(input, output, session, tableName, display_filter,
+  buttons = NULL, database = project_database)
 }
 \arguments{
 \item{id}{Namespace id parameter (must be unique)}
 
 \item{input, output, session}{Shiny server parameters}
 
-\item{data_function}{\code{\link[shiny]{reactive}} data.frame}
+\item{tableName}{The name of the table in the database}
 
 \item{display_filter}{Function to call to filter the data for display}
 
 \item{buttons}{See \code{\link{addInputsToData}}}
+
+\item{database}{The database, or a (possibly reactive) function that returns it}
 }
 \value{
 \code{list} with a reactive element \code{count} giving the number of rows selected
