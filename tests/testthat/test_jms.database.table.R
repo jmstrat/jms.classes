@@ -87,6 +87,38 @@ test_that("Invalid rows", {
   expect_error(table[-1]<-'anything')
 })
 
+test_that("2D subsetting",{
+  table<-jms.database.table(testcolumn=c(1,2,3),testcolumn2=c('test1','test2','test3'))
+  expect_error(table[4:5,]<-list(c(9,10),c('new1','new2')),NA)
+  expect_equal(nrow(table),5)
+  expect_equal(ncol(table),2)
+  expect_is(table,'jms.database.table')
+  expect_error(df<-as.data.frame(table),NA)
+  expect_equal(df,data.frame(testcolumn=c(1,2,3,9,10),testcolumn2=c('test1','test2','test3','new1','new2'),stringsAsFactors = FALSE))
+
+  table<-jms.database.table(testcolumn=c(1,2,3),testcolumn2=c('test1','test2','test3'))
+  expect_error(table[4:5,]<-data.frame(testcolumn=c(9,10),testcolumn2=c('new1','new2'),stringsAsFactors = F),NA)
+  expect_equal(nrow(table),5)
+  expect_equal(ncol(table),2)
+  expect_is(table,'jms.database.table')
+  expect_error(df<-as.data.frame(table),NA)
+  expect_equal(df,data.frame(testcolumn=c(1,2,3,9,10),testcolumn2=c('test1','test2','test3','new1','new2'),stringsAsFactors = FALSE))
+
+  table<-jms.database.table(testcolumn=c(1,2,3),testcolumn2=c('test1','test2','test3'))
+  expect_error(table[4:5,]<-data.frame(testcolumn2=c('new1','new2'),testcolumn=c(9,10),stringsAsFactors = F),NA)
+  expect_equal(nrow(table),5)
+  expect_equal(ncol(table),2)
+  expect_is(table,'jms.database.table')
+  expect_error(df<-as.data.frame(table),NA)
+  expect_equal(df,data.frame(testcolumn=c(1,2,3,9,10),testcolumn2=c('test1','test2','test3','new1','new2'),stringsAsFactors = FALSE))
+
+  table<-jms.database.table(testcolumn=c(1,2,3),testcolumn2=c('test1','test2','test3'))
+  expect_equal(table[1:2,],data.frame(testcolumn=c(1,2),testcolumn2=c('test1','test2'),stringsAsFactors = FALSE))
+  expect_equal(table[,1:2],data.frame(testcolumn=c(1,2,3),testcolumn2=c('test1','test2','test3'),stringsAsFactors = FALSE))
+  expect_equal(table[1:2,1],c(1,2))
+  expect_equal(table[1:2,1:2],data.frame(testcolumn=c(1,2),testcolumn2=c('test1','test2'),stringsAsFactors = FALSE))
+})
+
 test_that("Validating", {
   validate <- function(testcolumn=numeric(),testcolumn2=character()) {
     testcolumn=assert_numeric(testcolumn,"Invalid testcolumn")
