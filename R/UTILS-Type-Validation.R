@@ -16,6 +16,17 @@ verify_numeric <- function(value,if_empty=FALSE) {
 }
 
 #' Check whether or not a value is numeric or can be coerced to numeric
+#' @param value The value to test
+#' @param error_msg The error message if the value is not numeric
+#' @return The value if numeric, error otherwise
+#' @export
+assert_numeric <- function(value,error_msg) {
+  value=verify_numeric(value,numeric())
+  if(!is.numeric(value)) stop(error_msg,call.=F)
+  value
+}
+
+#' Check whether or not a value is numeric or can be coerced to numeric
 #' and is greater than or equal to 0
 #' @param value The value to test
 #' @param if_empty The value to return if length(value)==0
@@ -37,17 +48,6 @@ verify_positive <- function(value,if_empty=TRUE) {
 assert_positive <- function(value,error_msg) {
   value=verify_numeric(value,numeric())
   if(!verify_positive(value,TRUE)) stop(error_msg,call.=F)
-  value
-}
-
-#' Check whether or not a value is numeric or can be coerced to numeric
-#' @param value The value to test
-#' @param error_msg The error message if the value is not numeric
-#' @return The value if numeric, error otherwise
-#' @export
-assert_numeric <- function(value,error_msg) {
-  value=verify_numeric(value,numeric())
-  if(!is.numeric(value)) stop(error_msg,call.=F)
   value
 }
 
