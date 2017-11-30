@@ -13,15 +13,14 @@
   if(!is.null(x$.path)) {
     tablePath<-paste0(x$.path,'/',name,'.table')
     if(!file.exists(tablePath)) stop('Unable to load table ',name)
-    mt=file.info(tablePath)$mtime
-    if(is.na(mt)) mt=.POSIXct(0)
-    if(x$.tableModTimes[[i]]<mt) {
+    dg=digest::digest(tablePath, algo = "sha1", file = T)
+    if(x$.tableHashes[[i]]!=dg) {
       log.info('Reloading table %s',name)
       make_lockfile(paste0(tablePath,'.lock'))
       table<-readRDS(tablePath)
       remove_lockfile(paste0(tablePath,'.lock'))
       assign('.table',table,envir=tableEnv)
-      x$.tableModTimes[[i]]<-file.info(tablePath)$mtime
+      x$.tableHashes[[i]]<-digest::digest(tablePath, algo = "sha1", file = T)
       x[[name,.internal=TRUE]]<-tableEnv
     }
   }

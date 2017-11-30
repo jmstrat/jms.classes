@@ -18,7 +18,7 @@
     log.info('Removing table %s', name)
     if(!length(index)) return(x)
     x$.table_names=x$.table_names[-index]
-    x$.tableModTimes=x$.tableModTimes[-index]
+    x$.tableHashes=x$.tableHashes[-index]
     x$.hasChanged=TRUE
     rm(name, envir = x)
   } else {
@@ -28,9 +28,10 @@
     if(!length(index)) {
       log.info('Adding table %s', name)
       x$.table_names=append(x$.table_names,name)
-      x$.tableModTimes=append(x$.tableModTimes,.POSIXct(0))
+      x$.tableHashes=append(x$.tableHashes,'')
       log.info('Setting path for table %s to %s',name,tablePath)
       x$.tablePaths=append(x$.tablePaths,tablePath)
+      index=length(x$.tablePaths)
       value$.name<-name
       assign(name, value, envir = x)
       x$.hasChanged=TRUE
@@ -41,6 +42,7 @@
       table=get('.table',envir=value)
       make_lockfile(paste0(tablePath,'.lock'))
       saveRDS(table,tablePath)
+      x$.tableHashes[[index]]<-digest::digest(tablePath, algo = "sha1", file = T)
       remove_lockfile(paste0(tablePath,'.lock'))
     }
   }
