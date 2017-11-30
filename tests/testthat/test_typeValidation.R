@@ -19,8 +19,21 @@ test_that("numeric", {
 })
 
 test_that("positive", {
-  #verify_positive
-  #assert_positive
+  expect_equal(verify_positive(0),TRUE)
+  expect_equal(verify_positive(-99999),FALSE)
+  expect_equal(verify_positive(99999),TRUE)
+  expect_equal(verify_positive('99'),TRUE)
+  expect_equal(verify_positive('-99'),FALSE)
+  expect_equal(verify_positive('notanumber'),FALSE)
+  expect_equal(verify_positive(FALSE),TRUE)
+
+  expect_equal(assert_positive(0),0)
+  expect_error(assert_positive(-99999))
+  expect_equal(assert_positive(99999),99999)
+  expect_equal(assert_positive('99'),99)
+  expect_error(assert_positive('-99'))
+  expect_error(assert_positive('notanumber'))
+  expect_equal(assert_positive(FALSE),0)
 })
 
 test_that("character", {
