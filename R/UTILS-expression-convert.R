@@ -8,8 +8,8 @@ expressionToHTML <- function(x) {
   x<-gsub('^"','',x)
   x<-gsub('"$','',x)
   x<- gsub('([^\\])"','\\1',x)
-  x<- gsub('([^\\])\\[([^\\]]*)\\]','\\1<sub>\\2</sub>',x)
-  x<- gsub('([^\\])\\^([[:digit:]-]*)','\\1<sup>\\2</sup>',x)
+  x<- gsub('([^\\])\\[([^]]*)\\]','\\1<sub>\\2</sub>',x)
+  x<- gsub('([^\\])\\^([^[:space:]]*)','\\1<sup>\\2</sup>',x)
   x
 }
 
