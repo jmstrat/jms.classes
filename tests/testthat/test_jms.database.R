@@ -33,6 +33,29 @@ test_that("Saving & loading", {
   if(length(created_files)) unlink(created_files)
 })
 
+test_that("Saving & loading table classes", {
+  existing_temp_files=list.files(tempdir(), full.names = T)
+  expect_error(db<-jms.database(tempdir()),NA)
+  table<-jms.database.table(testcolumn=c(1,2,3),testcolumn2=c('test','test','test'))
+  expect_error(db[['test']]<-table,NA)
+
+  tableid<-jms.database.table.id(testcolumnid=c(1,2,3),testcolumnid2=c('test','test','test'))
+  expect_error(db[['testid']]<-table,NA)
+
+  #Now we load a fresh database
+  expect_error(db2<-jms.database(tempdir()),NA)
+  expect_error(load(db2),NA)
+  expect_error(table2<-db2[['test']],NA)
+  expect_equal(table2,table)
+
+  expect_error(tableid2<-db2[['testid']],NA)
+  expect_equal(tableid2,tableid)
+
+  created_files=list.files(tempdir(), full.names = T)
+  created_files=created_files[!created_files%in%existing_temp_files]
+  if(length(created_files)) unlink(created_files)
+})
+
 test_that("Fetches updates from another session", {
   existing_temp_files=list.files(tempdir(), full.names = T)
 
