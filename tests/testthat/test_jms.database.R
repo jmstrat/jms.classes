@@ -66,5 +66,17 @@ test_that("Fetches updates from another session", {
 })
 
 test_that("Prevents updates when locked", {
+  if (!run_all_tests) skip("Long task. Set run_all_tests=TRUE to run.")
+  #We need separate sessions here because the lock is obtained per session, not per object
+  existing_temp_files=list.files(tempdir(), full.names = T)
+  expect_error(db<-jms.database(tempdir()),NA)
 
+  job<-parallel::mcparallel({lock(db);Sys.sleep(20); unlock(db)})
+  Sys.sleep(1)
+  expect_error(suppressWarnings(lock(db)))
+  parallel::mccollect(job)
+
+  created_files=list.files(tempdir(), full.names = T)
+  created_files=created_files[!created_files%in%existing_temp_files]
+  if(length(created_files)) unlink(created_files)
 })
