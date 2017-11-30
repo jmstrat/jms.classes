@@ -4,7 +4,7 @@
 \alias{assert_list}
 \title{Check whether or not a value is or can be coerced to a list}
 \usage{
-assert_list(value, error_msg)
+assert_list(value, error_msg = "Value must be a list")
 }
 \arguments{
 \item{value}{The value to test}

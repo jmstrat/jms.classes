@@ -4,12 +4,12 @@
 \alias{assert_directory}
 \title{Check whether or not a directory exists}
 \usage{
-assert_directory(directory, error)
+assert_directory(value, error_msg = "Value must be a directory")
 }
 \arguments{
-\item{directory}{The directory to test}
+\item{value}{The directory to test}
 
-\item{error}{The error message if the directory does not exist}
+\item{error_msg}{The error message if the directory does not exist}
 }
 \value{
 The directory, error if it doesn't exist

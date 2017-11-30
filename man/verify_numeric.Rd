@@ -4,7 +4,7 @@
 \alias{verify_numeric}
 \title{Check whether or not a value is numeric or can be coerced to numeric}
 \usage{
-verify_numeric(value, if_empty = FALSE)
+verify_numeric(value)
 }
 \arguments{
 \item{value}{The value to test}

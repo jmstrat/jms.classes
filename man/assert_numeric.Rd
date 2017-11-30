@@ -4,7 +4,7 @@
 \alias{assert_numeric}
 \title{Check whether or not a value is numeric or can be coerced to numeric}
 \usage{
-assert_numeric(value, error_msg)
+assert_numeric(value, error_msg = "Value must be a number")
 }
 \arguments{
 \item{value}{The value to test}

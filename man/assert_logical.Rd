@@ -4,12 +4,12 @@
 \alias{assert_logical}
 \title{Check whether or not a value is or can be coerced to a logial}
 \usage{
-assert_logical(value, error)
+assert_logical(value, error_msg = "Value must be logical")
 }
 \arguments{
 \item{value}{The value to test}
 
-\item{error}{The error message if the value is not a logical}
+\item{error_msg}{The error message if the value is not a logical}
 }
 \value{
 The value if it's a logical, error otherwise

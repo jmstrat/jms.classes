@@ -5,7 +5,7 @@
 \title{Check whether or not a value is numeric or can be coerced to numeric
 and is greater than or equal to 0}
 \usage{
-assert_positive(value, error_msg)
+assert_positive(value, error_msg = "Value must be a positive number")
 }
 \arguments{
 \item{value}{The value to test}

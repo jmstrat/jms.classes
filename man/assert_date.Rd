@@ -4,7 +4,7 @@
 \alias{assert_date}
 \title{Check whether or not a value is or can be coerced to a data}
 \usage{
-assert_date(value, error_msg)
+assert_date(value, error_msg = "Value must be a Date")
 }
 \arguments{
 \item{value}{The value to test}

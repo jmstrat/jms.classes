@@ -4,12 +4,12 @@
 \alias{assert_function}
 \title{Check whether or not a value is or can be coerced to a function}
 \usage{
-assert_function(func, error)
+assert_function(value, error_msg)
 }
 \arguments{
-\item{error}{The error message if the value is not a function}
-
 \item{value}{The value to test}
+
+\item{error_msg}{The error message if the value is not a function}
 }
 \value{
 The value if it's a function, error otherwise
