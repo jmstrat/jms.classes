@@ -1,8 +1,21 @@
 context("Type Validation")
 
 test_that("numeric", {
-  #verify_numeric
-  #assert_numeric
+  expect_equal(verify_numeric(0),TRUE)
+  expect_equal(verify_numeric(-99999),TRUE)
+  expect_equal(verify_numeric(99999),TRUE)
+  expect_equal(verify_numeric('99'),TRUE)
+  expect_equal(verify_numeric('-99'),TRUE)
+  expect_equal(verify_numeric('notanumber'),FALSE)
+  expect_equal(verify_numeric(FALSE),TRUE)
+
+  expect_equal(assert_numeric(0),0)
+  expect_equal(assert_numeric(-99999),-99999)
+  expect_equal(assert_numeric(99999),99999)
+  expect_equal(assert_numeric('99'),99)
+  expect_equal(assert_numeric('-99'),-99)
+  expect_error(assert_numeric('notanumber'))
+  expect_equal(assert_numeric(FALSE),0)
 })
 
 test_that("positive", {
