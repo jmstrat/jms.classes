@@ -8,6 +8,7 @@ test_that("numeric", {
   expect_equal(verify_numeric('-99'),TRUE)
   expect_equal(verify_numeric('notanumber'),FALSE)
   expect_equal(verify_numeric(FALSE),TRUE)
+  expect_equal(verify_numeric(NULL),FALSE)
 
   expect_equal(assert_numeric(0),0)
   expect_equal(assert_numeric(-99999),-99999)
@@ -16,6 +17,7 @@ test_that("numeric", {
   expect_equal(assert_numeric('-99'),-99)
   expect_error(assert_numeric('notanumber'))
   expect_equal(assert_numeric(FALSE),0)
+  expect_error(assert_numeric(NULL))
 })
 
 test_that("positive", {
@@ -26,6 +28,7 @@ test_that("positive", {
   expect_equal(verify_positive('-99'),FALSE)
   expect_equal(verify_positive('notanumber'),FALSE)
   expect_equal(verify_positive(FALSE),TRUE)
+  expect_equal(verify_positive(NULL),FALSE)
 
   expect_equal(assert_positive(0),0)
   expect_error(assert_positive(-99999))
@@ -34,10 +37,16 @@ test_that("positive", {
   expect_error(assert_positive('-99'))
   expect_error(assert_positive('notanumber'))
   expect_equal(assert_positive(FALSE),0)
+  expect_error(assert_positive(NULL))
 })
 
 test_that("character", {
-  #assert_character
+  expect_equal(assert_character(0),'0')
+  expect_equal(assert_character(-99999),'-99999')
+  expect_equal(assert_character('99'),'99')
+  expect_equal(assert_character('notanumber'),'notanumber')
+  expect_equal(assert_character(FALSE),'FALSE')
+  expect_error(assert_character(NULL))
 })
 
 test_that("list", {
