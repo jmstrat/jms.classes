@@ -81,7 +81,7 @@ assert_character <- function(value,error_msg='Value must be a character string')
 #' @export
 assert_list <- function(value,error_msg='Value must be a list') {
   if(is.list(value)) return(value)
-  if(is.null(value)) return(list())
+  if(is.null(value)) stop(error_msg,call.=F)
   if(all(is.na(value))&&length(value)==1) return(list())
   tryCatch({value=suppressWarnings(as.list(value))
   if(any(is.na(value))) {

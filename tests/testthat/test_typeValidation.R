@@ -50,7 +50,11 @@ test_that("character", {
 })
 
 test_that("list", {
-  #assert_list
+  expect_equal(assert_list(list(0,1,2)),list(0,1,2))
+  expect_equal(assert_list(list(test1=0,test2=1,test3=2)),list(test1=0,test2=1,test3=2))
+  expect_equal(assert_list(c(0,1,2)),list(0,1,2))
+  expect_equal(assert_list(0),list(0))
+  expect_error(assert_list(NULL))
 })
 
 test_that("date", {
