@@ -66,7 +66,7 @@ test_that("Fetches updates from another session", {
 })
 
 test_that("Prevents updates when locked", {
-  if (!run_all_tests) skip("Long task. Set run_all_tests=TRUE to run.")
+  skip_long()
   #We need separate sessions here because the lock is obtained per session, not per object
   existing_temp_files=list.files(tempdir(), full.names = T)
   expect_error(db<-jms.database(tempdir()),NA)
