@@ -1,5 +1,4 @@
 current_database <- new.env()
-#current_database$db<-jms.database()
 
 #' Set or get the current project database
 #'
