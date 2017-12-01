@@ -182,4 +182,13 @@ enableSelect <- function(id,session) session$sendCustomMessage(type="jsCode",lis
 update_reactive <- function(r) {
   attr(r,'observable')$.updateValue()
   attr(r,'observable')$.dependents$invalidate()
+
+  #if the reactive is a reactive poll, we should also update the cookie to prevent a double update
+  ofe=environment(environment(r)$.origFunc)
+  if(exists('checkFunc',envir=ofe)) {
+    rv<-ofe$rv
+    valuesEnv<-get('impl',rv)$.values
+    value<-ofe$checkFunc()
+    assign('cookie',value,envir=valuesEnv)
+  }
 }
