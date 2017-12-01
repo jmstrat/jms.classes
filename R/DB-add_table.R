@@ -23,27 +23,21 @@
     rm(name, envir = x)
   } else {
     if(!inherits(value,'jms.database.table')) stop('Attempted to add a non table object')
-    tablePath=paste0(x$.path,'/',name,'.table')
     parent.env(value)<-x
+    value$.name<-name
+    assign(name, value, envir = x)
     if(!length(index)) {
       log.info('Adding table %s', name)
       x$.table_names=append(x$.table_names,name)
       x$.tableHashes=append(x$.tableHashes,'')
-      log.info('Setting path for table %s to %s',name,tablePath)
-      x$.tablePaths=append(x$.tablePaths,tablePath)
-      index=length(x$.tablePaths)
-      value$.name<-name
-      assign(name, value, envir = x)
+      index=length(x$.table_names)
       x$.hasChanged=TRUE
     }
     #Save the table
     if((!is.null(x$.path))&&value$.hasChanged) {
       log.info('Saving table %s',name)
-      table=get('.table',envir=value)
-      make_lockfile(paste0(tablePath,'.lock'))
-      saveRDS(table,tablePath)
-      x$.tableHashes[[index]]<-digest::digest(tablePath, algo = "sha1", file = T)
-      remove_lockfile(paste0(tablePath,'.lock'))
+      tablePath=paste0(x$.path,'/',name,'.table')
+      x$.tableHashes[[index]]<-saveTable(value,tablePath)
     }
   }
   save(x)
