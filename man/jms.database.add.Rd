@@ -8,7 +8,7 @@
 \alias{-.jms.database}
 \title{Add a table to a database}
 \usage{
-\method{[[}{jms.database}(x, name, .internal = FALSE) <- value
+\method{[[}{jms.database}(x, name) <- value
 
 \method{[}{jms.database}(x, name) <- value
 

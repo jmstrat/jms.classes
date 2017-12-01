@@ -4,8 +4,8 @@
 \alias{[[.jms.database}
 \title{Get a database table from a database}
 \usage{
-\method{[[}{jms.database}(x, name, ..., .internal = FALSE,
-  reactiveSession = NULL, reactiveUpdateFreq = 4000)
+\method{[[}{jms.database}(x, name, ..., reactiveSession = NULL,
+  reactiveUpdateFreq = 4000)
 }
 \description{
 Get a database table from a database

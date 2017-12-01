@@ -1,8 +1,8 @@
 #' Get a database table from a database
 #'
 #' @export
-`[[.jms.database` <- function(x,name,...,.internal=FALSE,reactiveSession=NULL,reactiveUpdateFreq=4000) {
-  if(.internal || startsWith(name,'.')) return(get(name,envir=x))
+`[[.jms.database` <- function(x,name,...,reactiveSession=NULL,reactiveUpdateFreq=4000) {
+  if(startsWith(name,'.')) return(get(name,envir=x))
   #Check for new tables
   x<-load(x)
   #Find table
@@ -30,10 +30,10 @@
                       valueFunc = function() {as.data.frame(x[[name]])})
 }
 #' @export
-`[.jms.database`<-function(x,name,...,.internal=FALSE) {
-  `[[`(x,name,...,.internal)
+`[.jms.database`<-function(x,name,...) {
+  `[[`(x,name,...)
 }
 #' @export
-`$.jms.database`<-function(x,name,...,.internal=FALSE) {
-  `[[`(x,name,...,.internal)
+`$.jms.database`<-function(x,name,...) {
+  `[[`(x,name,...)
 }

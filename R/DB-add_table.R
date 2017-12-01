@@ -10,7 +10,7 @@
 #' database[['mytable']]<-jms.database.table(...)
 #' @export
 #' @rdname jms.database.add
-`[[<-.jms.database` <- function(x, name, value,.internal=FALSE) {
+`[[<-.jms.database` <- function(x, name, value) {
   if(startsWith(name,'.')) {NextMethod(); return(x)}
   index=which(x$.table_names==name)
   #Remove a table
@@ -37,7 +37,7 @@
       x$.hasChanged=TRUE
     }
     #Save the table
-    if((!.internal)&&(!is.null(x$.path))&&value$.hasChanged) {
+    if((!is.null(x$.path))&&value$.hasChanged) {
       log.info('Saving table %s',name)
       table=get('.table',envir=value)
       make_lockfile(paste0(tablePath,'.lock'))
@@ -46,7 +46,7 @@
       remove_lockfile(paste0(tablePath,'.lock'))
     }
   }
-  if(!.internal) save(x)
+  save(x)
   return(x)
 }
 #' @export
