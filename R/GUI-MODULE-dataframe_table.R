@@ -1,51 +1,53 @@
-#' Module: Display a database table
+#' Module: Display a dataframe table
 #'
 #' @param id Namespace id parameter (must be unique)
 #' @param input,output,session Shiny server parameters
-#' @param data_function \code{\link[shiny]{reactive}} data.frame
+#' @param dataframe A \code{\link[shiny]{reactive}} data.frame
 #' @param display_filter Function to call to filter the data for display
 #' @param buttons See \code{\link{addInputsToData}}
 #' @return \code{list} with a reactive element \code{count} giving the number of rows selected
 #' a reactive \code{ids} to get the ids selected, a reactive \code{row} to get the row selected, and a vector \code{buttonIDs} of reactives to get the button ids pressed
 #' @examples
-#' ui <- database_table_UI('myID')
+#' ui <- dataframe_table_UI('myID')
 #' server <- function(input, output, session) {
-#'     callModule(database_table, "myID",data_function = reactive(expr), display_filter = my_function)
+#'     callModule(dataframe_table, "myID",data_function = reactive(expr), display_filter = my_function)
 #' }
-#' @rdname database_table
+#' @rdname dataframe_table
 #' @export
-database_table_UI <- function(id) {
+dataframe_table_UI <- function(id) {
   ns <- shiny::NS(id)
   DT::dataTableOutput(ns('table'))
 }
 
-#' @rdname database_table
+#' @rdname dataframe_table
 #' @export
-database_table <- function(input,output,session,data_function,display_filter,buttons=NULL) {
-  #TABLE
+dataframe_table <- function(input,output,session,dataframe,display_filter,buttons=NULL) {
+  #To remember which columns shouldn't be escaped
   positions=c()
+  #The output
   output$table <- DT::renderDataTable(DT::datatable({
-    data<-display_filter(data_function())
+    data<-display_filter(dataframe())
     positions=c()
     if(!is.null(buttons)) {
       ret=addInputsToData(data,buttons,session)
       data=ret$data
       positions=ret$htmlCols
     }
+    #Ugly, but works...
     assign('positions',positions,parent.frame())
     data},
     rownames=TRUE,
-    escape = if(length(positions)) -(positions-1) else TRUE, #1==row.names??
+    escape = if(length(positions)) -(positions-1) else TRUE, #1==row.names
     extensions = 'Select', # active Select extension
     selection = 'none', # disable custom implemented selection of DT
     options=list(
-      select = list(style = 'os', # set 'os' select style so that ctrl/shift + click in enabled
+      select = list(style = 'os', # set 'os' select style so that ctrl/shift + click is enabled
                     items = 'row'), # items can be cell, row or column
       fixedHeader=TRUE,
-      columnDefs = list(list(visible=FALSE, targets=c(0)))
+      columnDefs = list(list(visible=FALSE, targets=c(0))) #Hide row.names
     ),
     callback = DT::JS(
-      "table.on( 'select.dt deselect.dt xhr.dt', function ( e, dt, type, indexes ) {", # react on click event
+      "table.on( 'select.dt deselect.dt xhr.dt', function ( e, dt, type, indexes ) {", # react on select, deselect, update events
       "var type = table.select.items();", # get the items setting of Select extension
       "var trows = table[type + 's']({selected: true, order:'index'}).data();",
       "var idx = [];",
@@ -60,10 +62,10 @@ database_table <- function(input,output,session,data_function,display_filter,but
 
   ids=reactive({
     selected_rows=input$table_rows_selected
-    data_function()[selected_rows,'id']
+    dataframe()[selected_rows,'id']
   })
   buttonReactives=inputReactives(buttons,input)
   count=reactive(length(input$table_rows_selected))
-  row<-reactive({data_function()[input$table_rows_selected[[1]],]})
+  row<-reactive({dataframe()[input$table_rows_selected[[1]],]})
   return(list(count=count,ids=ids,row=row,buttonIDs=buttonReactives))
 }
