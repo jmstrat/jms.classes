@@ -32,6 +32,11 @@
     value<-as.data.frame(value,stringsAsFactors=FALSE)
     log.info('Validated update {[%s],[%s]} with {%s}',paste0(i,collapse=','),paste0(j,collapse=','),paste0(value,collapse=','))
   }
+  #Replace invalid values with NA
+  value[is.null(value)]<-NA
+  idx <- !(sapply(value, length))
+  value[idx] <- NA
+  #Do the update
   df<-`[<-.data.frame`(table,i,j,value)
   #Mark the table as modified
   x$.hasChanged<-TRUE
