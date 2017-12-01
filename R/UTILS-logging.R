@@ -21,6 +21,12 @@ jms.enable.logging <- function() {
     assignInNamespace('log_message',log_message,ns='jms.classes')
   }
 }
+#' @export
+jms.disable.logging <- function() {
+  log_message <- function(msg,...,level) {return()}
+  assignInNamespace('log_message',log_message,ns='jms.classes')
+}
+
 layout.format <- function (format, datetime.fmt = "%Y-%m-%d %H:%M:%S")
 {
   where <- -1
