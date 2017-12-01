@@ -4,13 +4,13 @@
 #' @param e The error text
 #' @param errorid The ID of the error dialog box
 #' @param session The session object
-#' @keywords internal
+#' @export
 #' @rdname errors
 show_error <- function(e,errorid, session) {
   shinysky::showshinyalert(session, session$ns(errorid), paste0("ERROR: ",e), styleclass = "danger")
 }
 
-#' @keywords internal
+#' @export
 #' @rdname errors
 hide_error <- function(errorid, session) {
   shinysky::hideshinyalert(session, session$ns(errorid))
@@ -21,21 +21,21 @@ hide_error <- function(errorid, session) {
 #' @param id The ID for the button
 #' @param label The label for the button
 #' @param ... Further tags to set on the button
-#' @keywords internal
+#' @export
 #' @rdname buttons
 normal_button <-function(id,label,...) {
   shiny::actionButton(id, label = label,...)
 }
 
 #' Create a push button with the delete icon
-#' @keywords internal
+#' @export
 #' @rdname buttons
 delete_button <-function(id,...) {
   shiny::tags$button(id = id, type = "button", class = "btn action-button btn-danger", icon('trash-o'), '',...)
 }
 
 #' Create a push button with the info icon
-#' @keywords internal
+#' @export
 #' @rdname buttons
 info_button <- function(id,...) {
   shiny::tags$button(id=id,type="button", class = "btn btn-default",'i',style="font-weight:bold;font-family: \"Times New Roman\", Times, serif;", ...)
@@ -44,7 +44,7 @@ info_button <- function(id,...) {
 #' Create a checkbox input with support for extra tags
 #' @param id The ID for the input
 #' @param ... Further tags to set on the input
-#' @keywords internal
+#' @export
 checkbox <- function(id,...,checked=TRUE) {
   if(checked)
     shiny::tags$input(id=id,type="checkbox",checked="checked",...)
@@ -54,7 +54,7 @@ checkbox <- function(id,...,checked=TRUE) {
 
 #' Make a horizontal rule
 #' @param css colour
-#' @keywords internal
+#' @export
 hr <- function(col,...) {
   shiny::tags$hr(style=paste0("width: 30px; height: auto; border: 1px solid ",col,"; margin: 0; margin-top: 8px; padding:0; vertical-align: middle"))
 }
@@ -178,7 +178,7 @@ enableSelect <- function(id,session) session$sendCustomMessage(type="jsCode",lis
 #' check function indicates the data hasn't changed, but the cached data needs updating anyway)
 #'
 #' @param r The reactive
-#' @keywords internal
+#' @export
 update_reactive <- function(r) {
   attr(r,'observable')$.updateValue()
   attr(r,'observable')$.dependents$invalidate()

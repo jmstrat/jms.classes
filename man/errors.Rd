@@ -19,4 +19,3 @@ hide_error(errorid, session)
 \description{
 This function is called to display an error to the user.
 }
-\keyword{internal}

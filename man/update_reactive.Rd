@@ -14,4 +14,3 @@ update_reactive(r)
 Force a reactive value to update (useful for \code{\link[shiny]{reactivePoll}} if the
 check function indicates the data hasn't changed, but the cached data needs updating anyway)
 }
-\keyword{internal}

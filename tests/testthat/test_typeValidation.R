@@ -57,27 +57,27 @@ test_that("list", {
   expect_error(assert_list(NULL))
 })
 
-test_that("date", {
-  #is.Date
-  #assert_date
-})
-
-test_that("file", {
-  #assert_file
-})
-
-test_that("directory", {
-  #assert_directory
-})
-
-test_that("logical", {
-  #assert_logical
-})
-
-test_that("colour", {
-  #assert_colour
-})
-
-test_that("function", {
-  #assert_function
-})
+# test_that("date", {
+#   #is.Date
+#   #assert_date
+# })
+#
+# test_that("file", {
+#   #assert_file
+# })
+#
+# test_that("directory", {
+#   #assert_directory
+# })
+#
+# test_that("logical", {
+#   #assert_logical
+# })
+#
+# test_that("colour", {
+#   #assert_colour
+# })
+#
+# test_that("function", {
+#   #assert_function
+# })

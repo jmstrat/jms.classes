@@ -14,4 +14,3 @@ checkbox(id, ..., checked = TRUE)
 \description{
 Create a checkbox input with support for extra tags
 }
-\keyword{internal}

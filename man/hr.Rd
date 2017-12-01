@@ -12,4 +12,3 @@ hr(col, ...)
 \description{
 Make a horizontal rule
 }
-\keyword{internal}

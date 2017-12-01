@@ -26,4 +26,3 @@ Create a push button with the delete icon
 
 Create a push button with the info icon
 }
-\keyword{internal}
