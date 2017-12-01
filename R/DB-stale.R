@@ -1,9 +1,8 @@
 #' @export
 is.stale.jms.database <- function(x) {
   path=paste0(x$.path,'/database')
-  mt=file.info(path)$mtime
-  if(is.na(mt)) mt=.POSIXct(0)
-  if(x$.modTime<mt) {
+  hash=digest::digest(path, algo = "sha1", file = T)
+  if(x$.hash!=hash) {
     log.info('Database is stale')
     return(T)
   } else {

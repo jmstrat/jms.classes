@@ -11,9 +11,8 @@ jms.database <- function(path=NULL) {
   self$.path=path
   self$.table_names=c()
   self$.lockfile=paste0(self$.path,'/lock.lock')
-  self$.modTime=.POSIXct(0)
+  self$.hash=''
   self$.tableHashes=c()
-  self$.tablePaths=c()
   self$.hasChanged=TRUE
   as.jms.database(self)
 }
