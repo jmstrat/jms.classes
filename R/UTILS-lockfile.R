@@ -14,25 +14,29 @@ make_lockfile <- function(path,timeout=10, unique=FALSE) {
   counter=lockfile_counter[[pname]]
   if(length(counter) && counter>0) {
     log.debug('lock counter: %s=%s',pname,counter)
-    lockfile_counter[[pname]]=counter+1
-    if(!unique) return(invisible(TRUE))
+    if(!unique) {
+      lockfile_counter[[pname]]=counter+1
+      return(invisible(TRUE))
+    }
   } else {
     counter=0
     lockfile_counter[[pname]]=0
   }
   log.debug('lock counter: %s=%s',pname,counter)
   warning_shown=FALSE
-  for(i in 1:timeout) {
-    res=dir.create(path,showWarnings=FALSE)
-    if(res==TRUE) {
-      lockfile_counter[[pname]]=counter+1
-      return(invisible(TRUE))
+  if(timeout>0) {
+    for(i in 1:timeout) {
+      res=dir.create(path,showWarnings=FALSE)
+      if(res==TRUE) {
+        lockfile_counter[[pname]]=counter+1
+        return(invisible(TRUE))
+      }
+      if(! warning_shown) {
+        warning("Unable to obtain lock, retrying for ",timeout, " seconds.",immediate. = TRUE)
+        warning_shown=TRUE
+      }
+      Sys.sleep(1)
     }
-    if(! warning_shown) {
-      warning("Unable to obtain lock, retrying for ",timeout, " seconds.",immediate. = TRUE)
-      warning_shown=TRUE
-    }
-    Sys.sleep(1)
   }
   stop("Timeout whilst waiting for lock")
 }
@@ -49,8 +53,10 @@ remove_lockfile <- function(path) {
   if(counter>1) {
     lockfile_counter[[pname]]=counter-1
     return(invisible(TRUE))
+  } else if(counter==1) {
+    lockfile_counter[[pname]]=0
+    unlink(sprintf(path),recursive=TRUE)
+    return(invisible(TRUE))
   }
-  lockfile_counter[[pname]]=0
-  unlink(sprintf(path),recursive=TRUE)
-  invisible(TRUE)
+  stop('Unable to release lock: lock was never obtained')
 }
