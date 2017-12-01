@@ -14,7 +14,17 @@ test_that("Adding and getting a table", {
   expect_equal(table2,table)
 })
 
-test_that("Saving & loading", {
+test_that("Saving & loading tables", {
+  path<-tempfile()
+  table<-jms.database.table(testcolumn=c(1,2,3),testcolumn2=c('test','test','test'))
+  expect_error(dg<-saveTable(table,path),NA)
+  expect_error(ll<-loadTable(path),NA)
+  expect_equal(ll$table,table)
+  expect_equal(ll$hash,dg)
+  unlink(path)
+})
+
+test_that("Saving & loading using [[]]", {
   existing_temp_files=list.files(tempdir(), full.names = T)
   expect_error(db<-jms.database(tempdir()),NA)
   #If the database doesn't exist we should still be able to call load (i.e. a new database)
@@ -33,14 +43,14 @@ test_that("Saving & loading", {
   if(length(created_files)) unlink(created_files)
 })
 
-test_that("Saving & loading table classes", {
+test_that("Saving & loading tables with different classes", {
   existing_temp_files=list.files(tempdir(), full.names = T)
   expect_error(db<-jms.database(tempdir()),NA)
   table<-jms.database.table(testcolumn=c(1,2,3),testcolumn2=c('test','test','test'))
   expect_error(db[['test']]<-table,NA)
 
   tableid<-jms.database.table.id(testcolumnid=c(1,2,3),testcolumnid2=c('test','test','test'))
-  expect_error(db[['testid']]<-table,NA)
+  expect_error(db[['testid']]<-tableid,NA)
 
   #Now we load a fresh database
   expect_error(db2<-jms.database(tempdir()),NA)
