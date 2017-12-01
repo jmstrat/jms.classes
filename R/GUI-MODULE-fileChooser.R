@@ -51,7 +51,7 @@ fileChooser <- function (input, output, session, state, filetypes=NULL, updateFr
       dir <- list(dir = dir$path, root = dir$root)
     }
     dir$dir <- do.call(file.path, as.list(dir$dir))
-    newDir <<- do.call("fileGet", dir)
+    newDir <- do.call("fileGet", dir)
     newDir$files<-newDir$files[!is.na(newDir$files[,'mtime']),] ### WORKAROUND FOR BUG ###
     if (!identical(currentDir, newDir)) {
       currentDir <- newDir
