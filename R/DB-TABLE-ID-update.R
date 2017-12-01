@@ -22,7 +22,7 @@
     id=i
     i=which(ids%in%id)
   }
-  value=c(id,value)
+  value=append(list(id=id),value,after=1)
   if(!length(i)) stop('Invalid ID supplied')
   log.debug('i=[%s],j=[%s],value=[%s]',paste0(i,collapse=','),paste0(j,collapse=','),paste0(value,collapse=','))
   `[<-.jms.database.table`(x,i,j,value)
