@@ -15,7 +15,7 @@
   # Check we still have the x column after subsetting and whether its number has changed
   if('x_column'%in%nOldAtts) {
     if(is.numeric(j))
-      attributes(r)[['x_column']]=which(sort(j)%in%oldAtts[['x_column']])
+      attributes(r)[['x_column']]=which(j%in%oldAtts[['x_column']]) #This used to be sort(j) -- not sure why...
     else if(is.logical(j))
       attributes(r)[['x_column']]=which((1:ncol(x))[j]%in%oldAtts$x_column)
     else
@@ -24,7 +24,7 @@
   # Check which y columns we still have and get their new numbers
   if('y_column'%in%nOldAtts) {
     if(is.numeric(j))
-      attributes(r)[['y_column']]=which(sort(j)%in%oldAtts[['y_column']])
+      attributes(r)[['y_column']]=which(j%in%oldAtts[['y_column']]) #This used to be sort(j) -- not sure why...
     else if(is.logical(j))
       attributes(r)[['y_column']]=which((1:ncol(x))[j]%in%oldAtts$y_column)
     else
@@ -33,7 +33,7 @@
   # Check which y2 columns we still have and get their new numbers
   if('y2_column'%in%nOldAtts) {
     if(is.numeric(j))
-      attributes(r)[['y2_column']]=which(sort(j)%in%oldAtts[['y2_column']])
+      attributes(r)[['y2_column']]=which(j%in%oldAtts[['y2_column']])  #This used to be sort(j) -- not sure why...
     else if(is.logical(j))
       attributes(r)[['y2_column']]=which((1:ncol(x))[j]%in%oldAtts$y2_column)
     else

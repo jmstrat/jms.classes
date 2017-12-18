@@ -1,7 +1,7 @@
-#' @export
-plot.jms.database <- function(x,...) {
-  path=x$.path
-  entries=paste0(length(x$.table_names),' Tables')
+plotDatabase <- function(database) {
+  load(database)
+  path=database$.path
+  entries=paste0(length(database$.table_names),' Tables')
   op <- par(mar = rep(0, 4),oma=rep(0, 4))
   plot.new()
   plot.window(c(0,1), c(0,1), xaxs = "i", yaxs = "i")

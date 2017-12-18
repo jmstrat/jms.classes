@@ -89,7 +89,7 @@ test_that("Removing then adding a row", {
 
 test_that("Invalid IDs", {
   table<-jms.database.table.id(testcolumn=c(1,2,3),testcolumn2=c('test1','test2','test3'))
-  expect_true(all(is.na(table[4])))
+  expect_error(table[4])
   expect_error(table[-4])
   expect_error(table[-1]<-'anything')
 })

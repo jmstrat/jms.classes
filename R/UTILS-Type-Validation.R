@@ -120,7 +120,12 @@ assert_date <- function(value,error_msg='Value must be a Date') {
 #' @param error_msg The error message if the file does not exist
 #' @return The file, error if it doesn't exist
 #' @export
-assert_file <- function(value,error_msg='Value must be a file') {
+assert_file <- function(value,error_msg='Value must be a file',errorifempty=FALSE) {
+  value=assert_character(value,error_msg)
+  if(!length(value)) {
+    if(errorifempty) stop(error_msg,call.=F)
+    return(character())
+  }
   if(file.exists(value)) return(value)
   stop(error_msg,call.=F)
 }

@@ -6,8 +6,8 @@
 #' @examples
 #' combine(objects)
 #' @export
-combine <- function(objects,interpolate) UseMethod("combine")
+combine <- function(objects,interpolate,maxPoints) UseMethod("combine")
 #' @export
-combine.default <- function(objects,interpolate) {
+combine.default <- function(objects,interpolate,maxPoints) {
   stop("Unable to combine data for this class")
 }

@@ -4,6 +4,8 @@
 \alias{iplot.jms.data.object}
 \alias{iplot}
 \alias{iplot.default}
+\alias{iplotOutput}
+\alias{renderIPlot}
 \title{Make an interactive plot for a data object}
 \usage{
 \method{iplot}{jms.data.object}(..., offset = 1/sqrt(length(ycol(data)) - 1),
@@ -14,6 +16,10 @@
 iplot(...)
 
 \method{iplot}{default}(...)
+
+iplotOutput(id)
+
+renderIPlot(expr, env = parent.frame(), quoted = FALSE)
 }
 \arguments{
 \item{...}{further \link{graphical parameters} as in \code{\link{par}}.

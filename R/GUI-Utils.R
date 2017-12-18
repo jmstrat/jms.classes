@@ -8,6 +8,7 @@
 #' @rdname errors
 show_error <- function(e,errorid, session) {
   shinysky::showshinyalert(session, session$ns(errorid), paste0("ERROR: ",e), styleclass = "danger")
+  log.error(e)
 }
 
 #' @export

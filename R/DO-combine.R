@@ -4,7 +4,7 @@ combine.jms.data.object <- function(objects,interpolate=FALSE) {
 }
 
 #' @export
-combine.list <- function(objects,interpolate=FALSE) {
+combine.list <- function(objects,interpolate=FALSE,maxPoints=Inf) {
   if(length(objects)==1) return(objects[[1]])
   #Now we have to read each object as a subsequent column for a data frame
   len_f=length(objects)
@@ -20,6 +20,7 @@ combine.list <- function(objects,interpolate=FALSE) {
       x_all=union(x_all,x)
   }
   x_all=sort(x_all)
+  x_sampled=if(length(x_all)>maxPoints) sample(x_all,maxPoints) else x_all
   #Build the y columns
   columns=c()
   yNA=rep_len(NA,length(x_all))
@@ -32,12 +33,12 @@ combine.list <- function(objects,interpolate=FALSE) {
       y_column[whichY]=objects[[f]][,i]
       if(interpolate) {
         y_columnApprox=approxfun(x_all,y_column,yleft=NA,yright=NA)
-        y_column=y_columnApprox(x_all)
+        y_column=y_columnApprox(x_sampled)
       }
       columns[[length(columns)+1]]=y_column
     }
   }
-  df=jms.data.object(x_all,columns)
+  df=jms.data.object(x_sampled,columns)
   #Add default attributes
   xlab(df)<-xlab(objects[[1]])
   ylab(df)<-ylab(objects[[1]])

@@ -2,7 +2,7 @@
 save.jms.database.table <- function(x,...) {
   if(inherits(parent.env(x),'jms.database')) {
     log.info('Preparing to save table')
-    parent.env(x)[[x$.name]]<-x
+    parent.env(x)$.addTable(x$.name,x)
   }
   return(x)
 }
@@ -10,7 +10,7 @@ save.jms.database.table <- function(x,...) {
 load.jms.database.table <- function(x,...) {
   if(inherits(parent.env(x),'jms.database')) {
     log.info('Preparing to load table')
-    parent.env(x)[[x$.name]]
+    parent.env(x)$.getTable(x$.name)
   } else {
     x
   }

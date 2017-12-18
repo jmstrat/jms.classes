@@ -21,15 +21,14 @@
     l=length(tovalidate)
     validate=as.data.frame(matrix(value,nrow=length(value)/l,ncol=l),stringsAsFactors = FALSE)
     log.debug('New values matrix: %s',toString(validate))
-    #Now we need to split a (potentially) 2D matrix into 1D vectors
-    #validatelist=split(validate, rep(1:ncol(validate), each = nrow(validate)))
+    if(nrow(validate)==1) validate=unlist(validate,FALSE)
     validatelist=as.list(validate)
     names(validatelist)<-tovalidate
     log.debug('Argument for validator: %s',paste(names(validatelist),validatelist,sep='=',collapse=','))
     value<-do.call(validator,as.list(validatelist))[j]
     log.debug('Values returned: [%s]',paste0(value,collapse=','))
     #Now we need to restore the original dimensions
-    value<-as.data.frame(value,stringsAsFactors=FALSE)
+    #value<-as.data.frame(value,stringsAsFactors=FALSE)
     log.info('Validated update {[%s],[%s]} with {%s}',paste0(i,collapse=','),paste0(j,collapse=','),paste0(value,collapse=','))
   }
   #Replace invalid values with NA

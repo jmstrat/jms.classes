@@ -39,7 +39,7 @@ checkbox_legend <- function(input, output, session,rowNames,colours) {
         column=3
       )
     )
-
+    if(!length(rowNames())) return(data.frame())
     isolate({ids_value$ids=rep_len(TRUE,length(rowNames()))})
     addInputsToData(data.frame(id=rowNames()),inputs,session)$data
   }, spacing = c("xs"), width = "100%", align = 'rcl',

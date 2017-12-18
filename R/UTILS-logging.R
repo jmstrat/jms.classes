@@ -8,10 +8,15 @@ jms.enable.logging <- function() {
     assignInNamespace('flog.namespace',f,ns='futile.logger')
     layout<-futile.logger::layout.format("~l ~t [~n: ~f] ~m")
     environment(layout)$where=-4
-    futile.logger::flog.layout(layout, name='jms.logging')
-    futile.logger::flog.threshold(futile.logger::DEBUG, name = 'jms.logging')
+    futile.logger::flog.layout(layout, name='jms-logging')
     log_message <- function(msg,...,level) {
-      futile.logger:::.log_level(msg, ..., level=level, name = 'jms.logging',capture=FALSE)
+      ns<-get0('.jms.logger',envir=-3)
+      if(is.null(ns)) {
+        ns <- 'jms-logging'
+      } else {
+        ns <- paste('jms-logging',ns,sep='.')
+      }
+      futile.logger:::.log_level(msg, ..., level=level, name = ns,capture=FALSE)
     }
     assignInNamespace('log_message',log_message,ns='jms.classes')
   } else {
@@ -22,45 +27,36 @@ jms.enable.logging <- function() {
   }
 }
 #' @export
+jms.logging.setnamespace <- function(name) {
+  assign('.jms.logger',name,parent.frame())
+}
+#' @export
+jms.logging.threshold <- function(threshold,ns=NULL) {
+  if(is.null(ns)) {
+    ns <- 'jms-logging'
+  } else {
+    ns <- paste('jms-logging',ns,sep='.')
+  }
+  futile.logger::flog.threshold(get(threshold,envir=environment(futile.logger::flog.threshold)), name = ns)
+  return(invisible())
+}
+#' @export
 jms.disable.logging <- function() {
   log_message <- function(msg,...,level) {return()}
   assignInNamespace('log_message',log_message,ns='jms.classes')
 }
 
-layout.format <- function (format, datetime.fmt = "%Y-%m-%d %H:%M:%S")
-{
-  where <- -1
-  function(level, msg, ...) {
-    if (!is.null(substitute(...)))
-      msg <- sprintf(msg, ...)
-    the.level <- names(level)
-    the.time <- format(Sys.time(), datetime.fmt)
-    the.namespace <- ifelse(flog.namespace() == "futile.logger",
-                            "ROOT", flog.namespace())
-    the.function <- tryCatch(deparse(sys.call(where)[[1]]),
-                             error = function(e) "(shell)")
-    the.function <- ifelse(length(grep("flog\\.", the.function)) ==
-                             0, the.function, "(shell)")
-    message <- gsub("~l", the.level, format, fixed = TRUE)
-    message <- gsub("~t", the.time, message, fixed = TRUE)
-    message <- gsub("~n", the.namespace, message, fixed = TRUE)
-    message <- gsub("~f", the.function, message, fixed = TRUE)
-    message <- gsub("~m", msg, message, fixed = TRUE)
-    sprintf("%s\n", message)
-  }
-}
-
 log_message <- function(msg,...,level) {return()}
 
-#' @export
+#' @export log.trace
 log.trace <- function(msg,...)  log_message(msg,...,level=structure(9L, .Names = "TRACE"))
-#' @export
+#' @export log.debug
 log.debug <- function(msg,...)  log_message(msg,...,level=structure(8L, .Names = "DEBUG"))
-#' @export
+#' @export log.info
 log.info <-  function(msg,...)  log_message(msg,...,level=structure(6L, .Names = "INFO"))
-#' @export
+#' @export log.warn
 log.warn <-  function(msg,...)  log_message(msg,...,level=structure(4L, .Names = "WARN"))
-#' @export
+#' @export log.error
 log.error <- function(msg,...)  log_message(msg,...,level=structure(2L, .Names = "ERROR"))
-#' @export
+#' @export log.fatal
 log.fatal <- function(msg,...)  log_message(msg,...,level=structure(1L, .Names = "FATAL"))
