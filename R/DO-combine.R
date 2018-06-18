@@ -5,6 +5,7 @@ combine.jms.data.object <- function(objects,interpolate=FALSE) {
 
 #' @export
 combine.list <- function(objects,interpolate=FALSE,maxPoints=Inf) {
+  if(!length(objects)) stop('No objects to combine')
   if(length(objects)==1) return(objects[[1]])
   #Now we have to read each object as a subsequent column for a data frame
   len_f=length(objects)
@@ -30,7 +31,7 @@ combine.list <- function(objects,interpolate=FALSE,maxPoints=Inf) {
     whichY=x_all%in%x_column
     for(i in ycol(objects[[f]])) {
       y_column=yNA
-      y_column[whichY]=objects[[f]][,i]
+      y_column[whichY]=objects[[f]][!is.na(objects[[f]][,i]),i]
       if(interpolate) {
         y_columnApprox=approxfun(x_all,y_column,yleft=NA,yright=NA)
         y_column=y_columnApprox(x_sampled)
