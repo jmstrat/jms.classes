@@ -88,7 +88,7 @@ as.jms.reactive.database.jms.database <- function(x,reactiveSession=NULL,reactiv
   #Start polling to check for changes
   shiny::observe({
     if(!is.null(x$.path)) rv[[name]]<-x$.getHashForTable(name)
-    invalidateLater(ruf(), rs)
+    shiny::invalidateLater(ruf(), rs)
   })
   shiny::reactive({
     rv[[name]] #Take reactive dependency (i.e. re-evaluate whenever the hash changes)
