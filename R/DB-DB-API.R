@@ -112,7 +112,9 @@ print.jms.database <- function (x,...) {
 
 #' @export
 View.jms.database <- function(x,...) {
-  tables<-mget(x$.table_names,envir=x)
-  View(lapply(tables,as.data.frame),...,title=paste(deparse(substitute(x))[1]))
+  tabNames <- x$.table_names
+  tables<-lapply(tabNames, function(tab) as.data.frame(x$.getTable(tab)))
+  names(tables)<-tabNames
+  View(tables,...,title=paste(deparse(substitute(x))[1]))
 }
 
