@@ -6,11 +6,18 @@
 #' @rdname arithmetic.jms
 #' @export
 `+.jms.data.object` <- function(e1, e2){
-  if(length(e2)>1) {
-    if(length(e2)!=length(ycol(e1))) {
+  le2 = length(e2)
+  nr = nrow(e1)
+  ny=length(ycol(e1))
+
+  if(le2 == nr) {
+    # Standard vector addition
+    # Use defaults safely
+  } else if(le2>1 && ny>1) {
+    if(le2 != ny) {
       warning("Unsupported length for addition vector, using defaults -- do not expect sensible results!")
     } else {
-      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),length(ycol(e1)))
+      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
     }
   }
   e1[,ycol(e1)]<-.Primitive("+")(as.data.frame(e1)[,ycol(e1)],e2)
@@ -25,13 +32,23 @@
 #' @rdname arithmetic.jms
 #' @export
 `-.jms.data.object` <- function(e1, e2){
-  if(length(e2)>1) {
-    if(length(e2)!=length(ycol(e1))) {
+  le2 = length(e2)
+  nr = nrow(e1)
+  ny=length(ycol(e1))
+
+  if(le2 == nr) {
+    # Standard vector subtraction
+    # Use defaults safely
+  } else if(le2>1 && ny>1) {
+    if(le2 != ny) {
+      # Unknown intention -- fall back to defaults with warning
       warning("Unsupported length for subtraction vector, using defaults -- do not expect sensible results!")
     } else {
-      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),length(ycol(e1)))
+      # Subtract a different value from each column
+      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
     }
   }
+  # Never change the x column
   e1[,ycol(e1)]<-.Primitive("-")(as.data.frame(e1)[,ycol(e1)],e2)
   e1
 }
@@ -44,11 +61,18 @@
 #' @rdname arithmetic.jms
 #' @export
 `*.jms.data.object` <- function(e1, e2){
-  if(length(e2)>1) {
-    if(length(e2)!=length(ycol(e1))) {
+  le2 = length(e2)
+  nr = nrow(e1)
+  ny=length(ycol(e1))
+
+  if(le2 == nr) {
+    # Standard vector multiplication
+    # Use defaults safely
+  } else if(le2>1 && ny>1) {
+    if(le2 != ny) {
       warning("Unsupported length for multiplication vector, using defaults -- do not expect sensible results!")
     } else {
-      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),length(ycol(e1)))
+      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
     }
   }
   e1[,ycol(e1)]<-.Primitive("*")(as.data.frame(e1)[,ycol(e1)],e2)
@@ -63,11 +87,18 @@
 #' @rdname arithmetic.jms
 #' @export
 `/.jms.data.object` <- function(e1, e2){
-  if(length(e2)>1) {
-    if(length(e2)!=length(ycol(e1))) {
+  le2 = length(e2)
+  nr = nrow(e1)
+  ny=length(ycol(e1))
+
+  if(le2 == nr) {
+    # Standard vector division
+    # Use defaults safely
+  } else if(le2>1 && ny>1) {
+    if(le2 != ny) {
       warning("Unsupported length for division vector, using defaults -- do not expect sensible results!")
     } else {
-      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),length(ycol(e1)))
+      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
     }
   }
   e1[,ycol(e1)]<-.Primitive("/")(as.data.frame(e1)[,ycol(e1)],e2)
