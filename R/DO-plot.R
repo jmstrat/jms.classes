@@ -6,7 +6,17 @@
 #' plot(data)
 #' @export
 plot.jms.data.object <- function(x,offset=1/sqrt(length(ycol(x))-1),xlim=NULL,ylim=NULL,y2lim=NULL,xlab=xlab_(x),ylab=ylab_(x),y2lab=y2lab_(x),axes=c(1,2),...) {
-  if(length(ycol(x))>1) x=x+offset*seq(0,length(ycol(x))-1,1)*range(x)[[2]]
+  ly=length(ycol(x))
+  lo=length(offset)
+  if(ly>1)
+    if(lo==ly)
+      x=x+offset*range(x)[[2]]
+    else if(lo==1)
+      x=x+offset*seq(0,length(ycol(x))-1,1)*range(x)[[2]]
+    else {
+      warning('Unsupported length for offset, using 1st value for all offsets')
+      x=x+offset[[1]]*seq(0,length(ycol(x))-1,1)*range(x)[[2]]
+    }
 
   if(any(is.null(xlim))) xlim=range(x[,xcol(x)][is.finite(x[,xcol(x)])])
   if(any(is.null(ylim))) ylim=grDevices::extendrange(r=range(x),0.04)
