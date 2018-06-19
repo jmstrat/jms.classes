@@ -170,7 +170,7 @@ assert_logical <- function(value,error_msg='Value must be logical') {
 #' @export
 assert_colour <- function(value,error_msg='Value must be a colour') {
   #Vectorized
-  iscol=sapply(value, function(X) {tryCatch(is.matrix(col2rgb(X)), error = function(e) FALSE)})
+  iscol=sapply(value, function(X) {tryCatch(is.matrix(grDevices::col2rgb(X)), error = function(e) FALSE)})
   if(all(iscol)) return(value)
   stop(error_msg,call.=F)
 }
