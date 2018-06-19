@@ -10,7 +10,7 @@ lockfile_counter = new.env()
 #' @rdname lockfile
 make_lockfile <- function(path,timeout=10, unique=FALSE) {
   if(is.na(path)) stop("Unable to obtain lock: Path is invalid")
-  pname=make.names(file.path(normalizePath(dirname(path),mustWork = FALSE),basename(path)))
+  pname=make.names(cannonicalPath(path))
   counter=lockfile_counter[[pname]]
   if(length(counter) && counter>0) {
     log.debug('lock counter: %s=%s',pname,counter)
@@ -45,7 +45,7 @@ make_lockfile <- function(path,timeout=10, unique=FALSE) {
 #' @rdname lockfile
 remove_lockfile <- function(path) {
   if(is.na(path)) stop("Unable to release lock: Path is invalid")
-  pname=make.names(file.path(normalizePath(dirname(path),mustWork = FALSE),basename(path)))
+  pname=make.names(cannonicalPath(path))
   counter=lockfile_counter[[pname]]
   log.debug('Using lock counter: %s',pname)
   if(!length(counter)) stop('Unable to release lock: lock was never obtained')
