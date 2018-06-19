@@ -33,7 +33,10 @@ load.jms <- function(path,func,ext=NULL,pattern=NULL, sort=FALSE,...) {
 #' @keywords internal
 load.file <- function(path,func,...) {
   if(!file.exists(path)) stop(path,' not found')
-  func(path,...)
+  data = func(path,...)
+  attr(data,'filepath')<-path
+  attr(data,'filename')<-basename(path)
+  data
 }
 
 #' Read every file in a directory
