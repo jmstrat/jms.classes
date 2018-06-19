@@ -60,7 +60,7 @@ create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame(),y2
 
   subsetFun <- function(x,...) {
     #Get the function call, and extract the class name from it (TODO: is there a better way???)
-    me=sub('^`\\[\\.(.*?)(\\.super)?`.*$','\\1',deparse(sys.call()))
+    me=sub('^`\\[\\.([^\\(`]*?)(\\.super)?`.*$','\\1',deparse(sys.call(), nlines=1))
     #Save the current class
     myclass=class(x)
     i=which(myclass==me)
@@ -75,6 +75,8 @@ create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame(),y2
     return(r)
   }
   subsetName=paste0('[.',dataObjName)
+  subsetBaseName = subsetName
   if(exists(subsetName,envir=envir)) subsetName=paste0(subsetName,'.super')
   assign(subsetName,subsetFun,envir=envir)
+  registerS3method("[", dataObjName, subsetBaseName, envir=envir)
 }
