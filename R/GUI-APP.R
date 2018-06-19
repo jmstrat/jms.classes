@@ -26,7 +26,7 @@ server <- function(input, output, session) {
   #   list(ui=cell_database_diplayUI,server=cell_database_diplay,title='Cells',databases=c('echem_cell','echem_film')),
   #   list(ui=film_database_diplayUI,server=film_database_diplay,title='Films',databases=c('echem_film','echem_capacity'))
   # )
-  databasecomponents<-reactive({
+  databasecomponents<-shiny::reactive({
     comps=list()
     i=0
     for(row in 1:nrow(pages_table())) {
@@ -52,7 +52,7 @@ server <- function(input, output, session) {
   # list(
   #   list(ui=plot_echemUI,server=plot_echem,title='Echem',tokens=c('cells','films'))
   # )
-  plotcomponents<-reactive({
+  plotcomponents<-shiny::reactive({
     comps=list()
     i=0
     for(row in 1:nrow(plotcomponents_table())) {
@@ -106,7 +106,7 @@ server <- function(input, output, session) {
   loadedDBTables <- new.env(parent = emptyenv())
   loadedModules <- new.env(parent = emptyenv())
   #Call the server functions for each tab
-  plotList <- reactive({
+  plotList <- shiny::reactive({
     out<-list()
     len<-length(databasecomponents())
     #Loop over enabled modules
@@ -125,7 +125,7 @@ server <- function(input, output, session) {
         #Load modules / get already loaded
         if(!mod$title %in% names(loadedModules)) {
           log.debug('GUI: loading %s module',mod$title)
-          loadedModules[[mod$title]]<-do.call(callModule,args)
+          loadedModules[[mod$title]]<-do.call(shiny::callModule,args)
         }
         out[[i]] <- loadedModules[[mod$title]]
       }
@@ -134,14 +134,14 @@ server <- function(input, output, session) {
   })
 
   #Switch to plot tab on "plot" within page
-  observe({
+  shiny::observe({
     buttons<-lapply(plotList(),function(x) x$plotbutton)
-    observe(for(b in buttons) if(length(b()) && b()>0) updateNavbarPage(session, 'mainTabs', selected = 'Plot'))
+    shiny::observe(for(b in buttons) if(length(b()) && b()>0) shiny::updateNavbarPage(session, 'mainTabs', selected = 'Plot'))
   })
 
   #Load the plotting interface
   log.debug('GUI: loading plotting module')
-  callModule(gui_plotting,'plottab',plotcomponents,plotList)
+  shiny::callModule(gui_plotting,'plottab',plotcomponents,plotList)
 }
 
 
