@@ -2,7 +2,7 @@
 export.jms.data.object <- function(x,path) {
   atts=attributes(x)
   attNames=names(atts)
-  attNames=attNames[!attNames %in% c("names","row.names","class",'y_type','x_type','x_column','y_column')]
+  attNames=attNames[!attNames %in% c("names","row.names","class",'y_type','x_type','x_column','y_column', 'y2_type','y2_column')]
   f <- file(path, "w")
   for(att in attNames) {
     if(inherits(atts[[att]],'data.frame')) {
