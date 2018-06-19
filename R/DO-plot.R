@@ -2,6 +2,7 @@
 #'
 #' This function plots a data object
 #' @param x The object to plot
+#' @param offset For 2D data objects, the fraction of the yrange to offset the data
 #' @examples
 #' plot(data)
 #' @export

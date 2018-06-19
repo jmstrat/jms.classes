@@ -4,7 +4,8 @@
 \alias{assert_character}
 \title{Check whether or not a value is or can be coerced to a character string}
 \usage{
-assert_character(value, error_msg = "Value must be a character string")
+assert_character(value, error_msg = "Value must be a character string",
+  allow_na = FALSE)
 }
 \arguments{
 \item{value}{The value to test}

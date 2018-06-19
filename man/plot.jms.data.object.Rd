@@ -10,6 +10,8 @@
 }
 \arguments{
 \item{x}{The object to plot}
+
+\item{offset}{For 2D data objects, the fraction of the yrange to offset the data}
 }
 \description{
 This function plots a data object

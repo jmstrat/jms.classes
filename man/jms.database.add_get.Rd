@@ -41,7 +41,9 @@ Database or table object
 These functions are used to add or get a \code{\link{jms.database.table}} to or from a database
 }
 \examples{
+\dontrun{
 database=jms.database(<path>)
 database[['mytable']]<-jms.database.table(...)
 table <- database[['mytable']]
+}
 }

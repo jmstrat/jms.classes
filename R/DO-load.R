@@ -46,7 +46,7 @@ load.file <- function(path,func,...) {
 #' @param func The loader function
 #' @param ext The file extension to look for
 #' @param pattern The pattern to look for
-#' @param sort If TRUE then use a "natural" numerical sort (see \code{\link[Plotting.Utils]{list.files.sorted}}), else use the default alphabetical sort
+#' @param sort If TRUE then use a "natural" numerical sort (see \code{\link{list.files.sorted}}), else use the default alphabetical sort
 #' @details One of ext or pattern must be specified
 #' @return A list containing the data
 #' @examples

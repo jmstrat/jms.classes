@@ -16,7 +16,7 @@
 
 \item{pattern}{The pattern to look for}
 
-\item{sort}{If TRUE then use a "natural" numerical sort (see \code{\link[Plotting.Utils]{list.files.sorted}}), else use the default alphabetical sort}
+\item{sort}{If TRUE then use a "natural" numerical sort (see \code{\link{list.files.sorted}}), else use the default alphabetical sort}
 }
 \value{
 A list containing the data

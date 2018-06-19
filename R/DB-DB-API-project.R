@@ -1,7 +1,10 @@
 current_database <- new.env()
 
-#' Set or get the current project database
+#' Set or get the current project database.
 #'
+#' Set or get the current project database. This setting is persistent across sessions.
+#'
+#' @param db A \code{\link{jms.database}}
 #' @export
 #' @rdname project_database
 project_database <- function() {

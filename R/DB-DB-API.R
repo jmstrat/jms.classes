@@ -6,9 +6,11 @@
 #' @param value The table
 #' @return Database or table object
 #' @examples
+#'\dontrun{
 #' database=jms.database(<path>)
 #' database[['mytable']]<-jms.database.table(...)
 #' table <- database[['mytable']]
+#' }
 #' @export
 #' @rdname jms.database.add_get
 `[[<-.jms.database` <- function(x, name, value) {

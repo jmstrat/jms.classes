@@ -4,7 +4,7 @@
 \alias{lines.jms.data.object}
 \title{Draw lines for a data object}
 \usage{
-\method{lines}{jms.data.object}(x, col = par("col"), type = "l",
+\method{lines}{jms.data.object}(x, col = graphics::par("col"), type = "l",
   y2 = TRUE, ...)
 }
 \arguments{

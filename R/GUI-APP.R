@@ -1,12 +1,11 @@
 server <- function(input, output, session) {
   jms.logging.setnamespace('GUI')
-  #TODO: eventually need register_gui_page and register_gui_plot_component or something...
 
   config<-as.jms.reactive.database(database2reference(config_db),reactiveSession=session,reactiveUpdateFreq=4000)
   persistent_settings <- config[['persistent_settings']]
   #Load the tables as reactives:
 
-  #TEMP: the initialisation should be done elsewhere...
+  #TODO: the initialisation should be done elsewhere...
   pages_table <- tryCatch({
     config[['GUI_Pages']]
   }, error = function(e) {

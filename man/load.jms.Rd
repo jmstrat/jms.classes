@@ -8,7 +8,7 @@
   ...)
 }
 \arguments{
-\item{path}{The path to the file / directory}
+\item{path}{The path to the file / directory. If missing the contents of the clipboard are used.}
 
 \item{func}{The function to read the file}
 
@@ -16,7 +16,7 @@
 
 \item{pattern}{The pattern to look for}
 
-\item{sort}{If TRUE then use a "natural" numerical sort (see \code{\link[Plotting.Utils]{list.files.sorted}}), else use the default alphabetical sort}
+\item{sort}{If TRUE then use a "natural" numerical sort (see \code{\link{list.files.sorted}}), else use the default alphabetical sort}
 
 \item{...}{Additional parameters are passed to func}
 }
