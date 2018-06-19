@@ -62,11 +62,11 @@ assert_positive <- function(value,error_msg='Value must be a positive number') {
 #' @param error_msg The error message if the value is not positive
 #' @return The value if character, error otherwise
 #' @export
-assert_character <- function(value,error_msg='Value must be a character string') {
+assert_character <- function(value,error_msg='Value must be a character string',allow_na=FALSE) {
   if(any(is.null(value))) stop(error_msg,call.=F)
   if(is.character(value)) return(value)
   tryCatch({value=suppressWarnings(as.character(value))
-  if(any(is.na(value))) {
+  if(any(is.na(value)) && ! allow_na) {
     stop(error_msg,call.=F)
   }} , error = function(e) {
     stop(error_msg,call.=F)
@@ -121,12 +121,18 @@ assert_date <- function(value,error_msg='Value must be a Date') {
 #' @return The file, error if it doesn't exist
 #' @export
 assert_file <- function(value,error_msg='Value must be a file',errorifempty=FALSE) {
-  value=assert_character(value,error_msg)
+  value=assert_character(value,error_msg,allow_na=TRUE)
   if(!length(value)) {
     if(errorifempty) stop(error_msg,call.=F)
     return(character())
   }
-  if(file.exists(value)) return(value)
+  nas=is.na(value)
+  exists <- sapply(value[!nas], file.exists)
+  if(all(exists)) {
+    value[!nas]<-cannonicalPath(value[!nas])
+    return(value)
+  }
+  for(file in value[!exists]) warning(file,' is not a valid file path',.call=FALSE)
   stop(error_msg,call.=F)
 }
 
