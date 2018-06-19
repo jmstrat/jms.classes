@@ -28,10 +28,10 @@ basicInteractivePlotUI <- function(id) {
 #' @export
 basicInteractivePlot <- function(input,output,session,plotFunction,...) {
   hide_error('error',session)
-  plot_range <- reactiveValues(x = NULL, y = NULL)
-  output$plot <- renderPlot({
+  plot_range <- shiny::reactiveValues(x = NULL, y = NULL)
+  output$plot <- shiny::renderPlot({
     tryCatch({
-      par(mar=c(3,4.1,0.5,2.1))
+      graphics::par(mar=c(3,4.1,0.5,2.1))
       xlim=plot_range$x
       ylim=plot_range$y
       plotFunction(...,xlim=xlim,ylim=ylim)
@@ -40,11 +40,11 @@ basicInteractivePlot <- function(input,output,session,plotFunction,...) {
     })
   })
   # zoom to the brush bounds; double click, reset the zoom.
-  observeEvent(input$dblclick,{
+  shiny::observeEvent(input$dblclick,{
     plot_range$x<-NULL
     plot_range$y<-NULL
   })
-  observe({
+  shiny::observe({
     brush <- input$brush
     if (!is.null(brush)) {
       plot_range$x <- c(brush$xmin, brush$xmax)

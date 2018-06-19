@@ -32,7 +32,7 @@ normal_button <-function(id,label,...) {
 #' @export
 #' @rdname buttons
 delete_button <-function(id,...) {
-  shiny::tags$button(id = id, type = "button", class = "btn action-button btn-danger", icon('trash-o'), '',...)
+  shiny::tags$button(id = id, type = "button", class = "btn action-button btn-danger", shiny::icon('trash-o'), '',...)
 }
 
 #' Create a push button with the info icon

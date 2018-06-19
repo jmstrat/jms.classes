@@ -17,7 +17,7 @@
 #' @rdname fileChooser
 fileChooser <- function (input, output, session, state, filetypes=NULL, updateFreq = 2000) {
   ###Modified to save working directory
-  working_path <- reactiveValues(path = NULL)
+  working_path <- shiny::reactiveValues(path = NULL)
   wp<- function() {return(shiny::isolate(working_path$path))}
   path<-shiny::reactive({
     out=input$button
@@ -30,7 +30,7 @@ fileChooser <- function (input, output, session, state, filetypes=NULL, updateFr
     }
   })
 
-  observe({
+  shiny::observe({
     s=state()
     if(s==0) {
       enableInput("button",session)
@@ -58,7 +58,7 @@ fileChooser <- function (input, output, session, state, filetypes=NULL, updateFr
       session$sendCustomMessage("shinyFiles", list(id = session$ns('button'), dir = newDir)) ###add ns
     }
     state=input$`button-state`
-    if(!is.null(state)&&state=='open') invalidateLater(updateFreq, session) ### CHANGED THIS TO ONLY RUN IF OPEN
+    if(!is.null(state)&&state=='open') shiny::invalidateLater(updateFreq, session) ### CHANGED THIS TO ONLY RUN IF OPEN
   })
   return(path)
 }

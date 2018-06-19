@@ -21,8 +21,8 @@ checkbox_legendUI <- function(id,header='Legend') {
 #' @rdname checkbox_legend
 #' @export
 checkbox_legend <- function(input, output, session,rowNames,colours) {
-  ids_value=reactiveValues(ids=c())
-  output$table<- renderTable({
+  ids_value=shiny::reactiveValues(ids=c())
+  output$table<- shiny::renderTable({
     inputs=list(
       list(
         name='checkbox',
@@ -34,23 +34,23 @@ checkbox_legend <- function(input, output, session,rowNames,colours) {
       list(
         name='hr',
         id='',
-        ids=rgb(t(col2rgb(colours())/255)),
+        ids=grDevices::rgb(t(grDevices::col2rgb(colours())/255)),
         template=hr,
         column=3
       )
     )
     if(!length(rowNames())) return(data.frame())
-    isolate({ids_value$ids=rep_len(TRUE,length(rowNames()))})
+    shiny::isolate({ids_value$ids=rep_len(TRUE,length(rowNames()))})
     addInputsToData(data.frame(id=rowNames()),inputs,session)$data
   }, spacing = c("xs"), width = "100%", align = 'rcl',
   rownames = FALSE, colnames = FALSE, sanitize.text.function = function(x) x)
 
-  observeEvent(input$checkbox,{
+  shiny::observeEvent(input$checkbox,{
     components=strsplit(input$checkbox,'_')[[1]]
     changedID=as.numeric(components[[length(components)-1]])
     ids_value$ids[[changedID]]<-!ids_value$ids[[changedID]]
   })
 
-  ids=reactive(ids_value$ids)
+  ids=shiny::reactive(ids_value$ids)
   return(ids)
 }

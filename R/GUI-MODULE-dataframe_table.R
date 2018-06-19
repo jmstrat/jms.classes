@@ -60,12 +60,12 @@ dataframe_table <- function(input,output,session,dataframe,display_filter,button
     ) #.map(function(val){return ++val;})
   ), server = T) # disable the server-side processing so that the returned row index is the real row number of the input dataframe
 
-  ids=reactive({
+  ids=shiny::reactive({
     selected_rows=input$table_rows_selected
     dataframe()[selected_rows,'id']
   })
   buttonReactives=inputReactives(buttons,input)
-  count=reactive(length(input$table_rows_selected))
-  row<-reactive({dataframe()[input$table_rows_selected[[1]],]})
+  count=shiny::reactive(length(input$table_rows_selected))
+  row<-shiny::reactive({dataframe()[input$table_rows_selected[[1]],]})
   return(list(count=count,ids=ids,row=row,buttonIDs=buttonReactives))
 }

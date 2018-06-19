@@ -23,17 +23,17 @@ gui_plotting <- function(input, output, session,components,inputList) {
   })
 
   #Update on "plot" within page
-  buttonCounters<-reactiveValues()
-  observe({
+  buttonCounters<-shiny::reactiveValues()
+  shiny::observe({
     for(page in inputList()) {
       if(!identical(buttonCounters[[page$name]],page$plotbutton())) {
         buttonCounters[[page$name]]<-page$plotbutton()
         if(page$plotbutton()>0) {
           plotString<-paste(page$name,paste0(page$ids(),collapse=','),sep=':')
-          updateTextInput(session,'toplot',value=plotString)
+          shiny::updateTextInput(session,'toplot',value=plotString)
           for(comp in components()) {
             if(page$name %in% comp$tokens) {
-              updateTabsetPanel(session, 'tabs', selected = comp$title)
+              shiny::updateTabsetPanel(session, 'tabs', selected = comp$title)
             }
           }
         }
@@ -42,7 +42,7 @@ gui_plotting <- function(input, output, session,components,inputList) {
   })
 
   #Parse the IDS from the input
-  userIDS<-reactive({
+  userIDS<-shiny::reactive({
     inputString<-input$toplot
     if(!length(inputString) || inputString=='') return(list())
     inputString<-sub('^[[:space:]]*','',inputString)
@@ -68,15 +68,15 @@ gui_plotting <- function(input, output, session,components,inputList) {
   }
 
   loadedModules <- new.env(parent = emptyenv())
-  observe({
+  shiny::observe({
     for(i in 1:length(components())) {
       mod<-components()[[i]]
-      ids<-reactive(userIDS()[mod$tokens])
+      ids<-shiny::reactive(userIDS()[mod$tokens])
       args=list(module=mod$server,id=paste0('component',mod$index),ids,errorFunc)
       #Load modules / get already loaded
       if(!mod$title %in% names(loadedModules)) {
         log.debug('GUI: loading %s plot module',mod$title)
-        loadedModules[[mod$title]]<-do.call(callModule,args)
+        loadedModules[[mod$title]]<-do.call(shiny::callModule,args)
       }
     }
   })
