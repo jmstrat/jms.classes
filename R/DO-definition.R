@@ -4,7 +4,7 @@
 #' @return A JMS data object containing the data
 #' @export
 read.table.jms <- function(...) {
-  df=read.table(...)
+  df=utils::read.table(...)
   as.jms.data.object(df)
 }
 

@@ -14,7 +14,7 @@ iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
     argNames<-labels
   } else {
     argNames=c(sapply(dots, deparse))
-    if(object.size(argNames)>1000) argNames<-NULL
+    if(utils::object.size(argNames)>1000) argNames<-NULL
   }
   y1end=length(ycol(data))
   allCols=c(xcol(data),ycol(data),y2col(data))
@@ -23,7 +23,7 @@ iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
 
   if(length(ycol(data))>1) data=data+offset*seq(0,length(ycol(data))-1,1)*range(data)[[2]]
   if(any(is.null(xlim))) xlim=range(data[,xcol(data)][is.finite(data[,xcol(data)])])
-  if(any(is.null(ylim))) ylim=extendrange(r=range(data),0.04)
+  if(any(is.null(ylim))) ylim=grDevices::extendrange(r=range(data),0.04)
   if(any(is.null(y2lim)) && !all(is.na(y2col(data)))) y2lim=range(data[,y2col(data)],na.rm = T)
 
   xrange=range(data[,1],na.rm=T)
@@ -41,11 +41,11 @@ iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
     strokeWidth <- lwd_all[[i]]
     label<- if(!is.null(labels)) labels[[i]] else NULL
     axis<- if(i>y1end) 'y2' else 'y'
-    graph<-dygraphs::dySeries(graph,label=label,color=rgb(t(col2rgb(col)/255)),axis=axis,drawPoints=drawPoints,pointSize=pointSize,strokeWidth=strokeWidth)
+    graph<-dygraphs::dySeries(graph,label=label,color=grDevices::rgb(t(grDevices::col2rgb(col)/255)),axis=axis,drawPoints=drawPoints,pointSize=pointSize,strokeWidth=strokeWidth)
   }
   graph<-Plotting.Utils::dyAxis.jms(graph,'x',label=expressionToHTML(xlab),valueRange=xlim,ticks=1%in%axes)
   graph<-Plotting.Utils::dyAxis.jms(graph,'y',label=expressionToHTML(ylab),valueRange=ylim,ticks=2%in%axes)
-  if(4%in%axes) graph<-dyAxis.jms(graph,'y2',label=expressionToHTML(y2lab),valueRange=y2lim,ticks=TRUE)
+  if(4%in%axes) graph<-Plotting.Utils::dyAxis.jms(graph,'y2',label=expressionToHTML(y2lab),valueRange=y2lim,ticks=TRUE)
   graph <- Plotting.Utils::dyBox(graph)
   direction <- if(any(c(2,4)%in%axes)) "both" else "vertical"
   graph <- dygraphs::dyCrosshair(graph,direction = direction)

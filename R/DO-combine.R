@@ -33,7 +33,7 @@ combine.list <- function(objects,interpolate=FALSE,maxPoints=Inf) {
       y_column=yNA
       y_column[whichY]=objects[[f]][!is.na(objects[[f]][,i]),i]
       if(interpolate) {
-        y_columnApprox=approxfun(x_all,y_column,yleft=NA,yright=NA)
+        y_columnApprox=stats::approxfun(x_all,y_column,yleft=NA,yright=NA)
         y_column=y_columnApprox(x_sampled)
       }
       columns[[length(columns)+1]]=y_column

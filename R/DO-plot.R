@@ -9,7 +9,7 @@ plot.jms.data.object <- function(x,offset=1/sqrt(length(ycol(x))-1),xlim=NULL,yl
   if(length(ycol(x))>1) x=x+offset*seq(0,length(ycol(x))-1,1)*range(x)[[2]]
 
   if(any(is.null(xlim))) xlim=range(x[,xcol(x)][is.finite(x[,xcol(x)])])
-  if(any(is.null(ylim))) ylim=extendrange(r=range(x),0.04)
+  if(any(is.null(ylim))) ylim=grDevices::extendrange(r=range(x),0.04)
   if(any(is.null(y2lim)) && !all(is.na(y2col(x)))) y2lim=range(x[,y2col(x)],na.rm = T)
 
   args=list(...)
@@ -33,7 +33,7 @@ plot.jms.data.object <- function(x,offset=1/sqrt(length(ycol(x))-1),xlim=NULL,yl
 #' @examples
 #' plot.xy(data)
 #' @export
-lines.jms.data.object <- function(x,col=par('col'),type='l',y2=TRUE,...) {
+lines.jms.data.object <- function(x,col=graphics::par('col'),type='l',y2=TRUE,...) {
   x_data=x[,xcol(x)]
   y_cols=ycol(x)
   y_df=if(all(is.na(y_cols))) c() else x[,y_cols]
@@ -56,12 +56,12 @@ lines.jms.data.object <- function(x,col=par('col'),type='l',y2=TRUE,...) {
   }
   if(y2_ && !all(is.na(y2_cols))) {
     if(length(y2_cols)<2) {
-      x=data.frame(x=x_data,y=y2_df*plot_options$y2scale[[1]]+plot_options$y2scale[[2]])
+      x=data.frame(x=x_data,y=y2_df*Plotting.Utils:::plot_options$y2scale[[1]]+Plotting.Utils:::plot_options$y2scale[[2]])
       col=col_all[[1+length(y_cols)]]
       NextMethod(type=type_all[[1+length(y_cols)]])
     } else {
       for(i in 1:length(y2_cols)) {
-        x=data.frame(x=x_data,y=y_df[,i]*plot_options$y2scale[[1]]+plot_options$y2scale[[2]])
+        x=data.frame(x=x_data,y=y_df[,i]*Plotting.Utils:::plot_options$y2scale[[1]]+Plotting.Utils:::plot_options$y2scale[[2]])
         col=col_all[[i+length(y_cols)]]
         NextMethod(type=type_all[[i+length(y_cols)]])
       }

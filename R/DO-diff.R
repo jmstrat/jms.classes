@@ -25,7 +25,7 @@ diff.jms.data.object <- function(x,x2) {
   }
 
   calc_diff <- function(x1,y1,x2,y2) {
-    dat2_approxfun=approxfun(x2,y2)
+    dat2_approxfun=stats::approxfun(x2,y2)
     xdiff=x1[x1<=max(x2)&x1>=min(x2)]
     y1=y1[x1<=max(x2)&x1>=min(x2)]
 
