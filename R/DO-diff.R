@@ -40,7 +40,7 @@ diff.jms.data.object <- function(x,x2) {
   xcol(diff)<-1
   if(length(y_cols)>1) {
     for(i in 1:length(y_cols)) {
-      d=calc_diff(data1[,x_col],x[,y_cols[[i]]],x2[,x_col],x2[,y_cols2[[i]]])
+      d=calc_diff(x[,x_col],x[,y_cols[[i]]],x2[,x_col],x2[,y_cols2[[i]]])
       diff[paste0("y",i)]<-d$y2
       diff[paste0("diff.",i)]<-d$ydiff
     }
