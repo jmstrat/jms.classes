@@ -1,7 +1,7 @@
 #' Read data files
 #'
 #' This function reads one or more data files in a directory
-#' @param path The path to the file / directory
+#' @param path The path to the file / directory. If missing the contents of the clipboard are used.
 #' @param func The function to read the file
 #' @inheritParams load.directory
 #' @param ... Additional parameters are passed to func
@@ -12,6 +12,7 @@
 #' load.jms(c('/path/to/file.ext','/path/to/file2.ext'))
 #' @export load.jms
 load.jms <- function(path,func,ext=NULL,pattern=NULL, sort=FALSE,...) {
+  if(missing(path)) path = clipboard_to_path()
   dat=c()
   for(p in path) {
     if(dir.exists(p)) dat=c(dat,load.directory(p,func,ext,pattern, sort,...))
