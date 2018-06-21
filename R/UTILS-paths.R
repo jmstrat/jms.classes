@@ -13,12 +13,5 @@ cannonicalPath <- function(path) {
 #' @export
 #' @rdname paths
 clipboard_to_path <- function() {
-  if(Sys.info()["sysname"] == "Darwin") {
-    file = pipe("pbpaste")
-    data = scan(file, 'character', sep='\n', quiet=TRUE)
-    close(file)
-  } else {
-    data = readLines("clipboard", warn=FALSE)
-  }
-  cannonicalPath(data)
+  cannonicalPath(clipboard_paste())
 }
