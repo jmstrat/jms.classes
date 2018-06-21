@@ -1,4 +1,4 @@
-#' Module: File Chooser
+#' Module: JS File Chooser
 #'
 #' Modified version of \code{\link[shinyFiles]{shinyFileChoose}} adding support for
 #' working and home directories, and disabling refresh when the dialogue is closed.
@@ -6,16 +6,16 @@
 #' @inherit shinyFiles::shinyFileChoose
 #' @return The value of the input
 #' @examples
-#' ui <- fileChooserUI('myID', label='File select', title='Please select a file', multiple=FALSE)
+#' ui <- JS_fileChooserUI('myID', label='File select', title='Please select a file', multiple=FALSE)
 #' server <- function(input, output, session) {
-#'     callModule(fileChooser, "myID")
+#'     callModule(JS_fileChooser, "myID")
 #' }
 #' @param input,output,session Shiny server parameters
 #' @param state \code{\link[shiny]{reactive}} value to determine the state
 #' @inheritParams shinyFiles::fileGetter
 #' @export
-#' @rdname fileChooser
-fileChooser <- function (input, output, session, state, filetypes=NULL, updateFreq = 2000) {
+#' @rdname JS_fileChooser
+JS_fileChooser <- function (input, output, session, state, filetypes=NULL, updateFreq = 2000) {
   ###Modified to save working directory
   working_path <- shiny::reactiveValues(path = NULL)
   wp<- function() {return(shiny::isolate(working_path$path))}
@@ -65,8 +65,8 @@ fileChooser <- function (input, output, session, state, filetypes=NULL, updateFr
 
 #' @inheritParams shinyFiles::shinyFilesButton
 #' @export
-#' @rdname fileChooser
-fileChooserUI <- function (id, label, title, multiple, ..., buttonType = "default", class = NULL)
+#' @rdname JS_fileChooser
+JS_fileChooserUI <- function (id, label, title, multiple, ..., buttonType = "default", class = NULL)
 {
   ns<-shiny::NS(id)
   ###Changed js file
@@ -131,5 +131,87 @@ getVolumes <- function (current_path=NULL,exclude=NULL) {
       }
     }
     volumes
+  }
+}
+
+#' Module: RStudio File Chooser
+#'
+#' @return The value of the input
+#' @examples
+#' ui <- rstudio_fileChooserUI('myID', label='File select')
+#' server <- function(input, output, session) {
+#'     rstudio_fileChooser(rstudio_fileChooser, "myID")
+#' }
+#' @param input,output,session Shiny server parameters
+#' @param state \code{\link[shiny]{reactive}} value to determine the state
+#' @export
+#' @rdname rstudio_fileChooser
+rstudio_fileChooser <- function (input, output, session, state, filetypes=NULL) {
+  shiny::observe({
+    s=state()
+    if(s==0) {
+      enableInput("button",session)
+    } else if(s==1) {
+      enableInput("button",session)
+    } else {
+      disableInput("button",session)
+    }
+  })
+  chosenFile <- reactiveValues()
+  observeEvent(input$button, {
+    filter = filetypes
+    if(length(filter) > 1) {
+      # https://github.com/rstudio/rstudioapi/issues/79
+      # Cannot filter on multiple extensions...
+      filter = NULL
+    } else {
+      filter = sprintf("Allowed files (*.%s)", filter)
+    }
+    chosenFile$file <- rstudioapi::selectFile('Select File', 'Select', path = path.expand('~'), filter = filter)
+  })
+  reactive({chosenFile$file})
+}
+
+#' @export
+#' @rdname rstudio_fileChooser
+rstudio_fileChooserUI <- function(id, label, ..., buttonType = "default", class = NULL) {
+  ns <- shiny::NS(id)
+  shiny::actionButton(ns('button'), as.character(label), class = paste(c(paste0("btn btn-", buttonType), class), collapse = " "), ...)
+}
+
+#' Module: File Chooser
+#'
+#' Calls either \code{\link{JS_fileChooser}} or \code{\link[rstudioapi]{selectFile}}
+#' depending on whether it is used in an Rstudio instance
+#' @return The value of the input
+#' @examples
+#' ui <- fileChooserUI('myID', label='File select', title='Please select a file', multiple=FALSE)
+#' server <- function(input, output, session) {
+#'     callModule(fileChooser, "myID")
+#' }
+#' @param input,output,session Shiny server parameters
+#' @param state \code{\link[shiny]{reactive}} value to determine the state
+#' @inheritParams shinyFiles::fileGetter
+#' @export
+#' @rdname fileChooser
+fileChooser <- function (input, output, session, state, filetypes=NULL, updateFreq = 2000) {
+  if(rstudioapi::isAvailable()) {
+    # Use RStudio's file chooser
+    rstudio_fileChooser(input, output, session, state, filetypes)
+  } else {
+    # Fallback to js
+    JS_fileChooser(input, output, session, state, filetypes, updateFreq)
+  }
+}
+
+#' @inheritParams shinyFiles::shinyFilesButton
+#' @export
+#' @rdname fileChooser
+fileChooserUI <- function(id, label, title, multiple, ..., buttonType = "default", class = NULL) {
+  if(rstudioapi::isAvailable()) {
+    rstudio_fileChooserUI(id, label, ..., buttonType=buttonType, class=class)
+  } else {
+    # Fallback to js
+    JS_fileChooserUI(id, label, title, multiple, ..., buttonType=buttonType, class=class)
   }
 }

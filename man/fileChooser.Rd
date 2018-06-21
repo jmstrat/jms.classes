@@ -20,14 +20,7 @@ fileChooserUI(id, label, title, multiple, ..., buttonType = "default",
 i.e. 'txt' not '.txt') to include in the output. Use the empty string to 
 include files with no extension. If not set all file types will be included}
 
-\item{updateFreq}{The time in milliseconds between file system lookups. This
-determines the responsiveness to changes in the filesystem (e.g. addition of
-files or drives)}
-
-\item{id}{The same ID as used in the matching call to 
-\code{shinyFilesButton} or as the id attribute of the button, in case of a
-manually defined html. This id will also define the id of the file choice in 
-the input variable}
+\item{id}{The id matching the \code{\link{shinyFileChoose}}}
 
 \item{label}{The text that should appear on the button}
 
@@ -36,9 +29,6 @@ pressed}
 
 \item{multiple}{A logical indicating whether or not it should be possible to 
 select multiple files}
-
-\item{...}{Arguments to be passed on to \code{\link{fileGetter}} or 
-\code{\link{dirGetter}}}
 
 \item{buttonType}{The Bootstrap button markup used to colour the button. 
 Defaults to 'default' for a neutral appearance but can be changed for another
@@ -50,32 +40,12 @@ look. The value will be pasted with 'btn-' and added as class.}
 The value of the input
 }
 \description{
-Modified version of \code{\link[shinyFiles]{shinyFileChoose}} adding support for
-working and home directories, and disabling refresh when the dialogue is closed.
-}
-\details{
-Restrictions on the access rights of the client can be given in several ways.
-The root parameter specifies the starting position for the filesystem as 
-presented to the client. This means that the client can only navigate in
-subdirectories of the root. Paths passed of to the \code{restrictions} 
-parameter will not show up in the client view, and it is impossible to 
-navigate into these subdirectories. The \code{filetypes} parameter takes a 
-vector of file extensions to filter the output on, so that the client is 
-only presented with these filetypes. The \code{hidden} parameter toggles 
-whether hidden files should be visible or not. Whenever a file or folder 
-choice is made the resulting files/folder will be accessible in the input 
-variable with the id given in the parameters. This value should probable be 
-run through a call to one of the parser (\code{\link{shinyFiles-parsers}}) in 
-order to get well formatted paths to work with.
+Calls either \code{\link{JS_fileChooser}} or \code{\link[rstudioapi]{selectFile}}
+depending on whether it is used in an Rstudio instance
 }
 \examples{
 ui <- fileChooserUI('myID', label='File select', title='Please select a file', multiple=FALSE)
 server <- function(input, output, session) {
     callModule(fileChooser, "myID")
 }
-}
-\seealso{
-Other shinyFiles: \code{\link{shinyFiles-buttons}},
-  \code{\link{shinyFiles-parsers}},
-  \code{\link{shinyFilesExample}}
 }
