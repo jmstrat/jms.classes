@@ -140,7 +140,7 @@ getVolumes <- function (current_path=NULL,exclude=NULL) {
 #' @examples
 #' ui <- rstudio_fileChooserUI('myID', label='File select')
 #' server <- function(input, output, session) {
-#'     rstudio_fileChooser(rstudio_fileChooser, "myID")
+#'     callModule(rstudio_fileChooser, "myID")
 #' }
 #' @param input,output,session Shiny server parameters
 #' @param state \code{\link[shiny]{reactive}} value to determine the state
