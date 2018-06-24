@@ -4,9 +4,10 @@
 #' @param xy The data to create the background for (data.frame(x=..., y=...))
 #' @param x_points X values which lie on the baseline
 #' @param bkg_y_avg_points How many points either side of each x point to use to account for noise
+#' @param returnFunc Returns an splinefun rather than a vector of y values
 #' @return A vector containing the y values for the background
 #' @export
-make_background <- function(xy, x_points, bkg_y_avg_points = 4) {
+make_background <- function(xy, x_points, bkg_y_avg_points = 4, returnFunc = FALSE) {
   bkg_x_points = vapply(x_points, function(x) which.min(abs(xy[,1] - x)), 1)
   l = length(xy[,1])
   r = range(bkg_x_points)
@@ -16,5 +17,8 @@ make_background <- function(xy, x_points, bkg_y_avg_points = 4) {
   bkg_y = sapply(Map(seq, from = bkg_x_points-bkg_y_avg_points, to = bkg_x_points+bkg_y_avg_points),
                  function(i) mean(xy[i,2]))
 
-  splinefun(x_points,y=bkg_y)(xy[,1])
+  fun <- splinefun(x_points,y=bkg_y)
+  if(returnFunc) return(fun)
+
+  fun(xy[,1])
 }

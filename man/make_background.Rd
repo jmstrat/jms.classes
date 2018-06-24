@@ -4,7 +4,7 @@
 \alias{make_background}
 \title{Create a background based on a vector of x values which lie on the baseline}
 \usage{
-make_background(xy, x_points, bkg_y_avg_points = 4)
+make_background(xy, x_points, bkg_y_avg_points = 4, returnFunc = FALSE)
 }
 \arguments{
 \item{xy}{The data to create the background for (data.frame(x=..., y=...))}
@@ -12,6 +12,8 @@ make_background(xy, x_points, bkg_y_avg_points = 4)
 \item{x_points}{X values which lie on the baseline}
 
 \item{bkg_y_avg_points}{How many points either side of each x point to use to account for noise}
+
+\item{returnFunc}{Returns an splinefun rather than a vector of y values}
 }
 \value{
 A vector containing the y values for the background
