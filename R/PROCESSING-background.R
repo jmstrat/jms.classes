@@ -22,3 +22,21 @@ make_background <- function(xy, x_points, bkg_y_avg_points = 4, returnFunc = FAL
 
   fun(xy[,1])
 }
+
+
+#' Create backgrounds based on a list of vectors of x values which lie on the baseline
+#'
+#' This function creates a spline background for the given data and x points
+#' @param data The data to create the background for (data.frame(x=..., y=..., y2=...))
+#' @param baseline_parameters list of length equal to the number of y columns.
+#'                            A background will be created for each element of the list using
+#'                            \code{\link{make_background}}.
+#' @return A \code{jms.data.object} containing the backgrounds that can be subtracted from the data
+#' @export
+make_backgrounds <- function(data, baseline_parameters) {
+  if(is.null(baseline_parameters)) return(0)
+  x <- xcol(data)[[1]]
+  nr <- nrow(data)
+  bkgs <- mapply(function(a,b) if(is.null(b)) rep_len(0, nr) else make_background(data[,c(x,a)], b), ycol(data), baseline_parameters)
+  as.jms.data.object(bkgs)
+}
