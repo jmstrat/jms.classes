@@ -6,7 +6,8 @@
 #' @rdname arithmetic.jms
 #' @export
 `+.jms.data.object` <- function(e1, e2){
-  le2 = length(e2)
+  le2 = ncol(e2)
+  if(is.null(le2)) le2 = length(e2)
   nr = nrow(e1)
   ny=length(ycol(e1))
 
@@ -17,7 +18,13 @@
     if(le2 != ny) {
       warning("Unsupported length for addition vector, using defaults -- do not expect sensible results!")
     } else {
-      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
+      d <- dim(e2)
+      if(is.null(d)) {
+        # Subtract a different value from each column
+        e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
+      } else {
+        e2 = as.data.frame(e2)
+      }
     }
   }
   e1[,ycol(e1)]<-.Primitive("+")(as.data.frame(e1)[,ycol(e1)],e2)
@@ -32,7 +39,8 @@
 #' @rdname arithmetic.jms
 #' @export
 `-.jms.data.object` <- function(e1, e2){
-  le2 = length(e2)
+  le2 = ncol(e2)
+  if(is.null(le2)) le2 = length(e2)
   nr = nrow(e1)
   ny=length(ycol(e1))
 
@@ -44,8 +52,13 @@
       # Unknown intention -- fall back to defaults with warning
       warning("Unsupported length for subtraction vector, using defaults -- do not expect sensible results!")
     } else {
-      # Subtract a different value from each column
-      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
+      d <- dim(e2)
+      if(is.null(d)) {
+        # Subtract a different value from each column
+        e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
+      } else {
+        e2 = as.data.frame(e2)
+      }
     }
   }
   # Never change the x column
@@ -61,7 +74,8 @@
 #' @rdname arithmetic.jms
 #' @export
 `*.jms.data.object` <- function(e1, e2){
-  le2 = length(e2)
+  le2 = ncol(e2)
+  if(is.null(le2)) le2 = length(e2)
   nr = nrow(e1)
   ny=length(ycol(e1))
 
@@ -72,7 +86,13 @@
     if(le2 != ny) {
       warning("Unsupported length for multiplication vector, using defaults -- do not expect sensible results!")
     } else {
-      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
+      d <- dim(e2)
+      if(is.null(d)) {
+        # Subtract a different value from each column
+        e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
+      } else {
+        e2 = as.data.frame(e2)
+      }
     }
   }
   e1[,ycol(e1)]<-.Primitive("*")(as.data.frame(e1)[,ycol(e1)],e2)
@@ -87,7 +107,8 @@
 #' @rdname arithmetic.jms
 #' @export
 `/.jms.data.object` <- function(e1, e2){
-  le2 = length(e2)
+  le2 = ncol(e2)
+  if(is.null(le2)) le2 = length(e2)
   nr = nrow(e1)
   ny=length(ycol(e1))
 
@@ -98,7 +119,13 @@
     if(le2 != ny) {
       warning("Unsupported length for division vector, using defaults -- do not expect sensible results!")
     } else {
-      e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
+      d <- dim(e2)
+      if(is.null(d)) {
+        # Subtract a different value from each column
+        e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
+      } else {
+        e2 = as.data.frame(e2)
+      }
     }
   }
   e1[,ycol(e1)]<-.Primitive("/")(as.data.frame(e1)[,ycol(e1)],e2)
