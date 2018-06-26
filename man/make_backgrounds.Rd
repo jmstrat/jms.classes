@@ -4,7 +4,7 @@
 \alias{make_backgrounds}
 \title{Create backgrounds based on a list of vectors of x values which lie on the baseline}
 \usage{
-make_backgrounds(data, baseline_parameters)
+make_backgrounds(data, baseline_parameters, bkg_y_avg_points = 4)
 }
 \arguments{
 \item{data}{The data to create the background for (data.frame(x=..., y=..., y2=...))}

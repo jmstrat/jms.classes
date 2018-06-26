@@ -33,10 +33,10 @@ make_background <- function(xy, x_points, bkg_y_avg_points = 4, returnFunc = FAL
 #'                            \code{\link{make_background}}.
 #' @return A \code{jms.data.object} containing the backgrounds that can be subtracted from the data
 #' @export
-make_backgrounds <- function(data, baseline_parameters) {
+make_backgrounds <- function(data, baseline_parameters, bkg_y_avg_points = 4) {
   if(is.null(baseline_parameters)) return(0)
   x <- xcol(data)[[1]]
   nr <- nrow(data)
-  bkgs <- mapply(function(a,b) if(is.null(b)) rep_len(0, nr) else make_background(data[,c(x,a)], b), ycol(data), baseline_parameters)
+  bkgs <- mapply(function(a,b) if(is.null(b)) rep_len(0, nr) else make_background(data[,c(x,a)], b, bkg_y_avg_points = bkg_y_avg_points), ycol(data), baseline_parameters)
   as.jms.data.object(bkgs)
 }
