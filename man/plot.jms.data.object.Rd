@@ -4,17 +4,26 @@
 \alias{plot.jms.data.object}
 \title{Plot a data object}
 \usage{
-\method{plot}{jms.data.object}(x, offset = 1/sqrt(length(ycol(x)) - 1),
-  xlim = NULL, ylim = NULL, y2lim = NULL, xlab = xlab_(x),
-  ylab = ylab_(x), y2lab = y2lab_(x), axes = c(1, 2), ...)
+\method{plot}{jms.data.object}(x, offset = NULL, ...)
 }
 \arguments{
 \item{x}{The object to plot}
 
 \item{offset}{For 2D data objects, the fraction of the yrange to offset the data}
+
+\item{...}{Further parameters are passed to \code{\link[Plotting.Utils]{pretty_plot}} or the \code{\link{lines}} method for \code{class(x)}.}
 }
 \description{
 This function plots a data object
+}
+\details{
+If not specified, \code{xlim} will set to \code{range(x[,\link{xcol}(x)]}, \code{ylim} will be based on \code{range(x)}
+and \code{offset}, y2lim will be based on \code{range(x[,\link{y2col}(x)]}.\cr\cr
+
+\code{xlab} will be set to \code{\link{xlab}}(x), \code{ylab} to \code{\link{ylab}}(x), and
+\code{y2lab} to \code{\link{y2lab}}(x).\cr\cr
+
+Data are scalled by \code{\link{xscale}}(x), \code{\link{yscale}}(x), and \code{\link{y2scale}}(x).
 }
 \examples{
 plot(data)

@@ -4,8 +4,8 @@
 \alias{create_data_type}
 \title{Extend jms.data.object for a custom class}
 \usage{
-create_data_type(name, xlab, ylab, inherits = c(), envir = parent.frame(),
-  y2lab = NA)
+create_data_type(name, xlab, ylab, inherits = c(),
+  envir = parent.frame(), y2lab = NA)
 }
 \arguments{
 \item{name}{The name of the new data type}

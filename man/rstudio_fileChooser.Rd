@@ -7,11 +7,13 @@
 \alias{rstudio_fileChooserUI}
 \title{Module: RStudio File Chooser}
 \usage{
-rstudio_dirChooserUI(id, label, ..., buttonType = "default", class = NULL)
+rstudio_dirChooserUI(id, label, ..., buttonType = "default",
+  class = NULL)
 
 rstudio_fileChooser(input, output, session, state, filetypes = NULL)
 
-rstudio_fileChooserUI(id, label, ..., buttonType = "default", class = NULL)
+rstudio_fileChooserUI(id, label, ..., buttonType = "default",
+  class = NULL)
 }
 \arguments{
 \item{input, output, session}{Shiny server parameters}

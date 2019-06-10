@@ -3,7 +3,7 @@
 \name{project_database}
 \alias{project_database}
 \alias{set_project_database}
-\title{Set or get the current project database.}
+\title{Get or set the current project database.}
 \usage{
 project_database()
 
@@ -13,5 +13,5 @@ set_project_database(db)
 \item{db}{A \code{\link{jms.database}}}
 }
 \description{
-Set or get the current project database. This setting is persistent across sessions.
+Get or set the current project database. This setting is persistent across sessions.
 }

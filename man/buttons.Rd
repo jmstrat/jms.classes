@@ -3,12 +3,15 @@
 \name{normal_button}
 \alias{normal_button}
 \alias{delete_button}
+\alias{help_button}
 \alias{info_button}
 \title{Create a normal push button}
 \usage{
 normal_button(id, label, ...)
 
 delete_button(id, ...)
+
+help_button(id, ...)
 
 info_button(id, ...)
 }
@@ -25,4 +28,6 @@ Create a normal push button
 Create a push button with the delete icon
 
 Create a push button with the info icon
+
+Create a push button with the help icon
 }

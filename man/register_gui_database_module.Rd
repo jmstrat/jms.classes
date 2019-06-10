@@ -4,8 +4,8 @@
 \alias{register_gui_database_module}
 \title{Register a module to form a tab in the GUI}
 \usage{
-register_gui_database_module(moduleUI, moduleServer, title, databases = c(),
-  namespace = NA)
+register_gui_database_module(moduleUI, moduleServer, title,
+  databases = c(), namespace = NA)
 }
 \arguments{
 \item{moduleUI}{character string representing the name of the ui function in namespace}

@@ -4,7 +4,8 @@
 \alias{assert_file}
 \title{Check whether or not a file exists}
 \usage{
-assert_file(value, error_msg = "Value must be a file", errorifempty = FALSE)
+assert_file(value, error_msg = "Value must be a file",
+  errorifempty = FALSE)
 }
 \arguments{
 \item{value}{The file to test}

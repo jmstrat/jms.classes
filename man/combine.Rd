@@ -4,7 +4,7 @@
 \alias{combine}
 \title{Combine a list of data objects}
 \usage{
-combine(objects, interpolate, maxPoints)
+combine(objects, interpolate, maxPoints, rescale)
 }
 \arguments{
 \item{A}{\code{list} of jms.data.objects}

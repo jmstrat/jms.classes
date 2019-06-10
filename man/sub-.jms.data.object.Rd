@@ -4,7 +4,7 @@
 \alias{[.jms.data.object}
 \title{Retain attributes upon subsetting}
 \usage{
-\method{[}{jms.data.object}(x, i = T, j = T, ...)
+\method{[}{jms.data.object}(x, ...)
 }
 \description{
 Retain attributes upon subsetting

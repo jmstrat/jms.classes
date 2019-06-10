@@ -16,21 +16,21 @@ fileChooserUI(id, label, title, multiple, ..., buttonType = "default",
 
 \item{state}{\code{\link[shiny]{reactive}} value to determine the state}
 
-\item{filetypes}{A character vector of file extensions (without dot in front 
-i.e. 'txt' not '.txt') to include in the output. Use the empty string to 
+\item{filetypes}{A character vector of file extensions (without dot in front
+i.e. 'txt' not '.txt') to include in the output. Use the empty string to
 include files with no extension. If not set all file types will be included}
 
-\item{id}{The id matching the \code{\link{shinyFileChoose}}}
+\item{id}{The id matching the \code{\link[=shinyFileChoose]{shinyFileChoose()}}}
 
 \item{label}{The text that should appear on the button}
 
-\item{title}{The heading of the dialog box that appears when the button is 
+\item{title}{The heading of the dialog box that appears when the button is
 pressed}
 
-\item{multiple}{A logical indicating whether or not it should be possible to 
+\item{multiple}{A logical indicating whether or not it should be possible to
 select multiple files}
 
-\item{buttonType}{The Bootstrap button markup used to colour the button. 
+\item{buttonType}{The Bootstrap button markup used to colour the button.
 Defaults to 'default' for a neutral appearance but can be changed for another
 look. The value will be pasted with 'btn-' and added as class.}
 

@@ -15,3 +15,19 @@ A JMS data object
 \description{
 Make a new JMS data object
 }
+\details{
+A \code{jms.data.object} is effectively just a \code{\link{data.frame}} that keeps track of which column
+represents the x-axis and which columns represent the y-axes. This means that it can be easily plotted, and can
+behave slightly more inteligently in certain circumstances:
+\describe{
+ \item{Arithmetic Operations}{i.e. \code{+}, \code{-}, \code{*}, \code{/} only apply to y columns by default}
+ \item{Range Operations}{i.e. \code{\link{range}}, \code{\link{min}}, \code{\link{max}} only apply to y columns by default}
+ \item{diff}{Calculates the difference between 2 different \code{jms.data.object}s using their respective \code{x} and \code{y} columns.}
+ \item{Interactive Plotting}{Data objects can produce an interactive plot using \code{\link{iplot}}}
+ \item{Exporting}{Data objects can be exported using \code{\link{export}}}
+}
+You can convert a \code{jms.data.object} into a \code{\link{data.frame}} using \code{\link{as.data.frame}}.
+}
+\seealso{
+\code{\link{xcol}}, \code{\link{xlab}}, \code{\link{xscale}}
+}

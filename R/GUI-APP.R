@@ -102,6 +102,8 @@ server <- function(input, output, session) {
   #Load the databases
   projectDB <- as.jms.reactive.database(project_database(),reactiveSession=session,reactiveUpdateFreq=4000)
 
+
+  # N.B. https://github.com/rstudio/shiny/issues/825
   loadedDBTables <- new.env(parent = emptyenv())
   loadedModules <- new.env(parent = emptyenv())
   #Call the server functions for each tab

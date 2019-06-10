@@ -4,8 +4,8 @@
 \alias{load.jms}
 \title{Read data files}
 \usage{
-\method{load}{jms}(path, func, ext = NULL, pattern = NULL, sort = FALSE,
-  ...)
+\method{load}{jms}(path, func, ext = NULL, pattern = NULL,
+  sort = FALSE, ...)
 }
 \arguments{
 \item{path}{The path to the file / directory. If missing the contents of the clipboard are used.}

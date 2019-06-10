@@ -8,11 +8,11 @@
 \alias{renderIPlot}
 \title{Make an interactive plot for a data object}
 \usage{
-\method{iplot}{jms.data.object}(..., offset = 1/sqrt(length(ycol(data)) - 1),
-  xlim = NULL, ylim = NULL, y2lim = NULL, axes = c(1, 2),
+\method{iplot}{jms.data.object}(..., offset = 1/sqrt(length(ycol(data)) -
+  1), xlim = NULL, ylim = NULL, y2lim = NULL, axes = c(1, 2),
   xlab = xlab_(data), ylab = ylab_(data), y2lab = y2lab_(data),
   col = graphics::par("col"), lwd = 1, pch = NA, labels = NULL,
-  group = NULL, unsortedRangeWorkaround = T)
+  group = NULL, unsortedRangeWorkaround = T, type = "l")
 
 iplot(...)
 
@@ -52,6 +52,16 @@ renderIPlot(expr, env = parent.frame(), quoted = FALSE)
 
 \item{group}{Group to associate this plot with.
 The x-axis zoom level of plots within a group is automatically synchronized.}
+
+\item{type}{1-character string giving the type of plot desired.  The
+    following values are possible, for details, see \code{\link{plot}}:
+    \code{"p"} for points, \code{"l"} for lines,
+    \code{"b"} for both points and lines,
+    \code{"c"} for empty points joined by lines,
+    \code{"o"} for overplotted points and lines,
+    \code{"s"} and \code{"S"} for stair steps and
+    \code{"h"} for histogram-like vertical lines.  Finally,
+    \code{"n"} does not produce any points or lines.}
 }
 \description{
 Make an interactive plot for a data object

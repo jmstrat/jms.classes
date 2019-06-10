@@ -13,7 +13,7 @@ make_background(xy, x_points, bkg_y_avg_points = 4, returnFunc = FALSE)
 
 \item{bkg_y_avg_points}{How many points either side of each x point to use to account for noise}
 
-\item{returnFunc}{Returns an splinefun rather than a vector of y values}
+\item{returnFunc}{Returns a splinefun rather than a vector of y values}
 }
 \value{
 A vector containing the y values for the background

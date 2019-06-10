@@ -9,18 +9,20 @@ Imports: Plotting.Utils,
          dygraphs,
          digest,
          rappdirs
-Suggests:shiny,
+Suggests: shiny,
          DT,
          shinyBS,
          shinysky,
          shinyFiles,
          crayon,
-         testthat
+         testthat,
+         rstudioapi,
+         futile.logger
 Remotes:
     AnalytixWare/ShinySky,
     thomasp85/shinyFiles
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 License: Apache License 2.0
 ByteCompile: yes

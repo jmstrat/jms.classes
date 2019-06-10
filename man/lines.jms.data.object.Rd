@@ -4,8 +4,8 @@
 \alias{lines.jms.data.object}
 \title{Draw lines for a data object}
 \usage{
-\method{lines}{jms.data.object}(x, col = graphics::par("col"), type = "l",
-  y2 = TRUE, ...)
+\method{lines}{jms.data.object}(x, col = par("col"), type = "l",
+  y2 = TRUE, cex.points = par("cex"), ...)
 }
 \arguments{
 \item{x}{The object to plot}

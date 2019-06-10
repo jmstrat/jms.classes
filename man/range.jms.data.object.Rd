@@ -4,7 +4,7 @@
 \alias{range.jms.data.object}
 \title{Calculate Range}
 \usage{
-\method{range}{jms.data.object}(x, offset = 0, ...)
+\method{range}{jms.data.object}(x, offset, ...)
 }
 \arguments{
 \item{x}{The data object}
@@ -13,7 +13,7 @@
 The range
 }
 \description{
-This function calculates the range of a data objects
+This function calculates the range of a data object
 }
 \examples{
 range(data)
