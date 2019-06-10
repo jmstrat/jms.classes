@@ -7,7 +7,7 @@ iplotArgBlacklist<-c('labels','group') #the plot() command will ignore these
 #' The x-axis zoom level of plots within a group is automatically synchronized.
 #' @rdname iPlot
 #' @export
-iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,y2lim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),y2lab=y2lab_(data),col=graphics::par('col'),lwd=1,pch=NA,labels=NULL,group=NULL, unsortedRangeWorkaround=T) {
+iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,y2lim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),y2lab=y2lab_(data),col=graphics::par('col'),lwd=1,pch=NA,labels=NULL,group=NULL, unsortedRangeWorkaround=T,type='l') {
   data<-combine(unname(list(...)),interpolate=TRUE) #Need to interpolate to avoid gaps...
   dots <- substitute(list(...))[-1]
   if(length(labels)) {
@@ -18,15 +18,20 @@ iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
   }
   y1end=length(ycol(data))
   allCols=c(xcol(data),ycol(data),y2col(data))
-  data<-data[,allCols[!is.na(allCols)]]
+
+  # To allow unit conversions etc.
+  data = get_scaled(data)
+
+  data <- data[,allCols[!is.na(allCols)]]
   if(ncol(data) > 2 && length(argNames)==ncol(data)-1) names(data)[2:length(data)]<-argNames
 
+  xrange=range(data[,xcol(data)][is.finite(data[,xcol(data)])],na.rm=T)
+
   if(length(ycol(data))>1) data=data+offset*seq(0,length(ycol(data))-1,1)*range(data)[[2]]
-  if(any(is.null(xlim))) xlim=range(data[,xcol(data)][is.finite(data[,xcol(data)])])
+  if(any(is.null(xlim))) xlim=xrange
   if(any(is.null(ylim))) ylim=grDevices::extendrange(r=range(data),0.04)
   if(any(is.null(y2lim)) && !all(is.na(y2col(data)))) y2lim=range(data[,y2col(data)],na.rm = T)
 
-  xrange=range(data[,1],na.rm=T)
   i=1; j=2
   if(xlim[[1]]>xlim[[2]]) {j=1; i=2}
   if(xlim[[j]]>xrange[[2]]) xlim[[j]]<-xrange[[2]]
@@ -50,8 +55,8 @@ iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
 
   for(i in 1:(ncol(data)-1)) {
     col=col_all[[i]]
-    drawPoints <- if(!is.na(pch_all[[i]])) TRUE else NULL
-    pointSize <- if(!is.na(pch_all[[i]])) 1 else 0
+    drawPoints <- if(!is.na(pch_all[[i]]) || type == 'p') TRUE else NULL
+    pointSize <- if(!is.na(pch_all[[i]]) || type == 'p') 2 else 0
     strokeWidth <- lwd_all[[i]]
     label<- if(!is.null(labels)&&length(labels)>=i) labels[[i]] else NULL
     axis<- if(i>y1end) 'y2' else 'y'
