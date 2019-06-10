@@ -163,10 +163,11 @@ rstudio_fileChooser <- function (input, output, session, state, filetypes=NULL) 
     if(length(filter) > 1) {
       # https://github.com/rstudio/rstudioapi/issues/79
       # Cannot filter on multiple extensions...
-      filter = NULL
+      filter = "All Files (*)"
     } else {
       filter = sprintf("Allowed files (*.%s)", filter)
     }
+    # n.b. https://github.com/rstudio/rstudio/issues/2921#issuecomment-398853758
     chosenFile$file <- rstudioapi::selectFile('Select File', 'Select', path = path.expand('~'), filter = filter)
   })
   reactive({chosenFile$file})
