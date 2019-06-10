@@ -11,15 +11,24 @@
 #' load.jms('/path/to/file.ext', load_function)
 #' load.jms(c('/path/to/file.ext','/path/to/file2.ext'))
 #' @export load.jms
-load.jms <- function(path,func,ext=NULL,pattern=NULL, sort=FALSE,...) {
+load.jms <- function(path, func, ext=NULL, pattern=NULL, sort=FALSE, ...) {
+
+  # Wrap function to preserve call stack
+  func <- substitute(func)
+  envir <- parent.frame()
+  load_wrapper <- function(...) {
+    cc <- as.call(list(func, substitute(...)))
+    eval(cc, envir=envir)
+  }
+
   if(missing(path)) path = clipboard_to_path()
   dat=c()
   for(p in path) {
-    if(dir.exists(p)) dat=c(dat,load.directory(p,func,ext,pattern, sort,...))
-    else if(file.exists(p)) dat=c(dat,list(load.file(p,func,...)))
+    if(dir.exists(p)) dat=c(dat,load.directory(p,load_wrapper,ext,pattern, sort,...))
+    else if(file.exists(p)) dat=c(dat,list(load.file(p,load_wrapper,...)))
     else stop(p, ' not found')
   }
-  combine(as.list(dat))
+  combine(as.list(dat), rescale=FALSE)
 }
 
 #' Read a data file
@@ -31,7 +40,7 @@ load.jms <- function(path,func,ext=NULL,pattern=NULL, sort=FALSE,...) {
 #' @examples
 #' load.file('/path/to/file.ext', load_function)
 #' @keywords internal
-load.file <- function(path,func,...) {
+load.file <- function(path, func, ...) {
   if(!file.exists(path)) stop(path,' not found')
   data = func(path,...)
   attr(data,'filepath')<-path
@@ -59,7 +68,12 @@ load.directory <- function(dir,func, ext=NULL,pattern=NULL, sort=FALSE,...) {
     pattern=paste0('.*\\.',ext,'$')
   }
   sorter = if(sort) list.files.sorted else list.files
-  file_list <- sorter(path=dir,full.names=TRUE,pattern=pattern)
-  data=lapply(file_list,function(x) func(x,...))
+  file_list <- sorter(path=dir, full.names=TRUE, pattern=pattern)
+  data=lapply(file_list, function(x) load.file(x, func, ...))
+  attr(data, 'dirpath') <- dir
+  attr(data, 'dirname') <- basename(dir)
+  attr(data, 'filepath') <- file_list
+  attr(data, 'filename') <- basename(file_list)
+  data
 }
 
