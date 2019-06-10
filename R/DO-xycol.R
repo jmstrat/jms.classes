@@ -10,6 +10,9 @@ xcol.jms.data.object <- function(x) {
 }
 #' @export
 `xcol<-.jms.data.object` <- function(x,value) {
+  if(!is.numeric(value)) {
+    value = match(value ,colnames(x))
+  }
   attr(x,'x_column')<-value
   x
 }
@@ -25,6 +28,9 @@ ycol.jms.data.object <- function(x) {
 }
 #' @export
 `ycol<-.jms.data.object` <- function(x,value) {
+  if(!is.numeric(value)) {
+    value = match(value ,colnames(x))
+  }
   attr(x,'y_column')<-value
   x
 }
@@ -40,6 +46,9 @@ y2col.jms.data.object <- function(x) {
 }
 #' @export
 `y2col<-.jms.data.object` <- function(x,value) {
+  if(!is.numeric(value)) {
+    value = match(value, colnames(x))
+  }
   attr(x,'y2_column')<-value
   x
 }
