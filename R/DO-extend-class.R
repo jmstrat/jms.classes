@@ -23,6 +23,7 @@
 #' @param envir The environment within which to define the new functions
 #' @export
 create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame(),y2lab=NA) {
+  log.debug('Creating new data object type %s', name)
   dataObjName=paste0(name,'.data.object')
   inheritsNames=if(length(inherits)) paste0(inherits,'.data.object') else NULL
   asDataObjFun <- function(x) {

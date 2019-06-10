@@ -1,15 +1,15 @@
 current_database <- new.env()
 
-#' Set or get the current project database.
+#' Get or set the current project database.
 #'
-#' Set or get the current project database. This setting is persistent across sessions.
+#' Get or set the current project database. This setting is persistent across sessions.
 #'
 #' @param db A \code{\link{jms.database}}
 #' @export
 #' @rdname project_database
 project_database <- function() {
   if(is.null(current_database$db) && !is.null(config_dir)) {
-    path=file.path(config_dir,'project.database')
+    path = file.path(config_dir, 'project.database')
     if(file.exists(path)) {
       set_project_database(readRDS(path))
     } else {
@@ -28,4 +28,4 @@ set_project_database <- function(db) {
   }
 }
 
-#TODO: THIS SHOULD BE A GENERIC -- jms.databse or character or default
+#TODO: THIS SHOULD BE A GENERIC -- jms.database or character (path) or default (error)

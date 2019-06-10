@@ -41,7 +41,7 @@ saveDatabase <- function(database) {
     log.info('Not saving database: path is not set')
     return(database)
   }
-  log.info('Preparing to save database')
+  log.debug('Preparing to save database')
   if(database$.hasChanged) {
     path=database$.getPathForDatabase()
     database$.lockDatabase()
@@ -51,7 +51,7 @@ saveDatabase <- function(database) {
     database$.unlockDatabase()
     database$.hasChanged=FALSE
   } else {
-    log.info('Database does not need saving')
+    log.debug('Database does not need saving')
   }
   #Tables are saved when they are added to the database
   return(database)
@@ -67,9 +67,9 @@ loadDatabase <- function(database) {
     log.warn('Not loading database: file does not exist')
     return(invisible(database))
   }
-  log.info('Preparing to load database')
+  log.debug('Preparing to load database')
   if(!is.stale(database)) {
-    log.info('Database does not need loading')
+    log.debug('Database does not need loading')
     return(invisible(database))
   }
   database$.lockDatabase()

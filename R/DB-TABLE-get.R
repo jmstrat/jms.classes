@@ -29,7 +29,7 @@
   j <- j[!jltz]
   if(!length(i)) i<-TRUE
   if(!length(j)) j<-TRUE
-  log.info('Getting {[%s],[%s]}',paste0(i,collapse=','),paste0(j,collapse=','))
+  log.debug('Getting {[%s],[%s]}',paste0(i,collapse=','),paste0(j,collapse=','))
   return(`[.data.frame`(table,i,j))
 }
 #' @export
