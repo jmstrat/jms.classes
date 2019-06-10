@@ -40,7 +40,7 @@ y2col.jms.data.object <- function(x) {
   if(is.null(ycol)) {
     if(ncol(x)<=1) stop('Cannot get y2 column')
     warning('Data type unknown, assuming no y2 axis')
-    ycol=NA
+    ycol = NA_integer_
   }
   ycol
 }
