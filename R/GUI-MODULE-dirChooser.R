@@ -1,3 +1,5 @@
+# N.B. https://github.com/rstudio/shiny/issues/2101
+
 #' Module: JS Dir Chooser
 #' @export
 #' @rdname JS_dirChooser
@@ -74,6 +76,7 @@ rstudio_dirChooserUI <- function(id, label, ..., buttonType = "default", class =
 #' @export
 #' @rdname dirChooser
 dirChooser <- function (input, output, session, state, updateFreq = 2000) {
+  shiny::setBookmarkExclude(c("button"))
   if(rstudioapi::isAvailable()) {
     # Use RStudio's file chooser
     rstudio_dirChooser(input, output, session, state)

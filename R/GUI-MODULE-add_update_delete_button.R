@@ -41,4 +41,6 @@ add_update_delete_button <- function(input,output,session,type,callback) {
   shiny::observeEvent(input$add, callback('add'))
   shiny::observeEvent(input$update, callback('update'))
   shiny::observeEvent(input$delete, callback('delete'))
+
+  shiny::setBookmarkExclude(c("add", "update", "delete"))
 }

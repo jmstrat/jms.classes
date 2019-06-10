@@ -1,3 +1,6 @@
+# N.B. https://github.com/rstudio/shiny/issues/2101
+
+
 #' Module: JS File Chooser
 #'
 #' Modified version of \code{\link[shinyFiles]{shinyFileChoose}} adding support for
@@ -196,6 +199,7 @@ rstudio_fileChooserUI <- function(id, label, ..., buttonType = "default", class 
 #' @export
 #' @rdname fileChooser
 fileChooser <- function (input, output, session, state, filetypes=NULL, updateFreq = 2000) {
+  shiny::setBookmarkExclude(c("button"))
   if(rstudioapi::isAvailable()) {
     # Use RStudio's file chooser
     rstudio_fileChooser(input, output, session, state, filetypes)
