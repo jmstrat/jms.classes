@@ -38,6 +38,13 @@ delete_button <-function(id,...) {
 #' Create a push button with the info icon
 #' @export
 #' @rdname buttons
+help_button <- function(id,...) {
+  shiny::tags$button(id=id,type="button", class = "btn btn-default action-button",'?',style="font-weight:bold;font-family: \"Times New Roman\", Times, serif; background-color:#4169E1; color: #fff;", ...)
+}
+
+#' Create a push button with the help icon
+#' @export
+#' @rdname buttons
 info_button <- function(id,...) {
   shiny::tags$button(id=id,type="button", class = "btn btn-default",'i',style="font-weight:bold;font-family: \"Times New Roman\", Times, serif;", ...)
 }
