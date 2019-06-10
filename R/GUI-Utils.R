@@ -165,20 +165,26 @@ inputReactives <- function(inputs,input) {
   irs
 }
 
+#' @rdname disableInput
+#' @export
+jsCodeHandler <- function() {shiny::tags$script(shiny::HTML('Shiny.addCustomMessageHandler("jsCode",function(message) {eval(message.code);});'))}
+
 #' Disable or enable an input
 #'
 #' @param id The ID for the input
 #' @param session The session object
-#' @keywords internal
+#' @export
 #' @rdname disableInput
 disableInput <- function(id,session) session$sendCustomMessage(type="jsCode",list(code= paste("$('#",session$ns(id),"').prop('disabled',true)",sep="")))
+#' @export
 #' @rdname disableInput
 enableInput <- function(id,session) session$sendCustomMessage(type="jsCode",list(code= paste("$('#",session$ns(id),"').prop('disabled',false)",sep="")))
 
 #' Disable or enable a select input
-#' @keywords internal
+#' @export
 #' @rdname disableInput
 disableSelect <- function(id,session) session$sendCustomMessage(type="jsCode",list(code= paste("$('#",session$ns(id),"').selectize()[0].selectize.disable()",sep="")))
+#' @export
 #' @rdname disableInput
 enableSelect <- function(id,session) session$sendCustomMessage(type="jsCode",list(code= paste("$('#",session$ns(id),"').selectize()[0].selectize.enable()",sep="")))
 
