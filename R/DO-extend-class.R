@@ -66,7 +66,7 @@ create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame(),y2
     i=which(myclass==me)
     #Remove everything preceeding and including the class for which this function was called
     if(length(i)<length(myclass)) class(x)<-myclass[i+1:length(myclass)]
-    #Rerun the subset function for the remaining classess
+    #Rerun the subset function for the remaining classes
     #(DO NOT USE UseMethod or NextMethod: the former doesn't return to this
     #function, the latter won't work if the "super" version of this function was called)
     r <- `[`(x,...)

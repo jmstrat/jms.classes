@@ -20,7 +20,7 @@
     } else {
       d <- dim(e2)
       if(is.null(d)) {
-        # Subtract a different value from each column
+        # Add a different value from each column
         e2=matrix(rep(e2,each=nrow(e1)),nrow(e1),ny)
       } else {
         e2 = as.data.frame(e2)
