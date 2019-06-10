@@ -4,15 +4,15 @@ persistent_settings<-NULL
 
 .onLoad <- function(libname, pkgname) {
   config_dir<<-rappdirs::user_config_dir('jms.packages', 'jms')
-  dir.create(config_dir, showWarnings = FALSE,recursive=TRUE)
+  dir.create(config_dir, showWarnings = FALSE, recursive=TRUE)
   #Load config db
-  db_dir<-file.path(config_dir,'config-database')
+  db_dir <- file.path(config_dir, 'config-database')
   dir.create(db_dir, showWarnings = FALSE,recursive=TRUE)
-  config_db<<-jms.database(db_dir)
+  config_db <<- jms.database(db_dir)
   persistent_settings <<- tryCatch({
     config_db[['persistent_settings']]
   }, error = function(e) {
-    config_db[['persistent_settings']]<-jms.database.table(key=character(),value=character())
+    config_db[['persistent_settings']] <- jms.database.table(key=character(),value=character())
     config_db[['persistent_settings']]
   })
   #Load the project db
@@ -22,12 +22,24 @@ persistent_settings<-NULL
 
 #' @export
 get_persistent_setting <- function(key) {
-  get_key(key)
+  tryCatchST({
+    get_key(key)
+  }, error = function(e, st) {
+    log.error('Error whilst getting persistent setting %s: %s\n%s', key, e, formatST(st))
+    warning('Could not get setting ', key, immediate.=TRUE)
+    NULL
+  })
 }
 
 #' @export
 set_persistent_setting <- function(key,value) {
-  set_key(key, value)
+  tryCatchST({
+    set_key(key, value)
+  }, error = function(e, st) {
+    log.error('Error whilst setting persistent setting %s = %s: %s\n%s', key, value, e, formatST(st))
+    warning('Could not set ', key, immediate.=TRUE)
+    NULL
+  })
 }
 
 get_key <- function(key, table=persistent_settings) {
