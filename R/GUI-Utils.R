@@ -76,7 +76,7 @@ hr <- function(col,...) {
 #' @rdname inputs
 make_inputs <- function(input_id,ids,templateFunction,...,session=NULL) {
   input_id2 <- if(!is.null(session)) session$ns(input_id) else input_id
-  template<-templateFunction('%s',...,counter=0,onclick = paste0('this.setAttribute(\"counter\",parseInt(this.getAttribute(\"counter\"))+1);Shiny.onInputChange(\"',input_id2,'\",  this.id+\"_\"+this.getAttribute(\"counter\"))'))
+  template<-templateFunction('{id}',...,counter=0,onclick = paste0('this.setAttribute(\"counter\",parseInt(this.getAttribute(\"counter\"))+1);Shiny.onInputChange(\"',input_id2,'\",  this.id+\"_\"+this.getAttribute(\"counter\"))'))
   ### -->
   # Slightly faster version of as.character
   html <- htmltools:::paste8("<", template$name, sep = "")
@@ -88,9 +88,11 @@ make_inputs <- function(input_id,ids,templateFunction,...,session=NULL) {
   }
   children <- htmltools:::dropNullsOrEmpty(htmltools:::flattenTags(template$children))
   html<-paste0(html,'>')
-  if(length(children))
-    html<-htmltools:::paste8(html,htmltools:::normalizeText(children[[1]]), "</", template$name, ">", sep = "")
+  for(child in children)
+    html<-htmltools:::paste8(html,htmltools:::normalizeText(child), "</", template$name, ">", sep = "")
   ### <--
+  html <- gsub("%", "%%", html)
+  html <- gsub("\\{id\\}", "%1$s", html)
   # Much faster than looping the above, but make sure %s is the only placeholder!
   if(input_id!='')
     sprintf(html,paste0(input_id2, '_',ids))
