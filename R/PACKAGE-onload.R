@@ -17,6 +17,12 @@ persistent_settings<-NULL
   })
   #Load the project db
   project_database()
+
+  #Register input handlers with shiny
+  if(requireNamespace("shiny", quietly=TRUE)) {
+    shiny::registerInputHandler("jms.matrix", shinyInputConvertToMatrix, force=TRUE)
+  }
+
   return(invisible())
 }
 
