@@ -28,7 +28,8 @@ register_gui_database_module <- function(moduleUI, moduleServer, title, database
 
   #Has the module alread been regiestered
   matches <- title == table[,'title']
-  if(any(matches)) {
+  matches <- matches[!is.na(matches)]
+  if(length(matches) && any(matches)) {
     # We replace the row with the new registration
     id <- table[matches, 'id']
     table[id] <- newrow
@@ -65,7 +66,8 @@ register_gui_plot_module <- function(moduleUI, moduleServer, title, tokens=c(), 
 
   #Has the module alread been regiestered
   matches <- title == table[,'title']
-  if(any(matches)) {
+  matches <- matches[!is.na(matches)]
+  if(length(matches) && any(matches)) {
     # We replace the row with the new registration
     id <- table[matches, 'id']
     table[id] <- newrow
@@ -83,7 +85,8 @@ register_gui_plot_module <- function(moduleUI, moduleServer, title, tokens=c(), 
   table <- config_db[[tableName]]
   #Has the module alread been regiestered
   matches <- name == table[,'title']
-  if(!any(matches)) stop('The module ', name, ' does not exist')
+  matches <- matches[!is.na(matches)]
+  if(length(matches) == 0 || !any(matches)) stop('The module ', name, ' does not exist')
   id <- table[matches, 'id']
   table[id, 'enabled']<-enabled
 }
