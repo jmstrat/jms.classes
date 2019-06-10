@@ -7,6 +7,7 @@ space=bquote(Text~MoreText)
 concat=bquote(Text*MoreText)
 superExpr=expression("Text"^-1)
 deltaExpr=bquote(delta~"("^"23"*"Na"*")"~"/"~ppm)
+cumExpr=expression("Cumulative Capacity / mAhg"^-1)
 
 test_that("HTML conversion gives correct result", {
   expect_equal(expressionToHTML(subscript),htmltools::HTML("Text<sub>sub</sub>"))
@@ -16,6 +17,7 @@ test_that("HTML conversion gives correct result", {
   expect_equal(expressionToHTML(concat),htmltools::HTML("TextMoreText"))
   expect_equal(expressionToHTML(superExpr),htmltools::HTML("Text<sup>-1</sup>"))
   expect_equal(expressionToHTML(deltaExpr),htmltools::HTML("&#948 (<sup>23</sup>Na) / ppm"))
+  expect_equal(expressionToHTML(cumExpr),htmltools::HTML("Cumulative Capacity / mAhg<sup>-1</sup>"))  # Cumu != Cu <mu> !!
 })
 
 test_that("String conversion gives correct result", {
