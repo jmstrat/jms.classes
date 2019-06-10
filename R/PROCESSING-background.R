@@ -4,7 +4,7 @@
 #' @param xy The data to create the background for (data.frame(x=..., y=...))
 #' @param x_points X values which lie on the baseline
 #' @param bkg_y_avg_points How many points either side of each x point to use to account for noise
-#' @param returnFunc Returns an splinefun rather than a vector of y values
+#' @param returnFunc Returns a splinefun rather than a vector of y values
 #' @return A vector containing the y values for the background
 #' @export
 make_background <- function(xy, x_points, bkg_y_avg_points = 4, returnFunc = FALSE) {
@@ -35,8 +35,29 @@ make_background <- function(xy, x_points, bkg_y_avg_points = 4, returnFunc = FAL
 #' @export
 make_backgrounds <- function(data, baseline_parameters, bkg_y_avg_points = 4) {
   if(is.null(baseline_parameters)) return(0)
+  log.info('Making baselines for data')
   x <- xcol(data)[[1]]
   nr <- nrow(data)
   bkgs <- mapply(function(a,b) if(is.null(b)) rep_len(0, nr) else make_background(data[,c(x,a)], b, bkg_y_avg_points = bkg_y_avg_points), ycol(data), baseline_parameters)
   as.jms.data.object(bkgs)
+}
+
+#' Expand a table of baseline parameters for use with \code{\link{make_backgrounds}}
+#'
+#' @param scans_and_points data.frame with the 1st column containing lists of x points, the second column containing lists of scan numbers
+#' @return A list that can be used as the baseline_parameters argument to \code{\link{make_backgrounds}}
+#' @export
+expand_baseline_parameters <- function(scans_and_points, nscans) {
+  scan_list <- scans_and_points[, 2, drop=FALSE]
+  if(!length(scan_list)) return()
+  where <- sapply(scan_list, function(x) 1:nscans %in% x)
+
+  lapply(1:nscans, function(i) {
+    idx <- which(where[i,])
+    if(length(idx) == 0) {
+      NULL
+    } else {
+      scans_and_points[[idx[[1]],1]]
+    }
+  })
 }
