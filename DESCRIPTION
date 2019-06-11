@@ -19,6 +19,7 @@ Suggests: shiny,
          rstudioapi,
          futile.logger
 Remotes:
+    jmstrat/Plotting.Utils,
     AnalytixWare/ShinySky,
     thomasp85/shinyFiles
 Encoding: UTF-8
