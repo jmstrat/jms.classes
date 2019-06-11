@@ -10,7 +10,7 @@ jms.enable.logging <- function() {
       if(is.null(ns)) {
         ns <- 'jms-logging'
       } else {
-        ns <- paste('jms-logging',ns,sep='.')
+        ns <- paste('jms-logging', ns, sep='.')
       }
       the.namespace <- futile.logger::flog.namespace(-8)
       the.namespace <- ifelse(the.namespace == "futile.logger",
@@ -44,7 +44,7 @@ jms.enable.logging <- function() {
 #' @export
 #' @rdname jms.logging
 jms.logging.setnamespace <- function(name) {
-  assign('.jms.logger',name,parent.frame())
+  assign('.jms.logger', name, parent.frame())
 }
 #' @export
 #' @rdname jms.logging
