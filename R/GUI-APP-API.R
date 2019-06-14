@@ -21,17 +21,23 @@
 #' @export
 register_gui_database_module <- function(moduleUI, moduleServer, title, databases=c(), namespace=NA) {
   # Fetch the table
-  table <- config_db[['GUI_Pages']]
+  table <- config_db[["GUI_Pages"]]
 
   # Prepare the new row
-  newrow <- list(namespace=namespace, ui=moduleUI, server=moduleServer, title=title, databases=paste0(databases, collapse=','))
+  newrow <- list(
+    namespace=namespace,
+    ui=moduleUI,
+    server=moduleServer,
+    title=title,
+    databases=paste0(databases, collapse=",")
+  )
 
-  #Has the module alread been regiestered
-  matches <- title == table[,'title']
+  # Has the module alread been regiestered
+  matches <- title == table[, "title"]
   matches <- matches[!is.na(matches)]
-  if(length(matches) && any(matches)) {
+  if (length(matches) && any(matches)) {
     # We replace the row with the new registration
-    id <- table[matches, 'id']
+    id <- table[matches, "id"]
     table[id] <- newrow
   } else {
     # Add the module as a new row
@@ -59,17 +65,23 @@ register_gui_database_module <- function(moduleUI, moduleServer, title, database
 #' @export
 register_gui_plot_module <- function(moduleUI, moduleServer, title, tokens=c(), namespace=NA) {
   # Fetch the table
-  table <- config_db[['GUI_PlotComponents']]
+  table <- config_db[["GUI_PlotComponents"]]
 
   # Prepare the new row
-  newrow <- list(namespace=namespace, ui=moduleUI, server=moduleServer, title=title, tokens=paste0(tokens, collapse=','))
+  newrow <- list(
+    namespace=namespace,
+    ui=moduleUI,
+    server=moduleServer,
+    title=title,
+    tokens=paste0(tokens, collapse=",")
+  )
 
-  #Has the module alread been regiestered
-  matches <- title == table[,'title']
+  # Has the module alread been regiestered
+  matches <- title == table[, "title"]
   matches <- matches[!is.na(matches)]
-  if(length(matches) && any(matches)) {
+  if (length(matches) && any(matches)) {
     # We replace the row with the new registration
-    id <- table[matches, 'id']
+    id <- table[matches, "id"]
     table[id] <- newrow
   } else {
     # Add the module as a new row
@@ -83,12 +95,12 @@ register_gui_plot_module <- function(moduleUI, moduleServer, title, tokens=c(), 
 .enable_disable <- function(name, tableName, enabled) {
   # Fetch the table
   table <- config_db[[tableName]]
-  #Has the module alread been regiestered
-  matches <- name == table[,'title']
+  # Has the module alread been regiestered
+  matches <- name == table[, "title"]
   matches <- matches[!is.na(matches)]
-  if(length(matches) == 0 || !any(matches)) stop('The module ', name, ' does not exist')
-  id <- table[matches, 'id']
-  table[id, 'enabled']<-enabled
+  if (length(matches) == 0 || !any(matches)) stop("The module ", name, " does not exist")
+  id <- table[matches, "id"]
+  table[id, "enabled"] <- enabled
 }
 
 #' Enable or disable a GUI module
@@ -97,25 +109,25 @@ register_gui_plot_module <- function(moduleUI, moduleServer, title, tokens=c(), 
 #' @export
 #' @rdname enable_disable_gui_module.Rd
 enable_gui_database_module <- function(name) {
-  .enable_disable(name, 'GUI_Pages', TRUE)
+  .enable_disable(name, "GUI_Pages", TRUE)
 }
 
 #' @export
 #' @rdname enable_disable_gui_module.Rd
 enable_gui_plot_module <- function(name) {
-  .enable_disable(name, 'GUI_PlotComponents', TRUE)
+  .enable_disable(name, "GUI_PlotComponents", TRUE)
 }
 
 #' @export
 #' @rdname enable_disable_gui_module.Rd
 disable_gui_database_module <- function(name) {
-  .enable_disable(name, 'GUI_Pages', FALSE)
+  .enable_disable(name, "GUI_Pages", FALSE)
 }
 
 #' @export
 #' @rdname enable_disable_gui_module.Rd
 disable_gui_plot_module <- function(name) {
-  .enable_disable(name, 'GUI_PlotComponents', FALSE)
+  .enable_disable(name, "GUI_PlotComponents", FALSE)
 }
 
 
@@ -125,11 +137,11 @@ disable_gui_plot_module <- function(name) {
 #' @export
 #' @rdname get_set_gui_title.Rd
 gui_title <- function() {
-  get_persistent_setting('GUI_Title')
+  get_persistent_setting("GUI_Title")
 }
 
 #' @export
 #' @rdname get_set_gui_title.Rd
 set_gui_title <- function(title) {
-  set_persistent_setting('GUI_Title', title)
+  set_persistent_setting("GUI_Title", title)
 }
