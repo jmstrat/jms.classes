@@ -11,9 +11,9 @@ xscale.default <- function(x) {
 }
 #' @rdname xyscales.jms
 #' @export
-`xscale<-` <- function(x,value) UseMethod("xscale<-")
+`xscale<-` <- function(x, value) UseMethod("xscale<-")
 #' @export
-`xscale<-.default` <- function(x,value) {
+`xscale<-.default` <- function(x, value) {
   stop("Unable to assign x column for this class")
 }
 #' @rdname xyscales.jms
@@ -25,9 +25,9 @@ yscale.default <- function(x) {
 }
 #' @rdname xyscales.jms
 #' @export
-`yscale<-` <- function(x,value) UseMethod("yscale<-")
+`yscale<-` <- function(x, value) UseMethod("yscale<-")
 #' @export
-`yscale<-.default` <- function(x,value) {
+`yscale<-.default` <- function(x, value) {
   stop("Unable to assign y column for this class")
 }
 #' @rdname xyscales.jms
@@ -39,13 +39,13 @@ y2scale.default <- function(x) {
 }
 #' @rdname xyscales.jms
 #' @export
-`y2scale<-` <- function(x,value) UseMethod("y2scale<-")
+`y2scale<-` <- function(x, value) UseMethod("y2scale<-")
 #' @export
-`y2scale<-.default` <- function(x,value) {
+`y2scale<-.default` <- function(x, value) {
   stop("Unable to assign y2 column for this class")
 }
 
-#Internal methods for use in function definitions as default arguments
-xscale_<-function(...)xscale(...)
-yscale_<-function(...)yscale(...)
-y2scale_<-function(...)y2scale(...)
+# Internal methods for use in function definitions as default arguments
+xscale_ <- function(...) xscale(...)
+yscale_ <- function(...) yscale(...)
+y2scale_ <- function(...) y2scale(...)
