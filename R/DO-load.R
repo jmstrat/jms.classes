@@ -7,9 +7,9 @@
 #' @param ... Additional parameters are passed to func
 #' @return A jms.data.object containing the data
 #' @examples
-#' load.jms('/path/to/directory', load_function, ext='ext')
-#' load.jms('/path/to/file.ext', load_function)
-#' load.jms(c('/path/to/file.ext','/path/to/file2.ext'))
+#' load.jms("/path/to/directory", load_function, ext="ext")
+#' load.jms("/path/to/file.ext", load_function)
+#' load.jms(c("/path/to/file.ext", "/path/to/file2.ext"))
 #' @export load.jms
 load.jms <- function(path, func, ext=NULL, pattern=NULL, sort=FALSE, ...) {
 
@@ -21,12 +21,16 @@ load.jms <- function(path, func, ext=NULL, pattern=NULL, sort=FALSE, ...) {
     eval(cc, envir=envir)
   }
 
-  if(missing(path)) path = clipboard_to_path()
-  dat=c()
-  for(p in path) {
-    if(dir.exists(p)) dat=c(dat,load.directory(p,load_wrapper,ext,pattern, sort,...))
-    else if(file.exists(p)) dat=c(dat,list(load.file(p,load_wrapper,...)))
-    else stop(p, ' not found')
+  if (missing(path)) path <- clipboard_to_path()
+  dat <- c()
+  for (p in path) {
+    if (dir.exists(p)) {
+      dat <- c(dat, load.directory(p, load_wrapper, ext, pattern, sort, ...))
+    } else if (file.exists(p)) {
+      dat <- c(dat, list(load.file(p, load_wrapper, ...)))
+    } else {
+      stop(p, " not found")
+    }
   }
   combine(as.list(dat), rescale=FALSE)
 }
@@ -38,13 +42,13 @@ load.jms <- function(path, func, ext=NULL, pattern=NULL, sort=FALSE, ...) {
 #' @param func The function to read the file
 #' @return A jms.data.object containing the data
 #' @examples
-#' load.file('/path/to/file.ext', load_function)
+#' load.file("/path/to/file.ext", load_function)
 #' @keywords internal
 load.file <- function(path, func, ...) {
-  if(!file.exists(path)) stop(path,' not found')
-  data = func(path,...)
-  attr(data,'filepath')<-path
-  attr(data,'filename')<-basename(path)
+  if (!file.exists(path)) stop(path, " not found")
+  data <- func(path, ...)
+  attr(data, "filepath") <- path
+  attr(data, "filename") <- basename(path)
   data
 }
 
@@ -59,21 +63,20 @@ load.file <- function(path, func, ...) {
 #' @details One of ext or pattern must be specified
 #' @return A list containing the data
 #' @examples
-#' load_dir_as_list('/path/to/directory',<function>,ext='ext')
+#' load.directory("/path/to/directory", load_function, ext="ext")
 #' @keywords internal
 #' @seealso \code{\link{load_directory}} \code{\link{list.files.sorted}}
-load.directory <- function(dir,func, ext=NULL,pattern=NULL, sort=FALSE,...) {
-  if(is.null(pattern)) {
-    if(is.null(ext)) stop('One of ext or pattern must be specified')
-    pattern=paste0('.*\\.',ext,'$')
+load.directory <- function(dir, func, ext=NULL, pattern=NULL, sort=FALSE, ...) {
+  if (is.null(pattern)) {
+    if (is.null(ext)) stop("One of ext or pattern must be specified")
+    pattern <- paste0(".*\\.", ext, "$")
   }
-  sorter = if(sort) list.files.sorted else list.files
+  sorter <- if (sort) list.files.sorted else list.files
   file_list <- sorter(path=dir, full.names=TRUE, pattern=pattern)
-  data=lapply(file_list, function(x) load.file(x, func, ...))
-  attr(data, 'dirpath') <- dir
-  attr(data, 'dirname') <- basename(dir)
-  attr(data, 'filepath') <- file_list
-  attr(data, 'filename') <- basename(file_list)
+  data <- lapply(file_list, function(x) load.file(x, func, ...))
+  attr(data, "dirpath") <- dir
+  attr(data, "dirname") <- basename(dir)
+  attr(data, "filepath") <- file_list
+  attr(data, "filename") <- basename(file_list)
   data
 }
-
