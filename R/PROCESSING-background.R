@@ -7,20 +7,24 @@
 #' @param returnFunc Returns a splinefun rather than a vector of y values
 #' @return A vector containing the y values for the background
 #' @export
-make_background <- function(xy, x_points, bkg_y_avg_points = 4, returnFunc = FALSE) {
-  bkg_x_points = vapply(x_points, function(x) which.min(abs(xy[,1] - x)), 1)
-  l = length(xy[,1])
-  r = range(bkg_x_points)
-  if(r[[1]]<=0) bkg_x_points = bkg_x_points + 1 - r[[1]]
-  if(r[[2]]>l) bkg_x_points = bkg_x_points + l - r[[2]]
+make_background <- function(xy, x_points, bkg_y_avg_points=4, returnFunc=FALSE) {
+  bkg_x_points <- vapply(x_points, function(x) which.min(abs(xy[, 1] - x)), 1)
+  l <- length(xy[, 1])
+  r <- range(bkg_x_points)
+  if (r[[1]] <= 0) bkg_x_points <- bkg_x_points + 1 - r[[1]]
+  if (r[[2]] > l) bkg_x_points <- bkg_x_points + l - r[[2]]
 
-  bkg_y = sapply(Map(seq, from = bkg_x_points-bkg_y_avg_points, to = bkg_x_points+bkg_y_avg_points),
-                 function(i) mean(xy[i,2]))
+  bkg_y <- sapply(
+    Map(seq, from=bkg_x_points - bkg_y_avg_points, to=bkg_x_points + bkg_y_avg_points),
+    function(i) mean(xy[i, 2])
+  )
 
-  fun <- splinefun(x_points,y=bkg_y)
-  if(returnFunc) return(fun)
+  fun <- splinefun(x_points, y=bkg_y)
+  if (returnFunc) {
+    return(fun)
+  }
 
-  fun(xy[,1])
+  fun(xy[, 1])
 }
 
 
@@ -33,12 +37,14 @@ make_background <- function(xy, x_points, bkg_y_avg_points = 4, returnFunc = FAL
 #'                            \code{\link{make_background}}.
 #' @return A \code{jms.data.object} containing the backgrounds that can be subtracted from the data
 #' @export
-make_backgrounds <- function(data, baseline_parameters, bkg_y_avg_points = 4) {
-  if(is.null(baseline_parameters)) return(0)
-  log.info('Making baselines for data')
+make_backgrounds <- function(data, baseline_parameters, bkg_y_avg_points=4) {
+  if (is.null(baseline_parameters)) {
+    return(0)
+  }
+  log.info("Making baselines for data")
   x <- xcol(data)[[1]]
   nr <- nrow(data)
-  bkgs <- mapply(function(a,b) if(is.null(b)) rep_len(0, nr) else make_background(data[,c(x,a)], b, bkg_y_avg_points = bkg_y_avg_points), ycol(data), baseline_parameters)
+  bkgs <- mapply(function(a, b) if (is.null(b)) rep_len(0, nr) else make_background(data[, c(x, a)], b, bkg_y_avg_points=bkg_y_avg_points), ycol(data), baseline_parameters)
   as.jms.data.object(bkgs)
 }
 
@@ -49,15 +55,17 @@ make_backgrounds <- function(data, baseline_parameters, bkg_y_avg_points = 4) {
 #' @export
 expand_baseline_parameters <- function(scans_and_points, nscans) {
   scan_list <- scans_and_points[, 2, drop=FALSE]
-  if(!length(scan_list)) return()
+  if (!length(scan_list)) {
+    return()
+  }
   where <- sapply(scan_list, function(x) 1:nscans %in% x)
 
   lapply(1:nscans, function(i) {
-    idx <- which(where[i,])
-    if(length(idx) == 0) {
+    idx <- which(where[i, ])
+    if (length(idx) == 0) {
       NULL
     } else {
-      scans_and_points[[idx[[1]],1]]
+      scans_and_points[[idx[[1]], 1]]
     }
   })
 }
