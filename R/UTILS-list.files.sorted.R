@@ -6,6 +6,6 @@
 #' i.e 10 would come after 9 in a natural sort, but after 1 using the default sorting method
 #' @export
 list.files.sorted <- function(...) {
-  files=list.files(...)
+  files <- list.files(...)
   files[order(as.numeric(sub("^[^0-9]*([0-9]*).*", "\\1", basename(files))))]
 }
