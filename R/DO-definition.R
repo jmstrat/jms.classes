@@ -4,7 +4,7 @@
 #' @return A JMS data object containing the data
 #' @export
 read.table.jms <- function(...) {
-  df=utils::read.table(...)
+  df <- utils::read.table(...)
   as.jms.data.object(df)
 }
 
@@ -36,7 +36,7 @@ jms.data.object <- function(...) {
 #' @return TRUE / FALSE
 #' @export
 is.jms.data.object <- function(x) {
-  return(inherits(x,"jms.data.object"))
+  return(inherits(x, "jms.data.object"))
 }
 
 #' Convert an object into a JMS data object
@@ -55,14 +55,14 @@ as.jms.data.object.default <- function(x) {
 as.jms.data.object.data.frame <- function(x) {
   attr(x, "class") <- c("jms.data.object", "data.frame")
   atts <- names(attributes(x))
-  if (!'file_type '%in% atts) attr(x, 'file_type') <- NULL
-  if (!'data_type' %in% atts) attr(x, 'data_type') <- NULL
-  if (!'y_type' %in% atts) ylab(x) <- 'Unknown'
-  if (!'y2_type' %in% atts) y2lab(x) <- NA
-  if (!'x_type' %in% atts) xlab(x) <- 'Unknown'
-  if (!'x_column' %in% atts && ncol(x) > 0) xcol(x) <- 1
-  if (!'y_column' %in% atts && ncol(x) > 1) ycol(x) <- 2
-  if (!'y2_column' %in% atts) y2col(x) <- NA_integer_
+  if (!"file_type" %in% atts) attr(x, "file_type") <- NULL
+  if (!"data_type" %in% atts) attr(x, "data_type") <- NULL
+  if (!"y_type" %in% atts) ylab(x) <- "Unknown"
+  if (!"y2_type" %in% atts) y2lab(x) <- NA
+  if (!"x_type" %in% atts) xlab(x) <- "Unknown"
+  if (!"x_column" %in% atts && ncol(x) > 0) xcol(x) <- 1
+  if (!"y_column" %in% atts && ncol(x) > 1) ycol(x) <- 2
+  if (!"y2_column" %in% atts) y2col(x) <- NA_integer_
   return(x)
 }
 
