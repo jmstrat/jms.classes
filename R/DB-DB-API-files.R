@@ -3,31 +3,33 @@
 #' @inheritParams add_files
 #' @keywords internal
 files_db_validate <- function(path=character()) {
-  path=assert_file(path,"Invalid file path supplied")
+  path <- assert_file(path, "Invalid file path supplied")
   list(path=path)
 }
 
 #' Create an empty dataframe to function as the files database
 #'
 #' @keywords internal
-.blank_files_db<- function() {jms.database.table.id(path=character(),validator=files_db_validate)}
+.blank_files_db <- function() {
+  jms.database.table.id(path=character(), validator=files_db_validate)
+}
 
 #' Create an empty files database to replace the existing one
 #'
 #' This function is used to initialise a database to hold details of file paths
 #' @export
 clear_files_database <- function() {
-  ft<-.blank_files_db()
-  db<-project_database()
-  db[['filePaths']]<-ft
+  ft <- .blank_files_db()
+  db <- project_database()
+  db[["filePaths"]] <- ft
   ft
 }
 
 #' @export
 files_table <- function() {
   tryCatch({
-    project_database()[['filePaths']]
-  }, error = function(e) {
+    project_database()[["filePaths"]]
+  }, error=function(e) {
     print(e)
     clear_files_database()
   })
@@ -40,12 +42,14 @@ files_table <- function() {
 #' @return IDs of the added files in the database
 #' @export
 add_files <- function(path=character()) {
-  if(!length(path)) return(numeric())
-  ft<-files_table()
-  current_ids=id_for_files(path)
-  for(file in path[is.na(current_ids)]) {
-    if(!length(file) || is.na(file)) next()
-    ft[]<-list(path=file)
+  if (!length(path)) {
+    return(numeric())
+  }
+  ft <- files_table()
+  current_ids <- id_for_files(path)
+  for (file in path[is.na(current_ids)]) {
+    if (!length(file) || is.na(file)) next()
+    ft[] <- list(path=file)
   }
   id_for_files(path)
 }
@@ -57,9 +61,9 @@ add_files <- function(path=character()) {
 #' @inheritParams add_files
 #' @return ID
 #' @export
-update_files <- function(id=numeric(),path=character()) {
-  ft<-files_table()
-  ft[id]<-list(path=path)
+update_files <- function(id=numeric(), path=character()) {
+  ft <- files_table()
+  ft[id] <- list(path=path)
   return(id)
 }
 
@@ -69,7 +73,7 @@ update_files <- function(id=numeric(),path=character()) {
 #' @param ids IDs of the files
 #' @export
 remove_files <- function(ids) {
-  ft<-files_table()
+  ft <- files_table()
   ft[-ids]
 }
 
@@ -79,19 +83,21 @@ remove_files <- function(ids) {
 #' @return The ID(s) or NA if not found
 #' @export
 id_for_files <- function(paths) {
-  if(!length(paths)) return(NA)
-  paths=assert_file(paths)
-  ft=files_table()
-  tableIds=ft[,'id']
-  tablePaths=ft[,'path']
-  if(!length(tablePaths) || all(is.na(tablePaths))) tablePaths=''
-  ids=c()
-  for(file in paths) {
-    exists=(tablePaths == file)
-    if(!is.na(file) && any(exists)) {
-      ids=append(ids,tableIds[exists][[1]])
+  if (!length(paths)) {
+    return(NA)
+  }
+  paths <- assert_file(paths)
+  ft <- files_table()
+  tableIds <- ft[, "id"]
+  tablePaths <- ft[, "path"]
+  if (!length(tablePaths) || all(is.na(tablePaths))) tablePaths <- ""
+  ids <- c()
+  for (file in paths) {
+    exists <- (tablePaths == file)
+    if (!is.na(file) && any(exists)) {
+      ids <- append(ids, tableIds[exists][[1]])
     } else {
-      ids=append(ids,NA)
+      ids <- append(ids, NA)
     }
   }
   ids
@@ -103,7 +109,9 @@ id_for_files <- function(paths) {
 #' @return The file paths
 #' @export
 file_for_ids <- function(ids) {
-  if(!length(ids)) return(c())
-  ft=files_table()
-  ft[ids,'path']
+  if (!length(ids)) {
+    return(c())
+  }
+  ft <- files_table()
+  ft[ids, "path"]
 }
