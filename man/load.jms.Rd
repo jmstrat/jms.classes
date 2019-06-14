@@ -27,7 +27,7 @@ A jms.data.object containing the data
 This function reads one or more data files in a directory
 }
 \examples{
-load.jms('/path/to/directory', load_function, ext='ext')
-load.jms('/path/to/file.ext', load_function)
-load.jms(c('/path/to/file.ext','/path/to/file2.ext'))
+load.jms("/path/to/directory", load_function, ext="ext")
+load.jms("/path/to/file.ext", load_function)
+load.jms(c("/path/to/file.ext", "/path/to/file2.ext"))
 }

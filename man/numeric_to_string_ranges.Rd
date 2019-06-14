@@ -15,9 +15,9 @@ numeric_to_string_ranges(x, min_collapse = 2)
 Collapse a numeric vector to a character vector of ranges
 }
 \examples{
-s <- c(1,2,3,4,8,9,14,15,16,19,21,24,25,26)
+s <- c(1, 2, 3, 4, 8, 9, 14, 15, 16, 19, 21, 24, 25, 26)
 
 paste0(numeric_to_string_ranges(s), collapse=", ")
-paste0(numeric_to_string_ranges(s,3), collapse=", ")
-paste0(numeric_to_string_ranges(s,4), collapse=", ")
+paste0(numeric_to_string_ranges(s, 3), collapse=", ")
+paste0(numeric_to_string_ranges(s, 4), collapse=", ")
 }

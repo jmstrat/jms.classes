@@ -22,8 +22,8 @@ add_update_delete_button(input, output, session, type, callback)
 Create an input button whose type depends upon a reactive value
 }
 \examples{
-ui <- add_update_delete_buttonUI('myID')
+ui <- add_update_delete_buttonUI("myID")
 server <- function(input, output, session) {
-    callModule(add_update_delete_button, "myID",type = reactive(expr), callback = my_function)
+  callModule(add_update_delete_button, "myID", type=reactive(expr), callback=my_function)
 }
 }

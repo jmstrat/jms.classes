@@ -42,21 +42,21 @@ It takes a \code{list} consisting of the following elements: \cr
  Buttons are generated using \code{make_inputs}.
 }
 \examples{
-inputs=list(
-list(
-  name='test',
-  id='checkbox',
-  ids=rownames(data),
-  template=checkbox,
-  column=1
-),
-list(
-  name='hr',
-  id='',
-  ids=rgb(t(col2rgb(plotrix::color.gradient(c(1,0),0,c(0,1),nslices=nrow(mydata)))/255)),
-  template=hr,
-  column=3
-)
+inputs <- list(
+  list(
+    name="test",
+    id="checkbox",
+    ids=rownames(data),
+    template=checkbox,
+    column=1
+  ),
+  list(
+    name="hr",
+    id="",
+    ids=rgb(t(col2rgb(plotrix::color.gradient(c(1, 0), 0, c(0, 1), nslices=nrow(mydata))) / 255)),
+    template=hr,
+    column=3
+  )
 )
 }
 \keyword{internal}

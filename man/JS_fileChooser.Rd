@@ -71,9 +71,9 @@ run through a call to one of the parser (\code{\link[=shinyFiles-parsers]{shinyF
 order to get well formatted paths to work with.
 }
 \examples{
-ui <- JS_fileChooserUI('myID', label='File select', title='Please select a file', multiple=FALSE)
+ui <- JS_fileChooserUI("myID", label="File select", title="Please select a file", multiple=FALSE)
 server <- function(input, output, session) {
-    callModule(JS_fileChooser, "myID")
+  callModule(JS_fileChooser, "myID")
 }
 }
 \seealso{

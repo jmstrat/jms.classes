@@ -42,8 +42,8 @@ These functions are used to add or get a \code{\link{jms.database.table}} to or 
 }
 \examples{
 \dontrun{
-database=jms.database(<path>)
-database[['mytable']]<-jms.database.table(...)
-table <- database[['mytable']]
+database <- jms.database("<path>")
+database[["mytable"]] <- jms.database.table(...)
+table <- database[["mytable"]]
 }
 }

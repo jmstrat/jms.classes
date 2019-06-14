@@ -44,8 +44,8 @@ Calls either \code{\link{JS_fileChooser}} or \code{\link[rstudioapi]{selectFile}
 depending on whether it is used in an Rstudio instance
 }
 \examples{
-ui <- fileChooserUI('myID', label='File select', title='Please select a file', multiple=FALSE)
+ui <- fileChooserUI("myID", label="File select", title="Please select a file", multiple=FALSE)
 server <- function(input, output, session) {
-    callModule(fileChooser, "myID")
+  callModule(fileChooser, "myID")
 }
 }

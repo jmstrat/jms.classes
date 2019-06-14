@@ -27,8 +27,8 @@ The value of the input
 Module: RStudio File Chooser
 }
 \examples{
-ui <- rstudio_fileChooserUI('myID', label='File select')
+ui <- rstudio_fileChooserUI("myID", label="File select")
 server <- function(input, output, session) {
-    callModule(rstudio_fileChooser, "myID")
+  callModule(rstudio_fileChooser, "myID")
 }
 }

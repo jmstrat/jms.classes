@@ -18,8 +18,8 @@ The value of the input
 Module: RStudio Dir Chooser
 }
 \examples{
-ui <- rstudio_dirChooserUI('myID', label='Select Directory')
+ui <- rstudio_dirChooserUI("myID", label="Select Directory")
 server <- function(input, output, session) {
-    callModule(rstudio_dirChooser, "myID")
+  callModule(rstudio_dirChooser, "myID")
 }
 }

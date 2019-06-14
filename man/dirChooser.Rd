@@ -23,8 +23,8 @@ Calls either \code{\link{JS_dirChooser}} or \code{\link[rstudioapi]{selectDir}}
 depending on whether it is used in an Rstudio instance
 }
 \examples{
-ui <- dirChooserUI('myID', label='Select directory', title='Please select a directory')
+ui <- dirChooserUI("myID", label="Select directory", title="Please select a directory")
 server <- function(input, output, session) {
-    callModule(dirChooser, "myID")
+  callModule(dirChooser, "myID")
 }
 }

@@ -24,8 +24,8 @@ basicInteractivePlot(input, output, session, plotFunction, ...)
 Module: Display a zoomable plot
 }
 \examples{
-ui <- basicInteractivePlotUI('myID')
+ui <- basicInteractivePlotUI("myID")
 server <- function(input, output, session) {
-    callModule(basicInteractivePlot, "myID",plotFunction=myFunction)
+  callModule(basicInteractivePlot, "myID", plotFunction=myFunction)
 }
 }

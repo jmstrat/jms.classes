@@ -28,7 +28,7 @@ This function reads every .ext file in a directory
 One of ext or pattern must be specified
 }
 \examples{
-load_dir_as_list('/path/to/directory',<function>,ext='ext')
+load.directory("/path/to/directory", load_function, ext="ext")
 }
 \seealso{
 \code{\link{load_directory}} \code{\link{list.files.sorted}}

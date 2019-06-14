@@ -41,8 +41,8 @@ Create an input control that is enabled and disabled automatically
 based on the state parameter.
 }
 \examples{
-ui <- stated_textUI('myID',label='My text input')
+ui <- stated_textUI("myID", label="My text input")
 server <- function(input, output, session) {
-    callModule(stated_text, "myID",state = reactive(expr))
+  callModule(stated_text, "myID", state=reactive(expr))
 }
 }

@@ -27,8 +27,8 @@ logical vector corresponding to which of \code{rowNames} are selected
 Module: Display a legend with checkboxes
 }
 \examples{
-ui <- checkbox_legendUI('myID')
+ui <- checkbox_legendUI("myID")
 server <- function(input, output, session) {
-    callModule(checkbox_legend, "myID",rowNames = reactive(expr), colours = reactive(expr))
+  callModule(checkbox_legend, "myID", rowNames=reactive(expr), colours=reactive(expr))
 }
 }

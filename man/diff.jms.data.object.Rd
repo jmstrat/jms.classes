@@ -18,5 +18,5 @@ A data object representing the difference
 This function calculates the difference between two data objects
 }
 \examples{
-diff(x,x2)
+diff(x, x2)
 }

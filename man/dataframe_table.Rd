@@ -29,8 +29,8 @@ a reactive \code{ids} to get the ids selected, a reactive \code{row} to get the 
 Module: Display a dataframe table
 }
 \examples{
-ui <- dataframe_table_UI('myID')
+ui <- dataframe_table_UI("myID")
 server <- function(input, output, session) {
-    callModule(dataframe_table, "myID",data_function = reactive(expr), display_filter = my_function)
+  callModule(dataframe_table, "myID", data_function=reactive(expr), display_filter=my_function)
 }
 }

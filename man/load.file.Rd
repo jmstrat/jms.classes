@@ -18,6 +18,6 @@ A jms.data.object containing the data
 This function reads one data file
 }
 \examples{
-load.file('/path/to/file.ext', load_function)
+load.file("/path/to/file.ext", load_function)
 }
 \keyword{internal}
