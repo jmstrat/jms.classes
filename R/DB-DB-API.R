@@ -6,20 +6,23 @@
 #' @param value The table
 #' @return Database or table object
 #' @examples
-#'\dontrun{
-#' database=jms.database(<path>)
-#' database[['mytable']]<-jms.database.table(...)
-#' table <- database[['mytable']]
+#' \dontrun{
+#' database <- jms.database("<path>")
+#' database[["mytable"]] <- jms.database.table(...)
+#' table <- database[["mytable"]]
 #' }
 #' @export
 #' @rdname jms.database.add_get
 `[[<-.jms.database` <- function(x, name, value) {
-  if(startsWith(name,'.')) {NextMethod(); return(x)}
-  #Remove a table
-  if(is.null(value)) {
+  if (startsWith(name, ".")) {
+    NextMethod()
+    return(x)
+  }
+  # Remove a table
+  if (is.null(value)) {
     x$.removeTable(name)
   } else {
-    x$.addTable(name,value)
+    x$.addTable(name, value)
   }
   x$.saveDatabase()
   return(x)
@@ -27,15 +30,17 @@
 
 #' @export
 #' @rdname jms.database.add_get
-`[[.jms.database` <- function(x,name) {
-  if(startsWith(name,'.')) return(get(name,envir=x))
-  #Check for new tables
+`[[.jms.database` <- function(x, name) {
+  if (startsWith(name, ".")) {
+    return(get(name, envir=x))
+  }
+  # Check for new tables
   x$.loadDatabase()
-  #Find table
+  # Find table
   x$.getTable(name)
 }
 
-###EXTRA METHODS:
+### EXTRA METHODS:
 
 #' @export
 #' @rdname jms.database.add_get
@@ -52,47 +57,47 @@
 
 #' @export
 #' @rdname jms.database.add_get
-`[.jms.database`<-function(x,name,...) {
-  `[[`(x,name,...)
+`[.jms.database` <- function(x, name, ...) {
+  `[[`(x, name, ...)
 }
 #' @export
 #' @rdname jms.database.add_get
-`$.jms.database`<-function(x,name,...) {
-  `[[`(x,name,...)
+`$.jms.database` <- function(x, name, ...) {
+  `[[`(x, name, ...)
 }
 
 #' @export
 #' @rdname jms.database.add_get
-`+.jms.database` <- function(e1, e2){
-  #TODO: get name, call x[[name]] <- value
+`+.jms.database` <- function(e1, e2) {
+  # TODO: get name, call x[[name]] <- value
   stop()
 }
 #' @export
 #' @rdname jms.database.add_get
-`-.jms.database` <- function(e1, e2){
-  #TODO: get name, call x[[name]] <- NULL
+`-.jms.database` <- function(e1, e2) {
+  # TODO: get name, call x[[name]] <- NULL
   stop()
 }
 
 #' @export
-save.jms.database <- function(x,...) {
+save.jms.database <- function(x, ...) {
   x$.saveDatabase()
 }
 
 #' @export
-load.jms.database <- function(x,...) {
+load.jms.database <- function(x, ...) {
   x$.loadDatabase()
 }
 
 #' @export
 lock.jms.database <- function(x) {
-  log.info('Locking database')
+  log.info("Locking database")
   x$.lockDatabase()
 }
 
 #' @export
 unlock.jms.database <- function(x) {
-  log.info('Unlocking database')
+  log.info("Unlocking database")
   x$.unlockDatabase()
 }
 
@@ -102,21 +107,20 @@ is.stale.jms.database <- function(x) {
 }
 
 #' @export
-plot.jms.database <- function(x,...) {
+plot.jms.database <- function(x, ...) {
   x$.plotDatabase()
 }
 
 #' @export
-print.jms.database <- function (x,...) {
+print.jms.database <- function(x, ...) {
   load(x)
-  cat('jms.database with the following tables:',paste0(x$.table_names,collapse=', '))
+  cat("jms.database with the following tables:", paste0(x$.table_names, collapse=", "))
 }
 
 #' @export
-View.jms.database <- function(x,...) {
+View.jms.database <- function(x, ...) {
   tabNames <- x$.table_names
-  tables<-lapply(tabNames, function(tab) as.data.frame(x$.getTable(tab)))
-  names(tables)<-tabNames
-  View(tables,...,title=paste(deparse(substitute(x))[1]))
+  tables <- lapply(tabNames, function(tab) as.data.frame(x$.getTable(tab)))
+  names(tables) <- tabNames
+  View(tables, ..., title=paste(deparse(substitute(x))[1]))
 }
-
