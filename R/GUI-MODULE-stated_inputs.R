@@ -11,9 +11,9 @@
 #' \code{\link[shiny]{textInput}} or \code{\link[shiny]{selectInput}}
 #' @return The value of the input
 #' @examples
-#' ui <- stated_textUI('myID',label='My text input')
+#' ui <- stated_textUI("myID", label="My text input")
 #' server <- function(input, output, session) {
-#'     callModule(stated_text, "myID",state = reactive(expr))
+#'   callModule(stated_text, "myID", state=reactive(expr))
 #' }
 #' @rdname stated_inputs
 #' @export
@@ -25,16 +25,16 @@ stated_textUI <- function(id, ...) {
 #' @export
 stated_text <- function(input, output, session, state, value) {
   shiny::observe({
-    s=state()
-    if(s==0) {
-      enableInput("managed_input",session)
-      shiny::updateTextInput(session,"managed_input",value='')
-    } else if(s==1) {
-      enableInput("managed_input",session)
-      shiny::updateTextInput(session,"managed_input",value=value())
+    s <- state()
+    if (s == 0) {
+      enableInput("managed_input", session)
+      shiny::updateTextInput(session, "managed_input", value="")
+    } else if (s == 1) {
+      enableInput("managed_input", session)
+      shiny::updateTextInput(session, "managed_input", value=value())
     } else {
-      disableInput("managed_input",session)
-      shiny::updateTextInput(session,"managed_input",value='multiple')
+      disableInput("managed_input", session)
+      shiny::updateTextInput(session, "managed_input", value="multiple")
     }
   })
   shiny::reactive(input$managed_input)
@@ -49,14 +49,14 @@ stated_selectUI <- function(id, ...) {
 #' @export
 stated_select <- function(input, output, session, state, value) {
   shiny::observe({
-    s=state()
-    if(s==0) {
-      enableSelect("managed_input",session)
-    } else if(s==1) {
-      enableSelect("managed_input",session)
-      shiny::updateSelectInput(session,"managed_input",selected=value())
+    s <- state()
+    if (s == 0) {
+      enableSelect("managed_input", session)
+    } else if (s == 1) {
+      enableSelect("managed_input", session)
+      shiny::updateSelectInput(session, "managed_input", selected=value())
     } else {
-      disableSelect("managed_input",session)
+      disableSelect("managed_input", session)
     }
   })
   shiny::reactive(input$managed_input)
@@ -72,13 +72,13 @@ stated_buttonUI <- function(id, ...) {
 #' @export
 stated_button <- function(input, output, session, state) {
   shiny::observe({
-    s=state()
-    if(s==0) {
-      enableInput("managed_input",session)
-    } else if(s==1) {
-      enableInput("managed_input",session)
+    s <- state()
+    if (s == 0) {
+      enableInput("managed_input", session)
+    } else if (s == 1) {
+      enableInput("managed_input", session)
     } else {
-      disableInput("managed_input",session)
+      disableInput("managed_input", session)
     }
   })
   shiny::reactive(input$managed_input)
