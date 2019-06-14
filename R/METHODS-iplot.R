@@ -12,12 +12,12 @@ iplot.default <- function(...) {
 #' @rdname iPlot
 #' @export
 iplotOutput <- function(id) {
-  shiny::uiOutput(id,style='width:100%; height:400px')
+  shiny::uiOutput(id, style="width:100%; height:400px")
 }
 
 #' @rdname iPlot
 #' @export
-renderIPlot <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if(!quoted) expr <- substitute(expr)
-  shiny::renderUI(expr,env=env,quoted=TRUE, outputArgs = list())
+renderIPlot <- function(expr, env=parent.frame(), quoted=FALSE) {
+  if (!quoted) expr <- substitute(expr)
+  shiny::renderUI(expr, env=env, quoted=TRUE, outputArgs=list())
 }
