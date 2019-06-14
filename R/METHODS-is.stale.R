@@ -2,7 +2,7 @@
 #'
 #' @param x The database to check
 #' @export
-is.stale <- function(x) UseMethod('is.stale')
+is.stale <- function(x) UseMethod("is.stale")
 #' @export
 is.stale.default <- function(x) {
   stop("Unable to check state for this object")
