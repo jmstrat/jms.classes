@@ -19,9 +19,9 @@ range.jms.data.object <- function(x, offset, ...) {
     x[, yc] <- .Primitive("+")(x[, yc], offsets)
   }
   if (length(yc) > 0) {
-    range.default(x[, yc], na.rm=TRUE)
+    as.numeric(range.default(x[, yc], na.rm=TRUE))
   } else {
-    range.default(x, na.rm=TRUE)
+    as.numeric(range.default(x, na.rm=TRUE))
   }
 }
 
@@ -40,9 +40,9 @@ min.jms.data.object <- function(x, ...) {
   yc <- tryCatch(ycol(x), error=function(e) NULL)
   x <- as.matrix(x)
   if (length(yc) > 0) {
-    .Primitive("min")(x[, yc], na.rm=TRUE)
+    as.numeric(.Primitive("min")(x[, yc], na.rm=TRUE))
   } else {
-    .Primitive("min")(x, na.rm=TRUE)
+    as.numeric(.Primitive("min")(x, na.rm=TRUE))
   }
 }
 
@@ -60,8 +60,8 @@ max.jms.data.object <- function(x, ...) {
   yc <- tryCatch(ycol(x), error=function(e) NULL)
   x <- as.matrix(x)
   if (length(yc) > 0) {
-    .Primitive("max")(x[, yc], na.rm=TRUE)
+    as.numeric(.Primitive("max")(x[, yc], na.rm=TRUE))
   } else {
-    .Primitive("max")(x, na.rm=TRUE)
+    as.numeric(.Primitive("max")(x, na.rm=TRUE))
   }
 }
