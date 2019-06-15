@@ -115,10 +115,15 @@ plot.jms.data.object <- function(x, offset=NULL, ...) {
 lines.jms.data.object <- function(x, col=par("col"), type="l", y2=TRUE, cex.points=par("cex"), ...) {
   log.debug("Drawing lines for a %s", class(x)[[1]])
 
+
+  # To allow unit conversions etc.
+  x <- get_scaled(x)
+
   x_data <- x[, xcol(x)]
   y_cols <- ycol(x)
   y_cols <- y_cols[!is.na(y_cols)]
   y_df <- if (length(y_cols) == 0) c() else x[, y_cols]
+
   y2_cols <- y2col(x)
   y2_cols <- y2_cols[!is.na(y2_cols)]
   y2_df <- if (length(y2_cols) == 0) c() else x[, y2_cols]

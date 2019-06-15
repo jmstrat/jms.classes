@@ -24,6 +24,10 @@
   if ("y2_column" %in% nOldAtts) {
     attributes(r)[["y2_column"]] <- which(new_cols %in% oldAtts[["y2_column"]])
   }
+  # Check which scaled columns we still have and get their new numbers
+  if (".scaled" %in% nOldAtts) {
+    attributes(r)[[".scaled"]] <- which(new_cols %in% oldAtts[[".scaled"]])
+  }
   # Restore the class if the dataset is still 2D
   if (inherits(r, "data.frame")) class(r) <- c("jms.data.object", "data.frame")
   return(r)
