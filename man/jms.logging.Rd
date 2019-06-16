@@ -15,7 +15,7 @@
 \alias{log.fatal}
 \title{Enable debug logging}
 \usage{
-jms.enable.logging()
+jms.enable.logging(threshold)
 
 jms.logging.setnamespace(name)
 
@@ -38,6 +38,9 @@ jms.logging.function(app)
 \method{log}{error}(msg, ...)
 
 \method{log}{fatal}(msg, ...)
+}
+\arguments{
+\item{threshold}{(optional for jms.enable.logging) see \code{\link[futile.logger]{flog.threshold}}}
 }
 \description{
 Enable debug logging

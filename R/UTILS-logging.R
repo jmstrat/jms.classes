@@ -1,7 +1,12 @@
 #' Enable debug logging
+#'
+#' @param threshold (optional for jms.enable.logging) see \code{\link[futile.logger]{flog.threshold}}
 #' @export
 #' @rdname jms.logging
-jms.enable.logging <- function() {
+jms.enable.logging <- function(threshold) {
+  if (!missing(threshold)) {
+    jms.logging.threshold(threshold)
+  }
   if (is.element("futile.logger", utils::installed.packages()[, 1])) {
     layout <- futile.logger::layout.format("~l ~t ~m")
     futile.logger::flog.layout(layout, name="jms-logging")
