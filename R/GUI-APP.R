@@ -177,14 +177,13 @@ gui <- function(port=5000) {
   if (!requireNamespace("shiny", quietly=TRUE)) stop("GUI requires the shiny package to be installed")
   if (!requireNamespace("DT", quietly=TRUE)) stop("GUI requires the DT package to be installed")
   if (!requireNamespace("shinyFiles", quietly=TRUE)) stop("GUI requires the shinyFiles package to be installed")
-  if (!requireNamespace("shinyBS", quietly=TRUE)) stop("GUI requires the shinyBS package to be installed")
 
   ui <- shiny::tagList(shiny::tags$head(
     jsCodeHandler(),
     NotificationStyle(),
     shiny::uiOutput("modulesUI")
   ))
-  shiny::addResourcePath("sbs", system.file("www", package="shinyBS"))
+
   shiny::addResourcePath("www", system.file("www", package="jms.classes"))
   shiny::shinyApp(ui=ui, server=server, options=list(port=port))
 }
