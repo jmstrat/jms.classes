@@ -174,9 +174,7 @@ server <- function(input, output, session) {
 #' Display a modular graphical user interface
 #' @export
 gui <- function(port=5000) {
-  if (!requireNamespace("shiny", quietly=TRUE)) stop("GUI requires the shiny package to be installed")
-  if (!requireNamespace("DT", quietly=TRUE)) stop("GUI requires the DT package to be installed")
-  if (!requireNamespace("shinyFiles", quietly=TRUE)) stop("GUI requires the shinyFiles package to be installed")
+  assert_packages("shiny", "shinyFiles", "DT", purpose="GUI")
 
   ui <- shiny::tagList(shiny::tags$head(
     jsCodeHandler(),
