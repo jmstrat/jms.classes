@@ -15,7 +15,6 @@
 basicInteractivePlotUI <- function(id) {
   ns <- shiny::NS(id)
   shiny::div(
-    shinysky::shinyalert(ns("error"), auto.close.after=5),
     shiny::plotOutput(ns("plot"),
       height=400,
       dblclick=ns("dblclick"),
@@ -30,7 +29,6 @@ basicInteractivePlotUI <- function(id) {
 #' @rdname interactivePlot
 #' @export
 basicInteractivePlot <- function(input, output, session, plotFunction, ...) {
-  hide_error("error", session)
   plot_range <- shiny::reactiveValues(x=NULL, y=NULL)
   output$plot <- shiny::renderPlot({
     tryCatch({
@@ -39,7 +37,7 @@ basicInteractivePlot <- function(input, output, session, plotFunction, ...) {
       ylim <- plot_range$y
       plotFunction(..., xlim=xlim, ylim=ylim)
     }, error=function(e) {
-      show_error(e, "error", session)
+      show_error(e)
     })
   })
   # zoom to the brush bounds; double click, reset the zoom.

@@ -1,20 +1,50 @@
+#' Set the default notification style for errors and warnings to be centred on the screen
+#' @export
+#' @rdname errors
+NotificationStyle <- function() {
+  shiny::tagList(
+    shiny::tags$head(
+      shiny::tags$style(
+        ".shiny-notification {height: 50px; width: 400px;}
+         #shiny-notification-panel {top: 0; width: 400px; right: 5px;}"
+      )
+    ),
+    shiny::tags$head(
+      shiny::tags$style(
+        ".shiny-notification-error {position: fixed; top: 5%; left: 0; right: 0;
+                                    margin: auto; height: 200px; opacity: 1;
+                                    text-align: center;}"
+      )
+    ),
+    shiny::tags$head(
+      shiny::tags$style(
+        ".shiny-notification-warning {position: fixed; top: 5%; left: 0; right: 0;
+                                      margin: auto; height: 200px; opacity: 1;
+                                      text-align: center;}"
+      )
+    )
+  )
+}
+
 #' Present an error dialog to the user
 #'
 #' This function is called to display an error to the user.
-#' @param e The error text
-#' @param errorid The ID of the error dialog box
-#' @param session The session object
+#' @param content The content of the error message. Can be text / \code{\link[htmltools]{HTML}}
 #' @export
 #' @rdname errors
-show_error <- function(e, errorid, session) {
-  shinysky::showshinyalert(session, session$ns(errorid), paste0("ERROR: ", e), styleclass="danger")
+show_error <- function(content) {
+  shiny::showNotification(
+    shiny::div(content),
+    duration=10,
+    type="error", id="error", session=session
+  )
   log.error(e)
 }
 
 #' @export
 #' @rdname errors
-hide_error <- function(errorid, session) {
-  shinysky::hideshinyalert(session, session$ns(errorid))
+hide_error <- function() {
+  shiny::removeNotification("error")
 }
 
 #' Create a normal push button

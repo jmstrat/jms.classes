@@ -1,7 +1,6 @@
 gui_plottingUI <- function(id) {
   ns <- shiny::NS(id)
   shiny::fluidPage(
-    shinysky::shinyalert(ns("error"), FALSE, auto.close.after=5),
     shiny::fluidRow(
       shiny::column(9, shiny::textInput(ns("toplot"), label="Selected Items:", width="100%")),
       shiny::column(3, normal_button(ns("plot"), "Plot", style="width:100%; margin-top: 25px;"))
@@ -69,10 +68,8 @@ gui_plotting <- function(input, output, session, components, inputList) {
     plotList
   })
 
-
-  hide_error("error", session)
   errorFunc <- function(e) {
-    show_error(e, "error", session)
+    show_error(e)
   }
 
   loadedModules <- new.env(parent=emptyenv())
