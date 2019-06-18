@@ -1,11 +1,12 @@
 getPathForTable <- function(database, name) {
   dbPath <- database$.path
   if (!length(dbPath)) stop("Path is undefined")
-  paste0(dbPath, "/", name, ".table")
+  name <- paste0(name, ".table")
+  file.path(dbPath, name)
 }
 
 getPathForDatabase <- function(database) {
   dbPath <- database$.path
   if (!length(dbPath)) stop("Path is undefined")
-  paste0(dbPath, "/database")
+  file.path(dbPath, "database")
 }
