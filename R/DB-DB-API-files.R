@@ -30,7 +30,6 @@ files_table <- function() {
   tryCatch({
     project_database()[["filePaths"]]
   }, table_not_found=function(e) {
-    print(e)
     clear_files_database()
   })
 }
