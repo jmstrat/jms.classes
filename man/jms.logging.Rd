@@ -24,21 +24,34 @@ jms.logging.file(file)
 
 jms.logging.function(app)
 
-\method{log}{trace}(msg, ...)
+log.trace(msg, ..., ns=NULL)
 
-\method{log}{debug}(msg, ...)
+log.debug(msg, ..., ns=NULL)
 
-\method{log}{info}(msg, ...)
+log.info(msg, ..., ns=NULL)
 
-\method{log}{warn}(msg, ...)
+log.warn(msg, ..., ns=NULL)
 
-\method{log}{error}(msg, ...)
+log.error(msg, ..., ns=NULL)
 
-\method{log}{fatal}(msg, ...)
+log.fatal(msg, ..., ns=NULL)
 }
 \arguments{
 \item{threshold}{(optional for jms.enable.logging) see \code{\link[futile.logger]{flog.threshold}}}
+
+\item{ns}{Logging namespace (see details)}
 }
 \description{
 Enable debug logging
+}
+\details{
+Enables logging output. Logging operates under a hierarchal set of namespaces, each
+namespace can have its own threshold. Currently the predefined namespaces are:
+\describe{
+ \item{[package-name]}{The default logger is the name of the package which is doing the logging.
+                       Note . is replaced by - in the name if necessary. (inherits from jms-logging)}
+ \item{jms-database}{All database logging falls under this namespace (inherits from jms-logging)}
+ \item{jms-database-table}{All database table logging falls under this namespace (inherits from jms-database)}
+ \item{jms-logging}{The root logger for all packages developed by me}
+}
 }

@@ -1,6 +1,18 @@
 #' Enable debug logging
 #'
+#' @details
+#' Enables logging output. Logging operates under a hierarchal set of namespaces, each
+#' namespace can have its own threshold. Currently the predefined namespaces are:
+#' \describe{
+#'  \item{[package-name]}{The default logger is the name of the package which is doing the logging.
+#'                        Note . is replaced by - in the name if necessary. (inherits from jms-logging)}
+#'  \item{jms-database}{All database logging falls under this namespace (inherits from jms-logging)}
+#'  \item{jms-database-table}{All database table logging falls under this namespace (inherits from jms-database)}
+#'  \item{jms-logging}{The root logger for all packages developed by me}
+#' }
+#'
 #' @param threshold (optional for jms.enable.logging) see \code{\link[futile.logger]{flog.threshold}}
+#' @param ns Logging namespace (see details)
 #' @export
 #' @rdname jms.logging
 jms.enable.logging <- function(threshold) {
@@ -17,7 +29,7 @@ jms.enable.logging <- function(threshold) {
                              error=function(e) "(shell)"
     )
 
-    ns <- if(is.null(ns)) the.namespace else ns
+    ns <- if(is.null(ns)) gsub('.', '-', the.namespace, fixed=T) else ns
     ns <- paste("jms-logging", ns, sep=".")
 
     out <- capture.output(
@@ -101,26 +113,26 @@ if (requireNamespace("crayon", quietly=TRUE)) {
 }
 
 #' @export log.trace
-#' @name log.trace
+#' @usage log.trace(msg, ..., ns=NULL)
 #' @rdname jms.logging
 log.trace <- function(msg, ...) log_message(msg, ..., level=structure(9L, .Names="TRACE"), styleFun=style_trace)
 #' @export log.debug
-#' @name log.debug
+#' @usage log.debug(msg, ..., ns=NULL)
 #' @rdname jms.logging
 log.debug <- function(msg, ...) log_message(msg, ..., level=structure(8L, .Names="DEBUG"), styleFun=style_debug)
 #' @export log.info
-#' @name log.info
+#' @usage log.info(msg, ..., ns=NULL)
 #' @rdname jms.logging
 log.info <- function(msg, ...) log_message(msg, ..., level=structure(6L, .Names="INFO"), styleFun=style_info)
 #' @export log.warn
-#' @name log.warn
+#' @usage log.warn(msg, ..., ns=NULL)
 #' @rdname jms.logging
 log.warn <- function(msg, ...) log_message(msg, ..., level=structure(4L, .Names="WARN"), styleFun=style_warn)
 #' @export log.error
-#' @name log.error
+#' @usage log.error(msg, ..., ns=NULL)
 #' @rdname jms.logging
 log.error <- function(msg, ...) log_message(msg, ..., level=structure(2L, .Names="ERROR"), styleFun=style_error)
 #' @export log.fatal
-#' @name log.fatal
+#' @usage log.fatal(msg, ..., ns=NULL)
 #' @rdname jms.logging
 log.fatal <- function(msg, ...) log_message(msg, ..., level=structure(1L, .Names="FATAL"), styleFun=style_fatal)
