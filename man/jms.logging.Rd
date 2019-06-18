@@ -2,7 +2,6 @@
 % Please edit documentation in R/UTILS-logging.R
 \name{jms.enable.logging}
 \alias{jms.enable.logging}
-\alias{jms.logging.setnamespace}
 \alias{jms.logging.threshold}
 \alias{jms.disable.logging}
 \alias{jms.logging.file}
@@ -16,8 +15,6 @@
 \title{Enable debug logging}
 \usage{
 jms.enable.logging(threshold)
-
-jms.logging.setnamespace(name)
 
 jms.logging.threshold(threshold, ns = NULL)
 
