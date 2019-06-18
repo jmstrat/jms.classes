@@ -21,9 +21,14 @@ config_db <- NULL
   db_dir <- file.path(config_dir, "config-database")
   dir.create(db_dir, showWarnings=FALSE, recursive=TRUE)
 
+  # Note that the database won't actually load at this point
+  # It will actually load when we try to do anything with it
+  # e.g. by calling persistent_settings_table()
+  # This simplifies startup (and installation)
   config_db <<- jms.database(db_dir)
 
   # Load the project db
+  # Again the database won't actually really load at this point
   project_database()
 
   # Register input handlers with shiny
