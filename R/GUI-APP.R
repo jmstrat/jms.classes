@@ -1,6 +1,4 @@
 server <- function(input, output, session) {
-  jms.logging.setnamespace("GUI")
-
   config <- as.jms.reactive.database(
     database2reference(config_db),
     reactiveSession=session,

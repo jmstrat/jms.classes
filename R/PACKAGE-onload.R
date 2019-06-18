@@ -3,6 +3,11 @@ config_db <- NULL
 persistent_settings <- NULL
 
 .onLoad <- function(libname, pkgname) {
+
+  # Prevent excessively verbose debug logging by default
+  jms.logging.threshold("INFO", "jms-database")
+  jms.logging.threshold("INFO", "lock-files")
+
   config_dir <<- rappdirs::user_config_dir("jms.packages", "jms")
   dir.create(config_dir, showWarnings=FALSE, recursive=TRUE)
   # Load config db

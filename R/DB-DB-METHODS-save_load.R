@@ -9,7 +9,7 @@ saveTable <- function(database, name) {
   path <- database$.getPathForTable(name)
   parent.env(table) <- emptyenv()
   database$.lockTable(name)
-  log.debug("Writing table %s to %s", name, path)
+  log.debug("Writing table %s to %s", name, path, ns="jms-database")
   writeDBOBJToFile(table, path)
   database$.updateHashForTable(name)
   database$.unlockTable(name)
@@ -22,7 +22,7 @@ loadTable <- function(database, name) {
   if (!file.exists(path)) stop("Unable to load table ", name)
   current_table <- get0(name, envir=database)
   database$.lockTable(name)
-  log.debug("Reading table from %s", path)
+  log.debug("Reading table from %s", path, ns="jms-database")
   new_table <- readDBOBJFromFile(path)
   if (is.null(current_table)) {
     parent.env(new_table) <- database
@@ -40,20 +40,20 @@ loadTable <- function(database, name) {
 
 saveDatabase <- function(database) {
   if (is.null(database$.path)) {
-    log.info("Not saving database: path is not set")
+    log.info("Not saving database: path is not set", ns="jms-database")
     return(database)
   }
-  log.debug("Preparing to save database")
+  log.debug("Preparing to save database", ns="jms-database")
   if (database$.hasChanged) {
     path <- database$.getPathForDatabase()
     database$.lockDatabase()
-    log.info("Saving database to %s", path)
+    log.info("Saving database to %s", path, ns="jms-database")
     writeDBOBJToFile(database$.table_names, path)
     database$.updateHashForDatabase()
     database$.unlockDatabase()
     database$.hasChanged <- FALSE
   } else {
-    log.debug("Database does not need saving")
+    log.debug("Database does not need saving", ns="jms-database")
   }
   # Tables are saved when they are added to the database
   return(database)
@@ -61,26 +61,26 @@ saveDatabase <- function(database) {
 
 loadDatabase <- function(database) {
   if (is.null(database$.path)) {
-    log.info("Not loading database: path is not set")
+    log.info("Not loading database: path is not set", ns="jms-database")
     return(invisible(database))
   }
   path <- database$.getPathForDatabase()
   if (!file.exists(path)) {
-    log.warn("Not loading database: file does not exist")
+    log.warn("Not loading database: file does not exist", ns="jms-database")
     return(invisible(database))
   }
-  log.debug("Preparing to load database")
+  log.debug("Preparing to load database", ns="jms-database")
   if (!is.stale(database)) {
-    log.debug("Database does not need loading")
+    log.debug("Database does not need loading", ns="jms-database")
     return(invisible(database))
   }
   database$.lockDatabase()
   new_table_names <- readDBOBJFromFile(path)
   database$.updateHashForDatabase()
-  log.info("Found tables: %s", paste0(new_table_names, collapse=","))
+  log.info("Found tables: %s", paste0(new_table_names, collapse=","), ns="jms-database")
   for (name in new_table_names) {
     if (name %in% database$.table_names) {
-      log.info("Table %s already loaded", name)
+      log.info("Table %s already loaded", name, ns="jms-database")
       next() # We already have this table!
     }
     database$.table_names <- append(database$.table_names, name)
@@ -88,6 +88,6 @@ loadDatabase <- function(database) {
   }
   database$.hasChanged <- FALSE
   database$.unlockDatabase()
-  log.info("Database loaded")
+  log.info("Database loaded", ns="jms-database")
   return(invisible(database))
 }

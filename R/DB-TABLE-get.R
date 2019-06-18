@@ -9,7 +9,7 @@
   jltz <- j < 0
   ljltz <- length(j[jltz])
   if (liltz && ljltz) {
-    log.info(
+    log.info(ns="jms-database.jms-database-table",
       "Deleting row%s %s and column%s %s",
       if (liltz == 1) "" else "s",
       paste0(i[iltz] * -1, collapse=","),
@@ -17,13 +17,13 @@
       paste0(j[jltz] * -1, collapse=",")
     )
   } else if (liltz) {
-    log.info(
+    log.info(ns="jms-database.jms-database-table",
       "Deleting row%s %s",
       if (liltz == 1) "" else "s",
       paste0(i[iltz] * -1, collapse=",")
     )
   } else if (ljltz) {
-    log.info(
+    log.info(ns="jms-database.jms-database-table",
       "Deleting column%s %s",
       if (ljltz == 1) "" else "s",
       paste0(j[jltz] * -1, collapse=",")
@@ -43,7 +43,7 @@
   j <- j[!jltz]
   if (!length(i)) i <- TRUE
   if (!length(j)) j <- TRUE
-  log.debug("Getting {[%s],[%s]}", paste0(i, collapse=","), paste0(j, collapse=","))
+  log.debug("Getting {[%s],[%s]}", paste0(i, collapse=","), paste0(j, collapse=","), ns="jms-database.jms-database-table")
   return(`[.data.frame`(table, i, j))
 }
 #' @export

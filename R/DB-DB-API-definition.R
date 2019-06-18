@@ -6,7 +6,7 @@
 #' @return Database object
 #' @export
 jms.database <- function(path=NULL) {
-  log.info("Creating new database with path: %s", path)
+  log.info("Creating new database with path: %s", path, ns="jms-database")
   self <- new.env(parent=emptyenv())
   self$.path <- path
   self$.self <- self
@@ -97,13 +97,13 @@ load.jms.database <- function(x, ...) {
 
 #' @export
 lock.jms.database <- function(x) {
-  log.info("Locking database")
+  log.info("Locking database", ns="jms-database")
   x$.lockDatabase()
 }
 
 #' @export
 unlock.jms.database <- function(x) {
-  log.info("Unlocking database")
+  log.info("Unlocking database", ns="jms-database")
   x$.unlockDatabase()
 }
 

@@ -10,18 +10,15 @@ jms.enable.logging <- function(threshold) {
   if (is.element("futile.logger", utils::installed.packages()[, 1])) {
     layout <- futile.logger::layout.format("~l ~t ~m")
     futile.logger::flog.layout(layout, name="jms-logging")
-    log_message <- function(msg, ..., level, styleFun=NULL) {
-      ns <- get0(".jms.logger", envir=-3)
-      if (is.null(ns)) {
-        ns <- "jms-logging"
-      } else {
-        ns <- paste("jms-logging", ns, sep=".")
-      }
+    log_message <- function(msg, ..., level, styleFun=NULL, ns=NULL) {
       the.namespace <- futile.logger::flog.namespace(-8)
       the.namespace <- ifelse(the.namespace == "futile.logger", "ROOT", the.namespace)
       the.function <- tryCatch(deparse(sys.call(-2)[[1]]),
         error=function(e) "(shell)"
       )
+
+      ns <- if(is.null(ns)) the.namespace else ns
+      ns <- paste("jms-logging", ns, sep=".")
 
       out <- capture.output(
         futile.logger:::.log_level(paste0("[%s: %s] ", msg),
@@ -49,11 +46,7 @@ jms.enable.logging <- function(threshold) {
   }
   log.info("Logging successfully enabled")
 }
-#' @export
-#' @rdname jms.logging
-jms.logging.setnamespace <- function(name) {
-  assign(".jms.logger", name, parent.frame())
-}
+
 #' @export
 #' @rdname jms.logging
 jms.logging.threshold <- function(threshold, ns=NULL) {

@@ -13,7 +13,7 @@ make_lockfile <- function(path, timeout=10, unique=FALSE) {
   pname <- make.names(cannonicalPath(path))
   counter <- lockfile_counter[[pname]]
   if (length(counter) && counter > 0) {
-    log.debug("lock counter: %s=%s", pname, counter)
+    log.debug("lock counter: %s=%s", pname, counter, ns='lock-files')
     if (!unique) {
       lockfile_counter[[pname]] <- counter + 1
       return(invisible(TRUE))
@@ -22,7 +22,7 @@ make_lockfile <- function(path, timeout=10, unique=FALSE) {
     counter <- 0
     lockfile_counter[[pname]] <- 0
   }
-  log.debug("lock counter: %s=%s", pname, counter)
+  log.debug("lock counter: %s=%s", pname, counter, ns='lock-files')
   warning_shown <- FALSE
   if (timeout > 0) {
     for (i in 1:timeout) {
@@ -47,9 +47,9 @@ remove_lockfile <- function(path) {
   if (is.na(path)) stop("Unable to release lock: Path is invalid")
   pname <- make.names(cannonicalPath(path))
   counter <- lockfile_counter[[pname]]
-  log.debug("Using lock counter: %s", pname)
+  log.debug("Using lock counter: %s", pname, ns='lock-files')
   if (!length(counter)) stop("Unable to release lock: lock was never obtained")
-  log.debug("lock counter: %s=%s", pname, counter)
+  log.debug("lock counter: %s=%s", pname, counter, ns='lock-files')
   if (counter > 1) {
     lockfile_counter[[pname]] <- counter - 1
     return(invisible(TRUE))
