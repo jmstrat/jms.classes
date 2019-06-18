@@ -38,7 +38,7 @@ make_lockfile <- function(path, timeout=10, unique=FALSE) {
       Sys.sleep(1)
     }
   }
-  stop("Timeout whilst waiting for lock")
+  stop("Timeout whilst waiting for lock at: \"", path, "\" if this continues, close all R sessions and remove this directory.")
 }
 
 #' @export
