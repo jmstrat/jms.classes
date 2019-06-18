@@ -1,6 +1,5 @@
 config_dir <- NULL
 config_db <- NULL
-persistent_settings <- NULL
 
 .onLoad <- function(libname, pkgname) {
   init_log <- Sys.getenv("JMS_INSTALL_LOG")
@@ -18,18 +17,11 @@ persistent_settings <- NULL
   log.debug("Created configuration directory at %s", config_dir)
 
   # Load config db
-  log.info("Creating configuration database")
+  log.info("Loading configuration database")
   db_dir <- file.path(config_dir, "config-database")
   dir.create(db_dir, showWarnings=FALSE, recursive=TRUE)
 
-  log.info("Loading configuration database")
   config_db <<- jms.database(db_dir)
-  persistent_settings <<- tryCatch({
-    config_db[["persistent_settings"]]
-  }, error=function(e) {
-    config_db[["persistent_settings"]] <- jms.database.table(key=character(), value=character())
-    config_db[["persistent_settings"]]
-  })
 
   # Load the project db
   project_database()
@@ -43,10 +35,21 @@ persistent_settings <- NULL
   return(invisible())
 }
 
+persistent_settings_table <- function() {
+  # Will raise for any error other than table_not_found
+  tryCatch({
+    config_db[["persistent_settings"]]
+  }, table_not_found=function(e) {
+    log.info("Initialising persistent settings table")
+    config_db[["persistent_settings"]] <- jms.database.table(key=character(), value=character())
+    config_db[["persistent_settings"]]
+  })
+}
+
 #' @export
 get_persistent_setting <- function(key) {
   tryCatchST({
-    get_key(key)
+    get_key(key, persistent_settings_table())
   }, error=function(e, st) {
     log.error("Error whilst getting persistent setting %s: %s\n%s", key, e, formatST(st))
     warning("Could not get setting ", key, immediate.=TRUE)
@@ -57,7 +60,7 @@ get_persistent_setting <- function(key) {
 #' @export
 set_persistent_setting <- function(key, value) {
   tryCatchST({
-    set_key(key, value)
+    set_key(key, value, persistent_settings_table())
   }, error=function(e, st) {
     log.error("Error whilst setting persistent setting %s = %s: %s\n%s", key, value, e, formatST(st))
     warning("Could not set ", key, immediate.=TRUE)
@@ -65,7 +68,7 @@ set_persistent_setting <- function(key, value) {
   })
 }
 
-get_key <- function(key, table=persistent_settings) {
+get_key <- function(key, table) {
   i <- which(key == table[, "key"])
   if (length(i)) {
     table[i, "value"]
@@ -74,7 +77,7 @@ get_key <- function(key, table=persistent_settings) {
   }
 }
 
-set_key <- function(key, value, table=persistent_settings) {
+set_key <- function(key, value, table) {
   i <- which(key == table[, "key"])
   if (length(i)) {
     table[i, "value"] <- value
