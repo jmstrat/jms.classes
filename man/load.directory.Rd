@@ -31,6 +31,6 @@ One of ext or pattern must be specified
 load.directory("/path/to/directory", load_function, ext="ext")
 }
 \seealso{
-\code{\link{load_directory}} \code{\link{list.files.sorted}}
+\code{\link{list.files.sorted}}
 }
 \keyword{internal}

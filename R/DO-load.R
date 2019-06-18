@@ -65,7 +65,7 @@ load.file <- function(path, func, ...) {
 #' @examples
 #' load.directory("/path/to/directory", load_function, ext="ext")
 #' @keywords internal
-#' @seealso \code{\link{load_directory}} \code{\link{list.files.sorted}}
+#' @seealso \code{\link{list.files.sorted}}
 load.directory <- function(dir, func, ext=NULL, pattern=NULL, sort=FALSE, ...) {
   if (is.null(pattern)) {
     if (is.null(ext)) stop("One of ext or pattern must be specified")
