@@ -19,7 +19,7 @@ dirChooserUI(id, label, title, multiple, ..., buttonType = "default",
 The value of the input
 }
 \description{
-Calls either \code{\link{JS_dirChooser}} or \code{\link[rstudioapi]{selectDir}}
+Calls either \code{\link{JS_dirChooser}} or \code{\link[rstudioapi]{selectDirectory}}
 depending on whether it is used in an Rstudio instance
 }
 \examples{

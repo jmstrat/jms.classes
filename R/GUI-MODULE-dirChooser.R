@@ -71,7 +71,7 @@ rstudio_dirChooserUI <- function(id, label, ..., buttonType="default", class=NUL
 
 #' Module: Dir Chooser
 #'
-#' Calls either \code{\link{JS_dirChooser}} or \code{\link[rstudioapi]{selectDir}}
+#' Calls either \code{\link{JS_dirChooser}} or \code{\link[rstudioapi]{selectDirectory}}
 #' depending on whether it is used in an Rstudio instance
 #' @return The value of the input
 #' @examples
