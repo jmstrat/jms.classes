@@ -2,9 +2,12 @@
 % Please edit documentation in R/METHODS-lock.R
 \name{lock}
 \alias{lock}
+\alias{unlock}
 \title{Lock a database to prevent editing}
 \usage{
 lock(x)
+
+unlock(x)
 }
 \arguments{
 \item{x}{The database to lock}
