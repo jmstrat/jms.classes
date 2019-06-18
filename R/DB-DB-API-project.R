@@ -25,10 +25,12 @@ project_database <- function() {
 #' @rdname project_database
 set_project_database <- function(x) UseMethod("set_project_database")
 
+#' @export
 set_project_database.default <- function(x) {
   stop("Unable to set project database to ", x)
 }
 
+#' @export
 set_project_database.jms.database <- function(x) {
   current_database$db <- x
   if (!is.null(config_dir)) {
@@ -36,6 +38,7 @@ set_project_database.jms.database <- function(x) {
   }
 }
 
+#' @export
 set_project_database.character <- function(x) {
   set_project_database(jms.database(x))
 }

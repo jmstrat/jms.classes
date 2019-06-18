@@ -7,10 +7,10 @@
 \usage{
 project_database()
 
-set_project_database(db)
+set_project_database(x)
 }
 \arguments{
-\item{db}{A \code{\link{jms.database}}}
+\item{x}{A \code{\link{jms.database}} or the path to a database}
 }
 \description{
 Get or set the current project database. This setting is persistent across sessions.
