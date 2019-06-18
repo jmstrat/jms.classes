@@ -4,7 +4,7 @@ current_database <- new.env()
 #'
 #' Get or set the current project database. This setting is persistent across sessions.
 #'
-#' @param db A \code{\link{jms.database}}
+#' @param x A \code{\link{jms.database}} or the path to a database
 #' @export
 #' @rdname project_database
 project_database <- function() {
@@ -12,7 +12,7 @@ project_database <- function() {
     path <- file.path(config_dir, "project.database")
     if (file.exists(path)) {
       log.info("Loading project database")
-      set_project_database(as.jms.database(readRDS(path)))
+      set_project_database(jms.database(readRDS(path)))
     } else {
       log.info("Creating default (memory only) project database")
       set_project_database(jms.database(NULL))
@@ -23,11 +23,19 @@ project_database <- function() {
 }
 #' @export
 #' @rdname project_database
-set_project_database <- function(db) {
-  current_database$db <- db
+set_project_database <- function(x) UseMethod("set_project_database")
+
+set_project_database.default <- function(x) {
+  stop("Unable to set project database to ", x)
+}
+
+set_project_database.jms.database <- function(x) {
+  current_database$db <- x
   if (!is.null(config_dir)) {
-    saveRDS(db, file.path(config_dir, "project.database"))
+    saveRDS(x$.path, file.path(config_dir, "project.database"))
   }
 }
 
-# TODO: THIS SHOULD BE A GENERIC -- jms.database or character (path) or default (error)
+set_project_database.character <- function(x) {
+  set_project_database(jms.database(x))
+}
