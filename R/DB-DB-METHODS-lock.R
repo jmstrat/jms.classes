@@ -3,9 +3,9 @@ lockTable <- function(database, name) {
   make_lockfile(paste0(path, ".lock"))
 }
 
-unlockTable <- function(database, name) {
+unlockTable <- function(database, name, force=FALSE) {
   path <- database$.getPathForTable(name)
-  remove_lockfile(paste0(path, ".lock"))
+  remove_lockfile(paste0(path, ".lock"), force=force)
 }
 
 lockDatabase <- function(database) {
@@ -13,7 +13,7 @@ lockDatabase <- function(database) {
   make_lockfile(paste0(path, ".lock"))
 }
 
-unlockDatabase <- function(database) {
+unlockDatabase <- function(database, force=FALSE) {
   path <- database$.getPathForDatabase()
-  remove_lockfile(paste0(path, ".lock"))
+  remove_lockfile(paste0(path, ".lock"), force=force)
 }

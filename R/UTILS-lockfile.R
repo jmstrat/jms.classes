@@ -5,6 +5,7 @@ lockfile_counter <- new.env()
 #' @param path Path to the lockfile
 #' @param timeout How many times to attempt to obtain the lock
 #' @param unique The lock may only be obtained once during this session
+#' @param force Remove the lock file and reset the counter to 0 even if the lock was never obtained
 #'
 #' @export
 #' @rdname lockfile
@@ -43,11 +44,20 @@ make_lockfile <- function(path, timeout=10, unique=FALSE) {
 
 #' @export
 #' @rdname lockfile
-remove_lockfile <- function(path) {
+remove_lockfile <- function(path, force=FALSE) {
   if (is.na(path)) stop("Unable to release lock: Path is invalid")
   pname <- make.names(cannonicalPath(path))
   counter <- lockfile_counter[[pname]]
   log.debug("Using lock counter: %s", pname, ns='lock-files')
+
+  if (force) {
+    log.warn("Forcefully unlocking %s", path, ns='lock-files')
+    warning("Forcefully removing lock file")
+    lockfile_counter[[pname]] <- 0
+    unlink(sprintf(path), recursive=TRUE)
+    return(invisible(TRUE))
+  }
+
   if (!length(counter)) stop("Unable to release lock: lock was never obtained")
   log.debug("lock counter: %s=%s", pname, counter, ns='lock-files')
   if (counter > 1) {

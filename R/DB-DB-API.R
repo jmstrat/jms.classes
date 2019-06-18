@@ -96,9 +96,9 @@ lock.jms.database <- function(x) {
 }
 
 #' @export
-unlock.jms.database <- function(x) {
+unlock.jms.database <- function(x, force=FALSE) {
   log.info("Unlocking database")
-  x$.unlockDatabase()
+  x$.unlockDatabase(force)
 }
 
 #' @export

@@ -7,7 +7,7 @@
 \usage{
 lock(x)
 
-unlock(x)
+unlock(x, force = FALSE)
 }
 \arguments{
 \item{x}{The database to lock}

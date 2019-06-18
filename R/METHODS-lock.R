@@ -12,9 +12,9 @@ lock.default <- function(x) {
 
 #' @export
 #' @rdname jms.database.lock
-unlock <- function(x) UseMethod("unlock")
+unlock <- function(x, force=FALSE) UseMethod("unlock")
 
 #' @export
-unlock.default <- function(x) {
+unlock.default <- function(x, force=FALSE) {
   stop("Unable to unlock this object")
 }

@@ -7,7 +7,7 @@
 \usage{
 make_lockfile(path, timeout = 10, unique = FALSE)
 
-remove_lockfile(path)
+remove_lockfile(path, force = FALSE)
 }
 \arguments{
 \item{path}{Path to the lockfile}
@@ -15,6 +15,8 @@ remove_lockfile(path)
 \item{timeout}{How many times to attempt to obtain the lock}
 
 \item{unique}{The lock may only be obtained once during this session}
+
+\item{force}{Remove the lock file and reset the counter to 0 even if the lock was never obtained}
 }
 \description{
 Create a directory to act as a lockfile, error if the file already exists
