@@ -19,7 +19,9 @@ addTable <- function(database, name, table) {
 }
 
 getTable <- function(database, name) {
-  if (!name %in% database$.table_names) stop('Database table "', name, '" was not found')
+  if (!name %in% database$.table_names) {
+    stop(errorCondition(.makeMessage('Database table "', name, '" was not found'), class='table_not_found'))
+  }
   log.debug("Getting table %s", name, ns="jms-database")
   if (!is.null(database$.path)) {
     if (!(database$.checkHashForTable(name))) {
