@@ -3,16 +3,26 @@ config_db <- NULL
 persistent_settings <- NULL
 
 .onLoad <- function(libname, pkgname) {
+  init_log <- Sys.getenv("JMS_INSTALL_LOG")
+  if (init_log == "1") {
+    jms.enable.logging("DEBUG")
+  } else {
+    # Prevent excessively verbose debug logging by default
+    jms.logging.threshold("INFO", "jms-database")
+    jms.logging.threshold("INFO", "lock-files")
+  }
 
-  # Prevent excessively verbose debug logging by default
-  jms.logging.threshold("INFO", "jms-database")
-  jms.logging.threshold("INFO", "lock-files")
-
+  log.info("Creating directory to store persistent configuration")
   config_dir <<- rappdirs::user_config_dir("jms.packages", "jms")
   dir.create(config_dir, showWarnings=FALSE, recursive=TRUE)
+  log.debug("Created configuration directory at %s", config_dir)
+
   # Load config db
+  log.info("Creating configuration database")
   db_dir <- file.path(config_dir, "config-database")
   dir.create(db_dir, showWarnings=FALSE, recursive=TRUE)
+
+  log.info("Loading configuration database")
   config_db <<- jms.database(db_dir)
   persistent_settings <<- tryCatch({
     config_db[["persistent_settings"]]
@@ -20,11 +30,13 @@ persistent_settings <- NULL
     config_db[["persistent_settings"]] <- jms.database.table(key=character(), value=character())
     config_db[["persistent_settings"]]
   })
+
   # Load the project db
   project_database()
 
   # Register input handlers with shiny
   if (requireNamespace("shiny", quietly=TRUE)) {
+    log.info("Registering shiny input handlers")
     shiny::registerInputHandler("jms.matrix", shinyInputConvertToMatrix, force=TRUE)
   }
 
