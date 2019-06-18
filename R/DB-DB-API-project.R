@@ -11,7 +11,7 @@ project_database <- function() {
   if (is.null(current_database$db) && !is.null(config_dir)) {
     path <- file.path(config_dir, "project.database")
     if (file.exists(path)) {
-      set_project_database(readRDS(path))
+      set_project_database(as.jms.database(readRDS(path)))
     } else {
       set_project_database(jms.database(NULL))
     }

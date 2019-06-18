@@ -37,8 +37,15 @@ as.jms.database.default <- function(x) {
 #' @export
 as.jms.database.environment <- function(x) {
   self <- get0(".self", envir=x, ifnotfound=x)
-  database.method <- database.method.generator(self)
+
+  current_version <- self$.database_version
+  overwrite <- if (!is.null(current_version) && current_version == 1) FALSE else TRUE
+
+  database.method <- database.method.generator(self, overwrite)
   database.var <- database.var.generator(self)
+
+  ## Version:
+  database.var(".database_version", 1)
 
   ## Values:
   database.var(".path", NULL)
