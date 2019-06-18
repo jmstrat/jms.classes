@@ -11,8 +11,10 @@ project_database <- function() {
   if (is.null(current_database$db) && !is.null(config_dir)) {
     path <- file.path(config_dir, "project.database")
     if (file.exists(path)) {
+      log.info("Loading project database")
       set_project_database(as.jms.database(readRDS(path)))
     } else {
+      log.info("Creating default (memory only) project database")
       set_project_database(jms.database(NULL))
     }
   }
