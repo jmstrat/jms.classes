@@ -91,13 +91,13 @@ load.jms.database <- function(x, ...) {
 
 #' @export
 lock.jms.database <- function(x) {
-  log.info("Locking database")
+  log.info("Locking database", ns="jms-database")
   x$.lockDatabase()
 }
 
 #' @export
 unlock.jms.database <- function(x, force=FALSE) {
-  log.info("Unlocking database")
+  log.info("Unlocking database", ns="jms-database")
   x$.unlockDatabase(force)
 }
 
