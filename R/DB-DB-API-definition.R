@@ -80,50 +80,6 @@ as.jms.database.environment <- function(x) {
 }
 
 #' @export
-save.jms.database <- function(x, ...) {
-  x$.saveDatabase()
-}
-
-#' @export
-load.jms.database <- function(x, ...) {
-  x$.loadDatabase()
-}
-
-#' @export
-lock.jms.database <- function(x) {
-  log.info("Locking database", ns="jms-database")
-  x$.lockDatabase()
-}
-
-#' @export
-unlock.jms.database <- function(x) {
-  log.info("Unlocking database", ns="jms-database")
-  x$.unlockDatabase()
-}
-
-#' @export
-is.stale.jms.database <- function(x) {
-  !x$.checkHashForDatabase()
-}
-
-#' @export
-plot.jms.database <- function(x, ...) {
-  x$.plotDatabase()
-}
-
-#' @export
-print.jms.database <- function(x, ...) {
-  load(x)
-  cat("jms.database with the following tables:", paste0(x$.table_names, collapse=", "))
-}
-
-#' @export
-View.jms.database <- function(x, ...) {
-  tables <- mget(x$.table_names, envir=x)
-  View(lapply(tables, as.data.frame), ..., title=paste(deparse(substitute(x))[1]))
-}
-
-#' @export
 database2reference <- function(database) {
   if (!is.jms.database(database)) stop("database must be a jms.database")
   # Make a new environment whose methods will continue to point to the old
