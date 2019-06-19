@@ -21,7 +21,7 @@
 #' @export
 register_gui_database_module <- function(moduleUI, moduleServer, title, databases=c(), namespace=NA) {
   # Fetch the table
-  table <- config_db[["GUI_Pages"]]
+  table <- gui_pages_table()
 
   # Prepare the new row
   newrow <- list(
@@ -65,7 +65,7 @@ register_gui_database_module <- function(moduleUI, moduleServer, title, database
 #' @export
 register_gui_plot_module <- function(moduleUI, moduleServer, title, tokens=c(), namespace=NA) {
   # Fetch the table
-  table <- config_db[["GUI_PlotComponents"]]
+  table <- gui_plot_components_table()
 
   # Prepare the new row
   newrow <- list(
@@ -89,6 +89,43 @@ register_gui_plot_module <- function(moduleUI, moduleServer, title, tokens=c(), 
     table[] <- newrow
   }
   return()
+}
+
+
+gui_pages_table <- function(database=config_db) {
+  # Will raise for any error other than table_not_found
+  tryCatch({
+    database[["GUI_Pages"]]
+  }, table_not_found=function(e) {
+    log.info("Initialising GUI pages table")
+    database[["GUI_Pages"]] <- jms.database.table.id(
+      namespace=character(),
+      ui=character(),
+      server=character(),
+      title=character(),
+      databases=character(),
+      enabled=logical()
+    )
+    database[["GUI_Pages"]]
+  })
+}
+
+gui_plot_components_table <- function(database=config_db) {
+  # Will raise for any error other than table_not_found
+  tryCatch({
+    database[["GUI_PlotComponents"]]
+  }, table_not_found=function(e) {
+    log.info("Initialising GUI plot components table")
+    database[["GUI_PlotComponents"]] <- jms.database.table.id(
+      namespace=character(),
+      ui=character(),
+      server=character(),
+      title=character(),
+      tokens=character(),
+      enabled=logical()
+    )
+    database[["GUI_PlotComponents"]]
+  })
 }
 
 

@@ -40,14 +40,14 @@ config_db <- NULL
   return(invisible())
 }
 
-persistent_settings_table <- function() {
+persistent_settings_table <- function(database=config_db) {
   # Will raise for any error other than table_not_found
   tryCatch({
-    config_db[["persistent_settings"]]
+    database[["persistent_settings"]]
   }, table_not_found=function(e) {
     log.info("Initialising persistent settings table")
-    config_db[["persistent_settings"]] <- jms.database.table(key=character(), value=character())
-    config_db[["persistent_settings"]]
+    database[["persistent_settings"]] <- jms.database.table(key=character(), value=character())
+    database[["persistent_settings"]]
   })
 }
 

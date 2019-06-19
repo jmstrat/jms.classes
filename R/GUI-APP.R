@@ -4,37 +4,11 @@ server <- function(input, output, session) {
     reactiveSession=session,
     reactiveUpdateFreq=4000
   )
-  persistent_settings <- config[["persistent_settings"]]
+
   # Load the tables as reactives:
-
-  # TODO: the initialisation should be done elsewhere...
-  pages_table <- tryCatch({
-    config[["GUI_Pages"]]
-  }, error=function(e) {
-    config[["GUI_Pages"]] <- jms.database.table.id(
-      namespace=character(),
-      ui=character(),
-      server=character(),
-      title=character(),
-      databases=character(),
-      enabled=logical()
-    )
-    config[["GUI_Pages"]]
-  })
-
-  plotcomponents_table <- tryCatch({
-    config[["GUI_PlotComponents"]]
-  }, error=function(e) {
-    config[["GUI_PlotComponents"]] <- jms.database.table.id(
-      namespace=character(),
-      ui=character(),
-      server=character(),
-      title=character(),
-      tokens=character(),
-      enabled=logical()
-    )
-    config[["GUI_PlotComponents"]]
-  })
+  persistent_settings <- persistent_settings_table(config)
+  pages_table <- gui_pages_table(config)
+  plotcomponents_table <- gui_plot_components_table(config)
 
   # Then we extract the data into the following form:
   # list(
