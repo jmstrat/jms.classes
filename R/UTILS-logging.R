@@ -13,6 +13,7 @@
 #'
 #' @param threshold (optional for jms.enable.logging) see \code{\link[futile.logger]{flog.threshold}}
 #' @param ns Logging namespace (see details)
+#' @param reset If \code{TRUE}, reset the settings for any inherited loggers to match the default
 #' @export
 #' @rdname jms.logging
 jms.enable.logging <- function(threshold) {
@@ -55,13 +56,27 @@ jms.enable.logging <- function(threshold) {
 
 #' @export
 #' @rdname jms.logging
-jms.logging.threshold <- function(threshold, ns=NULL) {
-  if (is.null(ns)) {
-    ns <- "jms-logging"
-  } else {
-    ns <- paste("jms-logging", ns, sep=".")
+jms.logging.threshold <- function(threshold, ns=NULL, reset=FALSE) {
+  name <- "jms-logging"
+  if (!is.null(ns)) {
+    name <- paste(name, ns, sep=".")
   }
-  futile.logger::flog.threshold(get(threshold, envir=environment(futile.logger::flog.threshold)), name=ns)
+
+  if (reset) {
+    child_loggers <- substring(
+      # Find loggers that inherit from jms-logging
+      grep("^logger\\.jms-logging\\.",
+        names(futile.logger::logger.options()),
+        value=TRUE
+      ),
+      # Remove "logger." from the start of the string
+      8
+    )
+    # This removes any custom logging settings for them
+    futile.logger::flog.remove(child_loggers)
+  }
+
+  futile.logger::flog.threshold(get(threshold, envir=environment(futile.logger::flog.threshold)), name=name)
   return(invisible())
 }
 #' @export

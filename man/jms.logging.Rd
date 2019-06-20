@@ -16,7 +16,7 @@
 \usage{
 jms.enable.logging(threshold)
 
-jms.logging.threshold(threshold, ns = NULL)
+jms.logging.threshold(threshold, ns = NULL, reset = FALSE)
 
 jms.disable.logging()
 
@@ -40,6 +40,8 @@ log.fatal(msg, ..., ns=NULL)
 \item{threshold}{(optional for jms.enable.logging) see \code{\link[futile.logger]{flog.threshold}}}
 
 \item{ns}{Logging namespace (see details)}
+
+\item{reset}{If \code{TRUE}, reset the settings for any inherited loggers to match the default}
 }
 \description{
 Enable debug logging
