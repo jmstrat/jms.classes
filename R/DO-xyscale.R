@@ -53,7 +53,7 @@ get_scaled <- function(x) {
     return(x)
   }
 
-  jms.classes::log.debug("Applying scale factors to data object")
+  log.debug("Applying scale factors to data object")
   if (length(xc) > 0) x[, xc] <- x[, xc] * xscale(x)
   if (length(yc) > 0) x[, yc] <- x[, yc] * yscale(x)
   if (length(y2c) > 0) x[, y2c] <- x[, y2c] * y2scale(x)
@@ -61,7 +61,7 @@ get_scaled <- function(x) {
   # Store the list of columns we have scaled
   scaled <- c(isScaled, scaled)
 
-  jms.classes::log.debug("All scaled columns: [%s]", paste0(scaled, collapse=", "))
+  log.debug("All scaled columns: [%s]", paste0(scaled, collapse=", "))
   attr(x, ".scaled") <- scaled
   x
 }
