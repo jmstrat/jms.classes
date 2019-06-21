@@ -38,8 +38,8 @@ layoutInput <- function(id, default_layout, plot_names, can_add_plots, min_plots
       shiny::tags$div(
         class="grid-stack",
         "data-min-plots"=min_plots,
-        "data-plot-names"=shiny:::toJSON(plot_names),
-        "data-default-layout"=shiny:::toJSON(default_layout)
+        "data-plot-names"=jsonlite::toJSON(plot_names),
+        "data-default-layout"=jsonlite::toJSON(default_layout)
       )
     )
   )

@@ -146,7 +146,7 @@ server <- function(input, output, session) {
 #' Display a modular graphical user interface
 #' @export
 gui <- function(port=5000) {
-  assert_packages("shiny", "shinyFiles", "DT", purpose="GUI")
+  assert_packages("shiny", "shinyFiles", "DT", "jsonlite", purpose="GUI")
 
   ui <- shiny::tagList(shiny::tags$head(
     jsCodeHandler(),
