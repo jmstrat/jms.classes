@@ -45,7 +45,10 @@ make_backgrounds <- function(data, baseline_parameters, bkg_y_avg_points=4) {
   x <- xcol(data)[[1]]
   nr <- nrow(data)
   bkgs <- mapply(function(a, b) if (is.null(b)) rep_len(0, nr) else make_background(data[, c(x, a)], b, bkg_y_avg_points=bkg_y_avg_points), ycol(data), baseline_parameters)
-  as.jms.data.object(bkgs)
+  bkgs <- as.jms.data.object(bkgs)
+  ycol(bkgs) <- 1:ncol(bkgs)
+  xcol(bkgs) <- NA
+  bkgs
 }
 
 #' Expand a table of baseline parameters for use with \code{\link{make_backgrounds}}
