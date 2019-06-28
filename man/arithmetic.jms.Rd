@@ -5,7 +5,7 @@
 \alias{-.jms.data.object}
 \alias{*.jms.data.object}
 \alias{/.jms.data.object}
-\title{Add a number to a data objects y values}
+\title{Data object arithmetic}
 \usage{
 \method{+}{jms.data.object}(e1, e2)
 
@@ -18,35 +18,18 @@
 \arguments{
 \item{e1}{The data object}
 
-\item{e2}{The number to add}
-
-\item{e1}{The data object}
-
-\item{e2}{The number to subtract}
-
-\item{e1}{The data object}
-
-\item{e2}{The number by which to multiply}
-
-\item{e1}{The data object}
-
-\item{e2}{The number by which to divide}
+\item{e2}{The number(s) to add, subtract, multiply, or divide}
 }
 \value{
 The data object
-
-The data object
-
-The data object
-
-The data object
 }
 \description{
-Add a number to a data objects y values
-
-Subtract a number to a data objects y values
-
-Multiply a data objects y values by a number
-
-Divide a data objects y values by a number
+Perform arithmetic operations on the y columns for a data object.
+\code{e2} can be:
+\describe{
+ \item{A single number}{The resulting data object has this number added / subtracted / ... to every y value}
+ \item{A vector of length \code{nrow(e1)}}{e2 is added / subtracted / ... to each y column of e1}
+ \item{A vector of length \code{length(ycol(e1))}}{Each y column has its corresponding value in e2 added / subtracted / ... to it}
+ \item{A matrix of dimensions \code{nrow(e1) by length(ycol(e1))}}{Standard matrix addition / subtraction / ...}
+}
 }
