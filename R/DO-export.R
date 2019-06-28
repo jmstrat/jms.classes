@@ -6,7 +6,8 @@ export.jms.data.object <- function(x, path) {
   attNames <- attNames[!attNames %in% c(
     "names", "row.names", "class",
     "y_type", "x_type", "x_column",
-    "y_column", "y2_type", "y2_column"
+    "y_column", "y2_type", "y2_column",
+    "x_scale", "y_scale", "y2_scale"
   )]
   f <- file(path, "w")
 
