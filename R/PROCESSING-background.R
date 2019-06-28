@@ -61,13 +61,18 @@ expand_baseline_parameters <- function(scans_and_points, nscans) {
   if (!length(scan_list)) {
     return()
   }
-  where <- sapply(scan_list, function(x) 1:nscans %in% x)
+  # Rows = scan no.; Columns = bkg no.
+  where <- structure(
+    vapply(scan_list, function(x) 1:nscans %in% x, logical(nscans)),
+    dim=c(nscans, length(scan_list))
+  )
 
   lapply(1:nscans, function(i) {
-    idx <- which(where[i, ])
+    idx <- which(where[i, ]) # bkgs which include this scan
     if (length(idx) == 0) {
       NULL
     } else {
+      # In case of multiple backgrounds, only take the first
       scans_and_points[[idx[[1]], 1]]
     }
   })
