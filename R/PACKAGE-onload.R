@@ -90,3 +90,12 @@ set_key <- function(key, value, table) {
     table[nrow(table) + 1, ] <- list(key, value)
   }
 }
+
+#' Create a system dependant configuration directory for use by a package
+#' @export
+get_configuration_directory <- function(package) {
+  dir <- file.path(config_dir, package)
+  dir.create(dir, showWarnings=FALSE, recursive=TRUE)
+  log.debug("Created configuration directory for %s at %s", package, config_dir)
+  dir
+}
