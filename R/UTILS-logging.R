@@ -23,7 +23,7 @@ jms.enable.logging <- function(threshold) {
 
   layout <- futile.logger::layout.format("~l ~t ~m")
   futile.logger::flog.layout(layout, name="jms-logging")
-  log_message <- function(msg, ..., level, styleFun=NULL, ns=NULL) {
+  log_message <- function(msg, ..., level, styleFun=NULL, ns=NULL, formattedMsg=FALSE) {
     the.namespace <- futile.logger::flog.namespace(-8)
     the.namespace <- ifelse(the.namespace == "futile.logger", "ROOT", the.namespace)
     the.function <- tryCatch(deparse(sys.call(-2)[[1]]),
@@ -33,20 +33,18 @@ jms.enable.logging <- function(threshold) {
     ns <- if(is.null(ns)) gsub('.', '-', the.namespace, fixed=T) else ns
     ns <- paste("jms-logging", ns, sep=".")
 
-    out <- capture.output(
-      futile.logger:::.log_level(paste0("[%s: %s] ", msg),
-                                 the.namespace, the.function, ...,
-                                 level=level, name=ns, capture=FALSE
-      )
-    )
+    logger <- futile.logger::flog.logger(ns)
+    if (level > logger$threshold) return()
 
-    if (length(out) == 0) {
-      return()
-    }
-    if (!is.null(styleFun)) {
-      cat(styleFun(out), sep="\n")
+    if (formattedMsg) {
+      prefix <- futile.logger::flog.layout(ns)(level, "[%s: %s]", the.namespace, the.function)
+      if (!is.null(styleFun)) prefix <- styleFun(prefix)
+      out <- paste0(prefix, sprintf(msg, ...))
+      futile.logger::flog.appender(ns)(out)
     } else {
-      cat(out, sep="\n")
+      out <- futile.logger::flog.layout(ns)(level, paste0("[%s: %s] ", msg), the.namespace, the.function, ...)
+      if (!is.null(styleFun)) out <- styleFun(out)
+      futile.logger::flog.appender(ns)(out)
     }
   }
   utils::assignInNamespace("log_message", log_message, ns="jms.classes")
@@ -89,6 +87,15 @@ jms.disable.logging <- function() {
   utils::assignInNamespace("log_message", log_message, ns="jms.classes")
 }
 
+# as futile.logger::appender.tee, but strips styling information to file output
+# e.g. shiny stack traces
+jms.appender.tee <- function(file) {
+  function(line) {
+    cat(line, sep = "")
+    cat(crayon::strip_style(line), file = file, append = TRUE, sep = "")
+  }
+}
+
 #' @export
 #' @rdname jms.logging
 jms.logging.file <- function(file) {
@@ -96,7 +103,7 @@ jms.logging.file <- function(file) {
     stop("Please install futile.logger to continue")
   }
   app <- futile.logger::flog.appender("jms-logging")
-  futile.logger::flog.appender(futile.logger::appender.tee(file), name="jms-logging")
+  futile.logger::flog.appender(jms.appender.tee(file), name="jms-logging")
   invisible(app)
 }
 
