@@ -10,9 +10,9 @@
 make_background <- function(xy, x_points, bkg_y_avg_points=4, returnFunc=FALSE) {
   bkg_x_points <- vapply(x_points, function(x) which.min(abs(xy[, 1] - x)), 1)
   l <- length(xy[, 1])
-  r <- range(bkg_x_points)
-  if (r[[1]] <= 0) bkg_x_points <- bkg_x_points + 1 - r[[1]]
-  if (r[[2]] > l) bkg_x_points <- bkg_x_points + l - r[[2]]
+
+  bkg_x_points[bkg_x_points < bkg_y_avg_points] <- bkg_y_avg_points
+  bkg_x_points[bkg_x_points > l - bkg_y_avg_points] <- l - bkg_y_avg_points
 
   bkg_y <- sapply(
     Map(seq, from=bkg_x_points - bkg_y_avg_points, to=bkg_x_points + bkg_y_avg_points),
