@@ -11,6 +11,9 @@ make_background <- function(xy, x_points, bkg_y_avg_points=4, returnFunc=FALSE) 
   bkg_x_points <- vapply(x_points, function(x) which.min(abs(xy[, 1] - x)), 1)
   l <- length(xy[, 1])
 
+  bkg_y_avg_points <- round(bkg_y_avg_points)
+  if (bkg_y_avg_points < 0) bkg_y_avg_points <- 0
+
   bkg_x_points[bkg_x_points < bkg_y_avg_points] <- bkg_y_avg_points
   bkg_x_points[bkg_x_points > l - bkg_y_avg_points] <- l - bkg_y_avg_points
 
@@ -21,10 +24,11 @@ make_background <- function(xy, x_points, bkg_y_avg_points=4, returnFunc=FALSE) 
 
   fun <- splinefun(x_points, y=bkg_y)
   if (returnFunc) {
-    return(fun)
+    return(structure(fun, sampledMidpoints=bkg_x_points))
   }
 
-  fun(xy[, 1])
+  res <- fun(xy[, 1])
+  structure(res, sampledMidpoints=bkg_x_points)
 }
 
 
