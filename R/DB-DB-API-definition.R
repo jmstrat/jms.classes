@@ -6,7 +6,11 @@
 #' @return Database object
 #' @export
 jms.database <- function(path=NULL) {
-  log.info("Creating new database with path: %s", path, ns="jms-database")
+  if (is.null(path)) {
+    log.info("Creating new database without path", ns="jms-database")
+  } else {
+    log.info("Creating new database with path: %s", path, ns="jms-database")
+  }
   self <- new.env(parent=emptyenv())
   self$.path <- path
   self$.self <- self

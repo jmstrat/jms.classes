@@ -12,7 +12,13 @@ project_database <- function() {
     path <- file.path(config_dir, "project.database")
     if (file.exists(path)) {
       log.info("Loading project database")
-      set_project_database(jms.database(readRDS(path)))
+      dbPath <- tryCatch(
+        readRDS(path),
+        error=function(e) {
+          stop("Could not read the project database path, the following file may be corrupt: ", path)
+        }
+      )
+      set_project_database(jms.database(dbPath))
     } else {
       log.info("Creating default (memory only) project database")
       set_project_database(jms.database(NULL))
